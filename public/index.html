@@ -855,10 +855,61 @@
       font-size: 18px;
       margin-bottom: 40px;
     }
-    .cta-buttons {
-      display: flex;
+.cta-buttons {
       justify-content: center;
       gap: 16px;
+    }
+
+    /* Production Status */
+    .production-status {
+      padding: 80px 0;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .production-status h2 {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .production-status > .container > p {
+      text-align: center;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto 32px;
+    }
+    .status-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .status-card h3 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    .status-card ul {
+      list-style: none;
+    }
+    .status-card li {
+      padding: 8px 0;
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+    .status-gate {
+      text-align: center;
+      font-size: 20px;
+      color: var(--success);
+      font-weight: 600;
+    }
+    .status-gate strong {
+      color: var(--success);
     }
 
     /* Footer */
@@ -1141,26 +1192,30 @@
   <section class="hero">
     <div class="container">
       <div class="hero-badge-group">
-        <span class="hero-badge">USB Portable</span>
+        <span class="hero-badge">Production Release Candidate</span>
         <span class="hero-badge">Local-First</span>
-        <span class="hero-badge">No Terminal Required</span>
-        <span class="hero-badge">Approval Gates</span>
-        <span class="hero-badge">Playbooks + MCP</span>
-        <span class="hero-badge">Private Memory</span>
+        <span class="hero-badge">Private Network Ready</span>
+        <span class="hero-badge">USB Portable</span>
+        <span class="hero-badge">Real API-Backed Workflows</span>
+        <span class="hero-badge">No Demo Data</span>
+        <span class="hero-badge">Approval-Gated Actions</span>
+        <span class="hero-badge">Docker Ready</span>
+        <span class="hero-badge">CI Validated</span>
+        <span class="hero-badge">Release Gate: PASS</span>
       </div>
       
       <h1 class="display-text">
-        AI Shouldn't Have a Meter.<br>
-        <span>Or Need a Terminal.</span>
+        Lux AI Studio v1.0<br>
+        <span>Your private AI agent command center</span>
       </h1>
       
       <p class="hero-subtitle">
-        Lux AI Studio is your private, portable AI agent command center — built to run agents, workflows, approvals, memory, playbooks, and project automation from one Lux-branded dashboard. Your machine. Your agents. Your command center.
+        Production-ready for local use, client demos, private network deployments, and portable USB workflows. Run agents. Launch missions. Approve actions. Manage memory. View logs. Deploy workflows. Control everything from one Lux-branded dashboard.
       </p>
       
       <div class="hero-actions">
-        <a href="/lux-command-center.html" class="btn btn-primary btn-lg">🚀 Launch Lux AI Studio</a>
-        <a href="/USB-SETUP.html" class="btn btn-secondary btn-lg">📦 View Portable Setup</a>
+        <a href="/lux-command-center.html" class="btn btn-primary btn-lg">🚀 Launch Command Center</a>
+        <a href="/docs/DEPLOY.html" class="btn btn-secondary btn-lg">📖 View Deployment Guide</a>
       </div>
 
       <div class="dashboard-preview">
@@ -1796,6 +1851,38 @@
         <a href="/lux-command-center.html" class="btn btn-primary btn-lg">🚀 Launch Lux AI Studio</a>
         <a href="/docs/GUIDE.html" class="btn btn-secondary btn-lg">📖 Open Setup Guide</a>
       </div>
+    </div>
+  </section>
+
+  <section class="production-status">
+    <div class="container">
+      <h2 class="heading-2">Production Release Candidate</h2>
+      <p class="text-lg">Lux AI Studio has passed its final local release gate, including smoke tests, E2E validation, deployment artifact checks, installer validation, and critical API checks.</p>
+      
+      <div class="status-grid">
+        <div class="status-card">
+          <h3>Ready For</h3>
+          <ul>
+            <li>✅ Internal use</li>
+            <li>✅ Client demos</li>
+            <li>✅ Local production</li>
+            <li>✅ Private network deployment</li>
+            <li>✅ USB portable workflows</li>
+          </ul>
+        </div>
+        <div class="status-card">
+          <h3>Internet Exposure Requires</h3>
+          <ul>
+            <li>⚠️ TLS</li>
+            <li>⚠️ Authentication</li>
+            <li>⚠️ Rate limiting</li>
+            <li>⚠️ Hardened reverse proxy</li>
+            <li>⚠️ Monitoring</li>
+          </ul>
+        </div>
+      </div>
+      
+      <p class="status-gate">Release Gate: <strong>PASS</strong></p>
     </div>
   </section>
 
