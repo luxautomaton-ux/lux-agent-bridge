@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Security Guard</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .panel-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; }
+    .check-grid { display: grid; gap: 10px; margin-top: 12px; }
+    .check { border: 1px solid var(--border-subtle); background: var(--bg-elevated); border-radius: var(--radius-md); padding: 12px; }
+    .check h3 { font-size: 14px; margin-bottom: 4px; }
+    .check p { color: var(--text-secondary); font-size: 13px; margin-bottom: 10px; }
+    .action-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .log-box { margin-top: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-deep); padding: 10px; color: #cfd3e0; font-family: var(--font-mono); font-size: 12px; min-height: 120px; white-space: pre-wrap; }
+    @media (max-width: 980px) { .panel-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar"></aside>
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Security Guard</h1>
+        <p class="subtitle">Run security checks and keep high-risk workflows approval-gated.</p>
+      </div>
+
+      <section class="panel-grid">
+        <article class="card">
+          <div class="card-title">Security Playbooks</div>
+          <div class="check-grid">
+            <div class="check">
+              <h3>Dependency Risk Scan</h3>
+              <p>Check dependency set for known vulnerabilities and recommend patches.</p>
+              <button class="btn btn-primary" onclick="launchPrompt('Run a dependency security review for this project, list high-risk packages, and propose patch versions.')">Send to Chat</button>
+            </div>
+            <div class="check">
+              <h3>Secrets Exposure Check</h3>
+              <p>Detect likely leaked tokens, keys, and credentials in project files.</p>
+              <button class="btn btn-primary" onclick="launchPrompt('Scan this project for exposed secrets or unsafe credential patterns and produce a remediation checklist.')">Send to Chat</button>
+            </div>
+            <div class="check">
+              <h3>Pre-Deploy Safety Review</h3>
+              <p>Review deployment safety, access control, and rollback readiness.</p>
+              <button class="btn btn-primary" onclick="launchPrompt('Perform a pre-deploy security review and list blockers, warnings, and required approvals.')">Send to Chat</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title">Control Panel</div>
+          <div class="action-row">
+            <a class="btn btn-secondary" href="/control-approvals.html">Open Approvals</a>
+            <a class="btn btn-secondary" href="/tools-audit-backup.html">Audit & Backup</a>
+            <button class="btn btn-primary" onclick="checkHealth()">Check API Health</button>
+          </div>
+          <div id="logBox" class="log-box">Ready.</div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <script src="/sidebar-nav.js"></script>
+  <script>
+    async function launchPrompt(prompt) {
+      try { await navigator.clipboard.writeText(prompt); } catch (_e) {}
+      localStorage.setItem('luxQuickPrompt', prompt);
+      window.location.href = '/control-chat.html?prompt=' + encodeURIComponent(prompt);
+    }
+
+    async function checkHealth() {
+      const log = document.getElementById('logBox');
+      log.textContent = 'Checking /api/health ...';
+      try {
+        const res = await fetch('/api/health');
+        const data = await res.json();
+        log.textContent = 'Status: ' + (res.ok ? 'OK' : 'ERROR') + '\nResponse: ' + JSON.stringify(data, null, 2);
+      } catch (e) {
+        log.textContent = 'Health check failed: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>

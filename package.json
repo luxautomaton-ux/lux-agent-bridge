@@ -1,7 +1,7 @@
 {
   "name": "lux-agent-bridge",
   "version": "1.0.0",
-  "description": "Local REST bridge for Lux Agent Studio to control OpenMonoAgent and OpenManus safely.",
+  "description": "Local REST bridge for Lux Agent Studio to control Lux Agent and OpenManus safely.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,7 +11,7 @@
   "keywords": [
     "lux",
     "agent",
-    "openmono",
+    "luxagent",
     "openmanus",
     "express"
   ],

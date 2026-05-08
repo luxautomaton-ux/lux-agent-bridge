@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux AI (Native)</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .panel-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+    .metric { border: 1px solid var(--border-subtle); background: var(--bg-elevated); border-radius: var(--radius-md); padding: 10px; }
+    .metric .label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+    .metric .value { font-size: 18px; margin-top: 4px; }
+    .template-list { display: grid; gap: 10px; margin-top: 12px; }
+    .template-btn { width: 100%; text-align: left; padding: 10px 12px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); background: var(--bg-elevated); color: var(--text-primary); cursor: pointer; }
+    .template-btn:hover { border-color: var(--accent-primary); }
+    .action-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .status { color: var(--text-secondary); font-size: 13px; margin-top: 10px; min-height: 20px; }
+    @media (max-width: 980px) { .panel-grid { grid-template-columns: 1fr; } .metric-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar"></aside>
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Lux AI (Native)</h1>
+        <p class="subtitle">Core local coding engine for structured implementation and controlled execution.</p>
+      </div>
+
+      <section class="panel-grid">
+        <article class="card">
+          <div class="card-title">Mission Templates</div>
+          <p class="text-muted">Click a template to send it to chat.</p>
+          <div class="template-list">
+            <button class="template-btn" onclick="launchPrompt('Analyze this codebase, list top 5 refactor opportunities, then implement the first one with tests.')">Refactor + tests mission</button>
+            <button class="template-btn" onclick="launchPrompt('Create a feature implementation plan from the current project, then scaffold step 1 with clear TODOs.')">Feature scaffold mission</button>
+            <button class="template-btn" onclick="launchPrompt('Run a bug-hunt workflow: identify likely runtime issues, propose fixes, and patch the highest impact issue.')">Bug-hunt workflow</button>
+          </div>
+          <div class="status" id="promptStatus"></div>
+        </article>
+
+        <article class="card">
+          <div class="card-title">Live Runtime Status</div>
+          <div class="metric-grid">
+            <div class="metric"><div class="label">API Health</div><div class="value" id="healthValue">Checking...</div></div>
+            <div class="metric"><div class="label">Total Runs</div><div class="value" id="runsValue">-</div></div>
+            <div class="metric"><div class="label">Running Now</div><div class="value" id="activeValue">-</div></div>
+          </div>
+          <div class="action-row" style="margin-top:14px;">
+            <a class="btn btn-primary" href="/control-chat.html">Open Chat</a>
+            <a class="btn btn-secondary" href="/lux-agent-console.html">Agent Console</a>
+            <button class="btn btn-secondary" onclick="refreshStatus()">Refresh</button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <script src="/sidebar-nav.js"></script>
+  <script>
+    async function refreshStatus() {
+      try {
+        const healthRes = await fetch('/api/health');
+        const health = await healthRes.json();
+        document.getElementById('healthValue').textContent = healthRes.ok ? 'Online' : 'Issue';
+      } catch (_e) {
+        document.getElementById('healthValue').textContent = 'Offline';
+      }
+      try {
+        const runsRes = await fetch('/api/runs');
+        const runs = await runsRes.json();
+        const list = Array.isArray(runs) ? runs : (runs.items || []);
+        document.getElementById('runsValue').textContent = String(list.length || 0);
+        document.getElementById('activeValue').textContent = String(list.filter((r) => (r.status || '').toLowerCase() === 'running').length);
+      } catch (_e) {
+        document.getElementById('runsValue').textContent = '-';
+        document.getElementById('activeValue').textContent = '-';
+      }
+    }
+
+    async function launchPrompt(prompt) {
+      try { await navigator.clipboard.writeText(prompt); } catch (_e) {}
+      localStorage.setItem('luxQuickPrompt', prompt);
+      document.getElementById('promptStatus').textContent = 'Prompt copied and opening chat...';
+      window.location.href = '/control-chat.html?prompt=' + encodeURIComponent(prompt);
+    }
+
+    refreshStatus();
+  </script>
+</body>
+</html>

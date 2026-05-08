@@ -84,7 +84,7 @@ Use this template to create new skills for Lux AI.
 {
   "id": "skill-frontend-001",
   "name": "Frontend Fixer",
-  "sourceUrl": "https://github.com/StartupHakk/OpenMonoAgent.ai.git",
+  "sourceUrl": "https://github.com/luxautomaton-ux/lux-agent-bridge.git",
   "description": "UI repair, component cleanup, responsive polish, CSS fixes, and frontend optimization.",
   "capabilities": [
     "ui-repair",
@@ -150,7 +150,7 @@ curl -X POST http://localhost:8787/api/skills/bootstrap
 ```
 
 This adds skills from:
-- StartupHakk/OpenMonoAgent.ai
+- luxautomaton-ux/lux-agent-bridge
 - Popular GitHub repos
 - Community-maintained skills
 

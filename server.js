@@ -574,9 +574,13 @@ Object.entries(staticAliasMap).forEach(([routePath, targetFile]) => {
 });
 
 app.get("/docs/GUIDE.html", (_req, res) => {
+  const staticPath = path.join(ROOT_DIR, "public", "docs", "GUIDE.html");
+  if (fs.existsSync(staticPath)) {
+    return res.sendFile(staticPath);
+  }
   const mdPath = path.join(ROOT_DIR, "docs", "GUIDE.md");
   const markdown = fs.existsSync(mdPath) ? fs.readFileSync(mdPath, "utf8") : "# GUIDE\nGuide file not found.";
-  res.type("html").send(renderMarkdownAsSimpleHtml("User Guide", markdown));
+  return res.type("html").send(renderMarkdownAsSimpleHtml("User Guide", markdown));
 });
 
 app.get("/docs/WHITEPAPER.html", (_req, res) => {
@@ -700,10 +704,11 @@ app.post("/api/agents/openmanus/flow", (_req, res) => {
 
 // 5) Run task
 app.post("/api/tasks/run", (req, res) => {
-  const { agent, projectPath, instruction, mode } = req.body || {};
+  let { agent, projectPath, instruction, mode } = req.body || {};
+  if (agent === "openmono") agent = "luxagent";
 
-  if (!["openmono", "openmanus"].includes(agent)) {
-    return res.status(400).json({ error: "agent must be 'openmono' or 'openmanus'" });
+  if (!["luxagent", "openmanus"].includes(agent)) {
+    return res.status(400).json({ error: "agent must be 'luxagent' or 'openmanus'" });
   }
   if (!["manual", "assisted", "autonomous"].includes(mode)) {
     return res.status(400).json({ error: "mode must be 'manual', 'assisted', or 'autonomous'" });
@@ -734,7 +739,7 @@ app.post("/api/tasks/run", (req, res) => {
 
   const runId = uuidv4();
 
-  if (agent === "openmono") {
+  if (agent === "luxagent") {
     const state = spawnWhitelistedProcess({
       runId,
       command: "openmono",
@@ -2359,7 +2364,7 @@ app.post("/api/skills/remove-broken", async (_req, res) => {
   return res.json({ ok: true, removedCount: removed.length, remaining: kept.length, removed });
 });
 
-// ═══ OPENMONO AGENT CONFIGURATION ═══
+// ═══ LUX AGENT CONFIGURATION ═══
 const OPENMONO_CONFIG_PATH = path.join(ROOT_DIR, "playbooks", "openmono-config.json");
 
 function getOpenMonoConfig() {
@@ -2372,7 +2377,7 @@ function getOpenMonoConfig() {
   });
 }
 
-app.get("/api/openmono/status", (_req, res) => {
+const sendLuxAgentStatus = (_req, res) => {
   const config = getOpenMonoConfig();
   const agentDir = process.env.OPENMANUS_DIR || "";
   const detected = agentDir && fs.existsSync(agentDir);
@@ -2380,15 +2385,18 @@ app.get("/api/openmono/status", (_req, res) => {
   res.json({
     ok: true,
     configured: config.enabled,
-    agentType: config.agentType,
+    agentType: "luxagent",
     mode: config.mode,
     workspace: config.workspace,
     detected,
     agentPath: detected ? agentDir : null
   });
-});
+};
 
-app.post("/api/openmono/configure", (req, res) => {
+app.get("/api/openmono/status", sendLuxAgentStatus);
+app.get("/api/lux-agent/status", sendLuxAgentStatus);
+
+const configureLuxAgent = (req, res) => {
   const { enabled, mode, workspace, config: customConfig } = req.body;
   
   const currentConfig = getOpenMonoConfig();
@@ -2402,23 +2410,26 @@ app.post("/api/openmono/configure", (req, res) => {
   };
   
   safeWriteJSON(OPENMONO_CONFIG_PATH, newConfig);
-  audit("openmono_configured", { enabled: newConfig.enabled, mode: newConfig.mode });
+  audit("luxagent_configured", { enabled: newConfig.enabled, mode: newConfig.mode });
   res.json({ ok: true, config: newConfig });
-});
+};
 
-// OpenMono Agent specific endpoints
-app.post("/api/openmono/start", (req, res) => {
+app.post("/api/openmono/configure", configureLuxAgent);
+app.post("/api/lux-agent/configure", configureLuxAgent);
+
+// Lux Agent specific endpoints
+const startLuxAgent = (req, res) => {
   const config = getOpenMonoConfig();
   if (!config.enabled) {
-    return res.status(400).json({ error: "OpenMono Agent not enabled" });
+    return res.status(400).json({ error: "Lux Agent not enabled" });
   }
   
   const agentDir = process.env.OPENMANUS_DIR || "";
   if (!agentDir || !fs.existsSync(agentDir)) {
-    return res.status(404).json({ error: "OpenMono Agent directory not found. Set OPENMANUS_DIR in .env" });
+    return res.status(404).json({ error: "Lux Agent directory not found. Set OPENMANUS_DIR in .env" });
   }
   
-  const runId = `openmono-${Date.now()}`;
+  const runId = `luxagent-${Date.now()}`;
   const runDir = path.join(RUNS_DIR, runId);
   ensureDir(runDir);
   
@@ -2428,16 +2439,19 @@ app.post("/api/openmono/start", (req, res) => {
   
   const child = spawn(command, args, {
     cwd: projectPath || agentDir,
-    env: { ...process.env, LUX_AGENT: "openmono", LUX_RUN_ID: runId }
+    env: { ...process.env, LUX_AGENT: "luxagent", LUX_RUN_ID: runId }
   });
   
-  activeRuns.set(runId, { child, status: "running", agent: "openmono", startedAt: nowISO() });
+  activeRuns.set(runId, { child, status: "running", agent: "luxagent", startedAt: nowISO() });
   
-  audit("openmono_started", { runId, projectPath });
+  audit("luxagent_started", { runId, projectPath });
   res.json({ ok: true, runId, status: "starting" });
-});
+};
 
-app.get("/api/openmono/logs/:runId", (req, res) => {
+app.post("/api/openmono/start", startLuxAgent);
+app.post("/api/lux-agent/start", startLuxAgent);
+
+const getLuxAgentLogs = (req, res) => {
   const runId = req.params.runId;
   const runDir = path.join(RUNS_DIR, runId);
   const logFile = path.join(runDir, "output.log");
@@ -2448,7 +2462,10 @@ app.get("/api/openmono/logs/:runId", (req, res) => {
   
   const logs = fs.readFileSync(logFile, "utf8");
   res.json({ ok: true, runId, logs });
-});
+};
+
+app.get("/api/openmono/logs/:runId", getLuxAgentLogs);
+app.get("/api/lux-agent/logs/:runId", getLuxAgentLogs);
 
 // ═══ AGENT HEALTH CHECKS ═══
 app.get("/api/agents/health", (_req, res) => {
@@ -2697,12 +2714,19 @@ const CONTEXT_PATH = path.join(MEMORY_DIR, "context.json");
 const AGENTS_DB_PATH = path.join(ROOT_DIR, "playbooks", "agents.json");
 
 function getAgents() {
-  return safeReadJSON(AGENTS_DB_PATH, [
+  const agents = safeReadJSON(AGENTS_DB_PATH, [
     { id: "lux", name: "Lux Agent", type: "orchestrator", description: "Main orchestrator agent", enabled: true, capabilities: ["orchestration", "planning", "execution"] },
     { id: "hermes", name: "Hermes Agent", type: "reasoning", description: "Advanced reasoning and analysis", enabled: false, capabilities: ["reasoning", "analysis", "research"] },
     { id: "openclaw", name: "OpenClaw", type: "execution", description: "Code execution and automation", enabled: false, capabilities: ["execution", "automation", "tools"] },
-    { id: "openmono", name: "OpenMonoAgent", type: "general", description: "General purpose agent", enabled: false, capabilities: ["general", "chat", "code"] }
+    { id: "luxagent", name: "Lux Agent", type: "general", description: "General purpose coding agent", enabled: false, capabilities: ["general", "chat", "code"] }
   ]);
+
+  return (Array.isArray(agents) ? agents : []).map((agent) => {
+    if (agent.id === "openmono") {
+      return { ...agent, id: "luxagent", name: "Lux Agent" };
+    }
+    return agent;
+  });
 }
 
 // Get all agents
@@ -2713,7 +2737,8 @@ app.get("/api/agents", (_req, res) => {
 
 // Configure agent
 app.post("/api/agents/configure", (req, res) => {
-  const { agentId, enabled, config } = req.body;
+  const { enabled, config } = req.body;
+  const agentId = req.body.agentId === "openmono" ? "luxagent" : req.body.agentId;
   const agents = getAgents();
   const agent = agents.find(a => a.id === agentId);
   if (!agent) return res.status(404).json({ error: "Agent not found" });
@@ -2746,7 +2771,7 @@ app.post("/api/agents/auto-select", (req, res) => {
   }
   // OpenMono for code tasks
   else if (taskLower.match(/code|program|debug|script|function/)) {
-    selectedAgent = agents.find(a => a.id === "openmono") || selectedAgent;
+    selectedAgent = agents.find(a => a.id === "luxagent") || selectedAgent;
   }
   
   audit("agent_auto_selected", { task: task?.substring(0, 50), agentId: selectedAgent.id });
@@ -2842,14 +2867,14 @@ function missionClassifier(userInstruction) {
 function agentSelector(missionType, riskLevel) {
   const agentMap = {
     build: { id: 'lana', name: 'LANA', role: 'Executive Orchestrator' },
-    fix: { id: 'openmono', name: 'OpenMono', role: 'Code Builder' },
+    fix: { id: 'luxagent', name: 'Lux Agent', role: 'Code Builder' },
     audit: { id: 'security-guard', name: 'Security Guard', role: 'Approval & Risk' },
     demo: { id: 'andre', name: 'Andre', role: 'Operator Assistant' },
     deploy: { id: 'openclaw', name: 'OpenClaw', role: 'Automation & Deployment' },
     research: { id: 'hermes', name: 'Hermes', role: 'Research & Strategy' },
     docs: { id: 'andre', name: 'Andre', role: 'Operator Assistant' },
     write: { id: 'hermes', name: 'Hermes', role: 'Research & Strategy' },
-    web: { id: 'openmono', name: 'OpenMono', role: 'Code Builder' },
+    web: { id: 'luxagent', name: 'Lux Agent', role: 'Code Builder' },
     general: { id: 'lana', name: 'LANA', role: 'Executive Orchestrator' }
   };
   

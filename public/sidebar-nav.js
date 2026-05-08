@@ -20,6 +20,10 @@
     backup: is('/lux-backup.html') || is('/tools-audit-backup.html'),
     guide: is('/docs/GUIDE.html'),
     whitepaper: is('/docs/WHITEPAPER.html')
+    ,luxNative: is('/lux-ai-native.html')
+    ,superAgent: is('/super-agent.html')
+    ,securityGuard: is('/security-guard.html')
+    ,luxAgent: is('/lux-agent.html')
   };
 
   const link = (href, icon, label, on) =>
@@ -29,7 +33,7 @@
 
   sidebar.innerHTML = `
     <div class="sidebar-logo">
-      <div class="logo-icon">⚡</div>
+      <div class="logo-icon"><img src="/Photos/logo.png" alt="Lux logo" class="sidebar-logo-image"></div>
       <div class="logo-text">
         <h1>Lux AI Studio</h1>
         <span>Command Center</span>
@@ -46,10 +50,10 @@
 
     <nav class="nav-section">
       <div class="nav-section-title">Agents</div>
-      ${link('/lux-agent-console.html', '⚡', 'Lux AI (Native)', false)}
-      ${link('/lux-agent-console.html', '🤖', 'Super Agent', false)}
-      ${link('/lux-agent-console.html', '🛡️', 'Security Guard', false)}
-      ${link('/lux-agent-console.html', '💻', 'Lux Agent', false)}
+      ${link('/lux-ai-native.html', '⚡', 'Lux AI (Native)', active.luxNative)}
+      ${link('/super-agent.html', '🤖', 'Super Agent', active.superAgent)}
+      ${link('/security-guard.html', '🛡️', 'Security Guard', active.securityGuard)}
+      ${link('/lux-agent.html', '💻', 'Lux Agent', active.luxAgent)}
     </nav>
 
     <nav class="nav-section">
@@ -87,4 +91,13 @@
       ${link('/USB-SETUP.html', '💾', 'USB Setup', false)}
     </nav>
   `;
+
+  const logoImg = sidebar.querySelector('.sidebar-logo-image');
+  if (logoImg) {
+    logoImg.style.width = '100%';
+    logoImg.style.height = '100%';
+    logoImg.style.objectFit = 'cover';
+    logoImg.style.display = 'block';
+    logoImg.style.borderRadius = '10px';
+  }
 })();

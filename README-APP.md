@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [Comparison with OpenMonoAgent.ai](#comparison)
+2. [Comparison with Lux Agent Stack](#comparison)
 3. [Architecture](#architecture)
 4. [Setup & Installation](#setup)
 5. [USB Portable Setup](#usb-portable)
@@ -17,7 +17,7 @@
 **Lux AI** is a unified, private, enterprise-grade AI agent platform that runs entirely locally without external API keys.
 
 ### Key Highlights
-- ⚡ **4 Built-in Agents**: Lux AI, Hermes, OpenClaw, OpenMono
+- ⚡ **4 Built-in Agents**: Lux AI, Hermes, OpenClaw, Lux Agent
 - 🔌 **5 AI Providers**: Lux AI Core, OpenClaude-Portable, Ollama, NVIDIA NIM, OpenRouter
 - 🛠️ **12 Skills**: From code review to security auditing
 - 🔄 **8 Workflows**: Full-stack dev, CI/CD, security audit, etc.
@@ -26,9 +26,9 @@
 
 ---
 
-## Comparison with OpenMonoAgent.ai
+## Comparison with Lux Agent Stack
 
-| Feature | OpenMonoAgent.ai | Lux AI | Status |
+| Feature | Baseline Stack | Lux AI | Status |
 |---------|-------------------|--------|--------|
 | **Architecture** | .NET CLI + llama.cpp | Node.js + Express | ✅ Different |
 | **Local Inference** | Built-in llama.cpp | Ollama external | Gap |
@@ -211,10 +211,10 @@ MEMORY_DIR=./memory
 | Lux AI | server.js | Primary orchestrator |
 | Hermes | server.js | Research & analysis |
 | OpenClaw | server.js | Automation & execution |
-| OpenMono | server.js | Code & development |
+| Lux Agent | server.js | Code & development |
 
 ### ⚡ Skills (12)
-- Lux AI Core, Hermes Reasoning, OpenClaw Automation, OpenMono Code
+- Lux AI Core, Hermes Reasoning, OpenClaw Automation, Lux Agent Code
 - Frontend Fixer, Security Auditor, Docs + Release Assistant
 - Code Review Pro, Swarm Orchestrator, Test Generator
 - Migration Assistant, Refactoring Expert

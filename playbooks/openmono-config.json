@@ -1,6 +1,6 @@
 {
   "enabled": true,
-  "agentType": "openmono",
+  "agentType": "luxagent",
   "mode": "assisted",
   "workspace": "",
   "config": {},

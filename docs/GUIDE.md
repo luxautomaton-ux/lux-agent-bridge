@@ -113,7 +113,7 @@ Fast where you have power, efficient where you do not.
 
 ## How It Stacks Up
 
-| Category | Claude Code | OpenCode | OpenMonoAgent.ai |
+| Category | Claude Code | OpenCode | Lux Agent Stack |
 |---|---|---|---|
 | Cost | Per-token | Per-token | **Unlimited tokens - Free** |
 | Privacy | Cloud-only | Cloud + Offline | **Fully offline (private)** |
@@ -130,10 +130,10 @@ Fast where you have power, efficient where you do not.
 
 ```bash
 # 01) install - no api keys, no cloud
-bash <(curl -fsSL https://raw.githubusercontent.com/StartupHakk/OpenMonoAgent.ai/refs/heads/main/get-openmono.sh)
+git clone https://github.com/luxautomaton-ux/lux-agent-bridge.git && cd lux-agent-bridge && npm install
 
 # 02) run
-openmono agent
+npm start
 ```
 
 ---
@@ -142,20 +142,20 @@ openmono agent
 
 If you want your own installer + your own repo flow:
 
-1. Fork `StartupHakk/OpenMonoAgent.ai`
-2. Customize `get-openmono.sh` in your fork
+1. Fork `luxautomaton-ux/lux-agent-bridge`
+2. Customize your setup scripts in your fork
 3. Replace install URL with your fork URL
 
 ```bash
 # Replace <your-user> and branch if needed
-bash <(curl -fsSL https://raw.githubusercontent.com/<your-user>/OpenMonoAgent.ai/main/get-openmono.sh)
+git clone https://github.com/<your-user>/lux-agent-bridge.git && cd lux-agent-bridge && npm install
 ```
 
 ### Suggested repo structure
 
 ```text
-OpenMonoAgent.ai/
-  get-openmono.sh
+lux-agent-bridge/
+  package.json
   install/
   models/
   docs/

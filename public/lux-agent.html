@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Agent</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .panel-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; }
+    .queue { display: grid; gap: 10px; margin-top: 12px; }
+    .queue-item { border: 1px solid var(--border-subtle); background: var(--bg-elevated); border-radius: var(--radius-md); padding: 12px; }
+    .queue-item h3 { font-size: 14px; margin-bottom: 4px; }
+    .queue-item p { color: var(--text-secondary); font-size: 13px; margin-bottom: 10px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
+    .metric { border: 1px solid var(--border-subtle); background: var(--bg-elevated); border-radius: var(--radius-md); padding: 10px; }
+    .metric .label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+    .metric .value { font-size: 18px; margin-top: 4px; }
+    .action-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+    @media (max-width: 980px) { .panel-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar"></aside>
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Lux Agent</h1>
+        <p class="subtitle">Coding specialist for deeper implementation loops and test-driven execution.</p>
+      </div>
+
+      <section class="panel-grid">
+        <article class="card">
+          <div class="card-title">Coding Mission Queue</div>
+          <div class="queue">
+            <div class="queue-item">
+              <h3>Feature Build</h3>
+              <p>Generate components, routes, and API integration for a new feature.</p>
+              <button class="btn btn-primary" onclick="launchPrompt('Implement a complete feature in this project with code changes, tests, and a short verification checklist.')">Send to Chat</button>
+            </div>
+            <div class="queue-item">
+              <h3>Refactor + Test Stabilization</h3>
+              <p>Modernize code and reduce test failures safely.</p>
+              <button class="btn btn-primary" onclick="launchPrompt('Refactor the most complex module in this project, add or update tests, and explain tradeoffs.')">Send to Chat</button>
+            </div>
+            <div class="queue-item">
+              <h3>Performance Pass</h3>
+              <p>Identify bottlenecks and patch high-impact hotspots.</p>
+              <button class="btn btn-primary" onclick="launchPrompt('Run a performance-focused code review and implement the top optimization with measurable impact notes.')">Send to Chat</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title">Run Overview</div>
+          <div class="metric-grid">
+            <div class="metric"><div class="label">Total Runs</div><div class="value" id="runsValue">-</div></div>
+            <div class="metric"><div class="label">Completed</div><div class="value" id="doneValue">-</div></div>
+          </div>
+          <div class="action-row">
+            <a class="btn btn-secondary" href="/workspace.html">Workspace</a>
+            <a class="btn btn-secondary" href="/control-runner.html">Task Queue</a>
+            <a class="btn btn-primary" href="/control-chat.html">Open Chat</a>
+            <button class="btn btn-secondary" onclick="refreshRuns()">Refresh</button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <script src="/sidebar-nav.js"></script>
+  <script>
+    async function refreshRuns() {
+      try {
+        const res = await fetch('/api/runs');
+        const json = await res.json();
+        const runs = Array.isArray(json) ? json : (json.items || []);
+        const completed = runs.filter((r) => ['completed', 'success', 'done'].includes((r.status || '').toLowerCase())).length;
+        document.getElementById('runsValue').textContent = String(runs.length);
+        document.getElementById('doneValue').textContent = String(completed);
+      } catch (_e) {
+        document.getElementById('runsValue').textContent = '-';
+        document.getElementById('doneValue').textContent = '-';
+      }
+    }
+
+    async function launchPrompt(prompt) {
+      try { await navigator.clipboard.writeText(prompt); } catch (_e) {}
+      localStorage.setItem('luxQuickPrompt', prompt);
+      window.location.href = '/control-chat.html?prompt=' + encodeURIComponent(prompt);
+    }
+
+    refreshRuns();
+  </script>
+</body>
+</html>

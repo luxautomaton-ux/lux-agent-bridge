@@ -2,7 +2,7 @@
 
 `lux-agent-bridge` is a local Node.js + Express backend for **Lux Agent Studio**.
 
-It gives your UI safe control over local agent tooling (OpenMonoAgent + OpenManus) without exposing arbitrary shell execution.
+It gives your UI safe control over local agent tooling (Lux Agent + OpenManus) without exposing arbitrary shell execution.
 
 This project also includes a built-in starter UI (Mission Control dashboard) at:
 
@@ -23,7 +23,7 @@ Responsive behavior:
 
 - Exposes REST APIs for:
   - Health checks
-  - Starting OpenMonoAgent / OpenManus
+  - Starting Lux Agent / OpenManus
   - Running tasks
   - Reading run logs (JSON + SSE streaming)
   - Approval queue
@@ -105,9 +105,9 @@ Primary UI routes:
 ### 1) Health
 - `GET /api/health`
 
-### 2) Start OpenMonoAgent
-- `POST /api/agents/openmono/start`
-- Runs only: `openmono agent`
+### 2) Start Lux Agent
+- `POST /api/agents/luxagent/start`
+- Runs only: `luxagent agent`
 
 ### 3) Start OpenManus
 - `POST /api/agents/openmanus/start`
@@ -123,7 +123,7 @@ Primary UI routes:
 
 ```json
 {
-  "agent": "openmono",
+  "agent": "luxagent",
   "projectPath": "/absolute/path/to/project",
   "instruction": "Fix dashboard route guards",
   "mode": "assisted"
@@ -203,7 +203,7 @@ Primary UI routes:
 
 - No generic shell endpoint exists.
 - Only whitelisted command paths are used:
-  - `openmono agent`
+  - `luxagent agent`
   - `python main.py`
   - `python run_flow.py`
 - Project paths are validated against `ALLOWED_PROJECT_ROOTS`.

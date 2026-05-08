@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux AI Studio - User Guide</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .main-content { padding-bottom: 72px; }
+    .guide-hero {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 22px;
+      background:
+        linear-gradient(120deg, rgba(0, 212, 170, 0.14), rgba(94, 179, 255, 0.12)),
+        var(--bg-surface);
+    }
+    .guide-hero h1 { font-size: clamp(30px, 4.3vw, 48px); line-height: 1.15; margin-bottom: 8px; }
+    .guide-hero p { color: var(--text-secondary); max-width: 70ch; }
+    .value-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .value-pill {
+      border: 1px solid var(--border-subtle);
+      background: rgba(10, 10, 15, 0.45);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: #c8d4db;
+    }
+    .agent-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .agent-table th, .agent-table td { border-bottom: 1px solid var(--border-subtle); text-align: left; padding: 10px; vertical-align: top; }
+    .agent-table th { color: var(--text-primary); font-size: 12px; text-transform: uppercase; letter-spacing: 0.07em; }
+    .agent-table td { color: var(--text-secondary); }
+    .focus {
+      border: 1px solid rgba(0, 212, 170, 0.35);
+      background: rgba(0, 212, 170, 0.1);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      color: #d7fff6;
+      margin-top: 12px;
+    }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .checklist { margin-left: 18px; color: var(--text-secondary); }
+    .checklist li { margin-bottom: 6px; }
+    .code {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-deep);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #d6d6e3;
+      white-space: pre-wrap;
+      padding: 12px;
+      margin-top: 10px;
+    }
+    .perf-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+    .perf-table th, .perf-table td { border-bottom: 1px solid var(--border-subtle); text-align: left; padding: 9px; }
+    .perf-table td { color: var(--text-secondary); }
+    .stack-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+    .stack-table th, .stack-table td { border-bottom: 1px solid var(--border-subtle); padding: 9px; text-align: left; }
+    .stack-table td { color: var(--text-secondary); }
+    @media (max-width: 980px) {
+      .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar"></aside>
+
+    <main class="main-content">
+      <section class="guide-hero">
+        <h1>Your Private AI Operating System</h1>
+        <p>Lux AI Studio is built for ownership: local-first workflows, unlimited local token usage, and an agent lineup that covers strategy, coding, automation, and security.</p>
+        <div class="value-row">
+          <span class="value-pill">Unlimited tokens</span>
+          <span class="value-pill">Private by default</span>
+          <span class="value-pill">USB-portable</span>
+          <span class="value-pill">Approval-gated safety</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Agent Lineup</div>
+        <table class="agent-table">
+          <thead>
+            <tr><th>Agent</th><th>Compared To</th><th>Best Use</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Super Agent</td><td>ChatGPT + Manus</td><td>Default for research + execution + operations</td></tr>
+            <tr><td>Lux AI (Native)</td><td>Cursor + Copilot</td><td>Structured coding and local tool workflows</td></tr>
+            <tr><td>Lux Agent</td><td>Replit + VS Code</td><td>Deep coding missions, refactors, tests</td></tr>
+            <tr><td>Security Guard</td><td>Snyk + Dependabot</td><td>Risk scans and approval checks</td></tr>
+            <tr><td>LANA</td><td>Linear + Notion</td><td>Mission planning and orchestration</td></tr>
+          </tbody>
+        </table>
+        <div class="focus">Use <strong>Super Agent</strong> as your default when you want fewer handoffs and one agent to coordinate mixed tasks.</div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Daily Workflow</div>
+        <div class="split">
+          <div>
+            <ol class="checklist">
+              <li>Open Command Center for run status and priorities.</li>
+              <li>Launch Chat and run your mission with Super Agent.</li>
+              <li>Switch to Lux AI or Lux Agent for code-intensive steps.</li>
+              <li>Use approvals for high-risk actions.</li>
+              <li>Capture reusable outcomes as playbooks.</li>
+            </ol>
+          </div>
+          <div>
+            <p class="text-muted">Example mission prompt:</p>
+            <div class="code">Plan and execute a launch checklist for my product, create tasks, run step one, and report blockers with options.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Memory, Safety, and Backups</div>
+        <div class="split">
+          <div>
+            <h3 class="heading-3" style="font-size:16px;margin-bottom:8px;">Memory + Learning</h3>
+            <ul class="checklist">
+              <li>Session memory keeps active context.</li>
+              <li>Long-term memory stores project intelligence.</li>
+              <li>Playbooks improve over repeated runs.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="heading-3" style="font-size:16px;margin-bottom:8px;">Backups + Restore</h3>
+            <ul class="checklist">
+              <li>Use Backup/Restore for snapshots.</li>
+              <li>Store snapshots on external drive.</li>
+              <li>Keep scheduled backups for fast recovery.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Hardware Paths</div>
+        <p class="text-muted">Runtime uses a GPU-first or CPU-efficient path depending on your machine profile.</p>
+        <table class="perf-table">
+          <thead><tr><th>Hardware</th><th>Memory</th><th>Approx tok/s</th></tr></thead>
+          <tbody>
+            <tr><td>Ryzen 9 7940HS dual-channel</td><td>32 GB RAM</td><td>~20</td></tr>
+            <tr><td>RTX 3090</td><td>24 GB VRAM</td><td>~42-45</td></tr>
+            <tr><td>RTX 4090</td><td>24 GB VRAM</td><td>~47-50</td></tr>
+            <tr><td>RTX 5090</td><td>32 GB VRAM</td><td>~75-80</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Platform Snapshot</div>
+        <table class="stack-table">
+          <thead><tr><th>Category</th><th>Lux AI Studio</th></tr></thead>
+          <tbody>
+            <tr><td>Cost model</td><td>Unlimited local token usage</td></tr>
+            <tr><td>Privacy model</td><td>Local-first, private by default</td></tr>
+            <tr><td>Tooling</td><td>Core tools + MCP integrations + skill registry</td></tr>
+            <tr><td>Execution</td><td>Agent orchestration with approval controls</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Quick Links</div>
+        <div class="grid-2">
+          <a class="sidebar-link" href="/lux-command-center.html"><span class="icon">🎛️</span> Command Center</a>
+          <a class="sidebar-link" href="/control-chat.html"><span class="icon">💬</span> Chat</a>
+          <a class="sidebar-link" href="/tools-skills.html"><span class="icon">⚡</span> Skills</a>
+          <a class="sidebar-link" href="/USB-SETUP.html"><span class="icon">💾</span> USB Setup</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/sidebar-nav.js"></script>
+</body>
+</html>

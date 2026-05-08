@@ -44,8 +44,8 @@
     "createdAt": "2026-05-08T00:00:00.000Z"
   },
   {
-    "id": "openmono-001",
-    "name": "OpenMono Code",
+    "id": "luxagent-001",
+    "name": "Lux Agent Code",
     "sourceUrl": "built-in",
     "description": "Code-focused agent specialized in programming, debugging, refactoring, and software development.",
     "capabilities": [
@@ -60,7 +60,7 @@
   {
     "id": "skill-frontend-001",
     "name": "Frontend Fixer",
-    "sourceUrl": "https://github.com/StartupHakk/OpenMonoAgent.ai.git",
+    "sourceUrl": "https://github.com/luxautomaton-ux/lux-agent-bridge.git",
     "description": "UI repair, component cleanup, responsive polish, CSS fixes, and frontend optimization.",
     "capabilities": [
       "ui-repair",

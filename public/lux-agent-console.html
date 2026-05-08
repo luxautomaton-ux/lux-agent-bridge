@@ -84,6 +84,7 @@
     .agent-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px; }
     .agent-avatar { width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; background: var(--bg-dark); border: 2px solid var(--border-subtle); }
     .agent-card.active .agent-avatar { border-color: var(--success); }
+    .agent-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; display: block; }
     .agent-toggle { position: relative; width: 50px; height: 28px; }
     .agent-toggle input { opacity: 0; width: 0; height: 0; }
     .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-elevated); border-radius: 28px; transition: 0.3s; }
@@ -136,58 +137,9 @@
 </head>
 <body>
   <div class="app-container">
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <div class="logo-icon">⚡</div>
-        <div class="logo-text">
-          <h1>Lux AI Studio</h1>
-          <span>Command Center</span>
-        </div>
-      </div>
-      <nav class="nav-section">
-        <div class="nav-section-title">Main</div>
-        <a href="/lux-command-center.html" class="nav-link"><span class="icon">🎛️</span> Command Center</a>
-        <a href="/lux-mission-mode.html" class="nav-link"><span class="icon">🚀</span> Mission Mode</a>
-        <a href="/control-chat.html" class="nav-link"><span class="icon">💬</span> Chat</a>
-        <a href="/lux-agent-console.html" class="nav-link active"><span class="icon">🤖</span> Agent Console</a>
-      </nav>
-      <nav class="nav-section">
-        <div class="nav-section-title">Agents</div>
-        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">⚡</span> Lux AI (Native)</a>
-        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🤖</span> Super Agent</a>
-        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🛡️</span> Security Guard</a>
-        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">💻</span> Lux Agent</a>
-      </nav>
-      <nav class="nav-section">
-        <div class="nav-section-title">Workspace</div>
-        <a href="/lux-projects.html" class="nav-link"><span class="icon">📁</span> Projects</a>
-        <a href="/lux-tasks.html" class="nav-link"><span class="icon">📋</span> Task Queue</a>
-        <a href="/lux-approvals.html" class="nav-link"><span class="icon">✓</span> Approvals</a>
-        <a href="/lux-playbooks.html" class="nav-link"><span class="icon">📜</span> Playbooks</a>
-      </nav>
-      <nav class="nav-section">
-        <div class="nav-section-title">Skills & Swarms</div>
-        <a href="/tools-skills.html" class="nav-link"><span class="icon">⚡</span> Skills</a>
-        <a href="/lux-swarm.html" class="nav-link"><span class="icon">🕸️</span> Agent Swarms</a>
-        <a href="/tools-capabilities.html" class="nav-link"><span class="icon">📋</span> Workflows</a>
-      </nav>
-      <nav class="nav-section">
-        <div class="nav-section-title">Tools</div>
-        <a href="/lux-memory.html" class="nav-link"><span class="icon">🧠</span> Memory</a>
-        <a href="/lux-mcp.html" class="nav-link"><span class="icon">🔗</span> MCP Tools</a>
-        <a href="/lux-deployments.html" class="nav-link"><span class="icon">☁️</span> Deployments</a>
-      </nav>
-      <nav class="nav-section">
-        <div class="nav-section-title">System</div>
-        <a href="/lux-backup.html" class="nav-link"><span class="icon">💾</span> Backup/Restore</a>
-        <a href="/lux-settings.html" class="nav-link"><span class="icon">⚙️</span> Settings</a>
-      </nav>
-      <nav class="nav-section">
-        <div class="nav-section-title">Documentation</div>
-        <a href="/docs/WHITEPAPER.html" class="nav-link"><span class="icon">📄</span> Whitepaper</a>
-        <a href="/docs/GUIDE.html" class="nav-link"><span class="icon">📖</span> User Guide</a>
-      </nav>
-    </aside>
+    
+    <aside class="sidebar"></aside>
+
 
     <main class="main-content">
       <div class="page-header">
@@ -231,15 +183,15 @@
         <div class="agent-grid">
           <div class="agent-card active">
             <div class="agent-header">
-              <div class="agent-avatar">⚡</div>
+              <div class="agent-avatar"><img src="/Photos/LUX_AI.png" alt="Lux AI"></div>
               <label class="agent-toggle">
                 <input type="checkbox" checked>
                 <span class="toggle-slider"></span>
               </label>
             </div>
-            <div class="agent-name">LANA</div>
-            <div class="agent-role">Executive Orchestrator</div>
-            <p class="agent-desc">Primary orchestrator for all agent coordination, mission planning, and business logic.</p>
+            <div class="agent-name">Lux AI (Native)</div>
+            <div class="agent-role">Core Orchestrator</div>
+            <p class="agent-desc">Primary native orchestrator for coding, mission planning, and local execution logic.</p>
             <div class="agent-capabilities">
               <span class="capability-tag">Orchestration</span>
               <span class="capability-tag">Planning</span>
@@ -254,7 +206,7 @@
 
           <div class="agent-card active">
             <div class="agent-header">
-              <div class="agent-avatar">🤖</div>
+              <div class="agent-avatar"><img src="/Photos/SUPER_AGENT.png" alt="Super Agent"></div>
               <label class="agent-toggle">
                 <input type="checkbox" checked>
                 <span class="toggle-slider"></span>
@@ -343,10 +295,10 @@
 
           <div class="agent-card active">
             <div class="agent-header">
-              <div class="agent-avatar">💻</div>
+              <div class="agent-avatar"><img src="/Photos/LUX_AGENT.png" alt="Lux Agent"></div>
               <label class="agent-toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
             </div>
-            <div class="agent-name">OpenMono</div>
+            <div class="agent-name">Lux Agent</div>
             <div class="agent-role">Code Builder</div>
             <p class="agent-desc">Code development, debugging, refactoring, and technical implementation.</p>
             <div class="agent-capabilities">

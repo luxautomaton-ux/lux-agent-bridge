@@ -13,7 +13,7 @@
 
 Lux AI is a comprehensive, enterprise-grade AI agent platform designed for private, local-first development workflows. Unlike cloud-dependent alternatives, Lux AI operates entirely on your hardware with zero API key requirements, zero data exfiltration, and complete user control.
 
-This whitepaper presents Lux AI as a viable alternative to established solutions like OpenMonoAgent.ai, Anthropic Claude Code, and OpenCode, while offering unique advantages in enterprise features, web-based interface, and multi-agent orchestration.
+This whitepaper presents Lux AI as a viable alternative to established solutions like Anthropic Claude Code and OpenCode, while offering unique advantages in enterprise features, web-based interface, and multi-agent orchestration.
 
 ---
 
@@ -76,7 +76,7 @@ Lux AI addresses these challenges through:
 │                        AGENT LAYER                             │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐             │
-│  │ Lux AI  │ │ Hermes  │ │OpenClaw │ │OpenMono │             │
+│  │ Lux AI  │ │ Hermes  │ │OpenClaw │ │LuxAgent │             │
 │  └─────────┘ └─────────┘ └─────────┘ └─────────┘             │
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -133,7 +133,7 @@ Lux AI implements four specialized agents:
 | **Lux AI** | `lux` | Primary orchestrator | General tasks, full autonomy |
 | **Hermes** | `hermes` | Research & analysis | Deep research, planning |
 | **OpenClaw** | `openclaw` | Automation | Scripting, deployments |
-| **OpenMono** | `openmono` | Code development | Programming, debugging |
+| **Lux Agent** | `luxagent` | Code development | Programming, debugging |
 
 #### Auto-Selection Logic
 
@@ -144,7 +144,7 @@ if (task matches /research|analyze|reason|think|plan|strategy/)
 else if (task matches /execute|run|build|create|automate|fix|deploy/)
   → OpenClaw (automation)
 else if (task matches /code|program|debug|script|function/)
-  → OpenMono (code)
+  → Lux Agent (code)
 else
   → Lux AI (default)
 ```
@@ -168,7 +168,7 @@ else
 | **Lux AI Core** | Code generation, debugging, file ops, shell commands |
 | **Hermes Reasoning** | Research, analysis, planning, strategy |
 | **OpenClaw Automation** | Automation, scripting, deployment |
-| **OpenMono Code** | Coding, refactoring, testing, documentation |
+| **Lux Agent Code** | Coding, refactoring, testing, documentation |
 | **Frontend Fixer** | UI repair, CSS fixes, responsive design |
 | **Security Auditor** | Vulnerability detection, config audit |
 | **Docs + Release** | Changelogs, documentation, API docs |
@@ -242,14 +242,14 @@ cap-ci-cd:
 
 ---
 
-## 4. Comparison with OpenMonoAgent.ai
+## 4. Comparison with Other Local Agent Stacks
 
 ### 4.1 Feature Comparison
 
-| Feature | OpenMonoAgent.ai | Lux AI | Advantage |
+| Feature | Baseline Local Stack | Lux AI | Advantage |
 |---------|------------------|--------|-----------|
 | **Architecture** | .NET + llama.cpp | Node.js + Ollama | Lux (easier to extend) |
-| **Local Inference** | Built-in | External Ollama | OpenMono |
+| **Local Inference** | Built-in | External Ollama | Baseline Local Stack |
 | **Web UI** | Minimal | Full enterprise | **Lux** |
 | **Dashboard** | Basic TUI | Real-time analytics | **Lux** |
 | **Swarm Control** | None | 1M+ agents | **Lux** |
@@ -361,7 +361,7 @@ services:
 
 ## 8. Conclusion
 
-Lux AI represents a significant advancement in private, enterprise-grade AI agent platforms. By combining the privacy-first approach of OpenMonoAgent.ai with enhanced web interfaces, swarm management, and task orchestration, Lux AI provides a compelling alternative for teams requiring:
+Lux AI represents a significant advancement in private, enterprise-grade AI agent platforms. By combining a privacy-first architecture with enhanced web interfaces, swarm management, and task orchestration, Lux AI provides a compelling alternative for teams requiring:
 
 - Complete data privacy
 - Enterprise-grade analytics

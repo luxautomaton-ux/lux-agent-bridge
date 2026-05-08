@@ -3,282 +3,232 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lux Agent - Complete Instructions</title>
+  <title>Lux AI Studio - Instructions</title>
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; overflow: hidden; }
-    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
-    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
-    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
-    .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
-    .sidebar-logo img { height: 40px; width: auto; display: block; }
-    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
-    .nav-section { margin-bottom: 16px; }
-    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; padding: 0 12px; }
-    .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
-    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
-    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
-    .sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
-    .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
-    .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 8px var(--accent-primary); }
-    .main-content { padding: 32px 40px; overflow-y: auto; max-width: 1400px; margin: 0 auto; width: 100%; }
-    .page-header { margin-bottom: 32px; }
-    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
-    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
-    .card-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
-    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
-    .feature-item { padding: 16px; background: var(--bg-elevated); border-radius: 10px; border: 1px solid var(--border-subtle); transition: all 0.2s; }
-    .feature-item:hover { border-color: var(--accent-primary); transform: translateY(-2px); }
-    .feature-icon { font-size: 28px; margin-bottom: 10px; }
-    .feature-name { font-weight: 600; margin-bottom: 6px; }
-    .feature-desc { font-size: 12px; color: var(--text-secondary); }
-    .feature-badge { display: inline-block; padding: 3px 8px; background: rgba(0,212,170,0.15); color: var(--accent-primary); border-radius: 10px; font-size: 10px; margin-left: 8px; }
-    .instruction-step { display: flex; gap: 16px; padding: 16px; border-left: 3px solid var(--accent-primary); background: var(--bg-elevated); border-radius: 0 10px 10px 0; margin-bottom: 12px; }
-    .step-number { width: 32px; height: 32px; background: var(--gradient-glow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--bg-deep); flex-shrink: 0; }
-    .step-content h4 { font-size: 14px; margin-bottom: 6px; }
-    .step-content p { font-size: 13px; color: var(--text-secondary); }
-    .code-block { background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; font-family: var(--font-mono); font-size: 12px; margin: 12px 0; overflow-x: auto; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; text-decoration: none; }
-    .btn-primary { background: var(--gradient-glow); color: var(--bg-deep); }
-    .text-muted { color: var(--text-muted); }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+    .main-content { padding-bottom: 72px; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(0, 212, 170, 0.14), transparent 35%),
+        radial-gradient(circle at 90% 90%, rgba(94, 179, 255, 0.12), transparent 40%),
+        var(--bg-surface);
+      padding: 26px;
+      margin-bottom: 22px;
+    }
+    .hero h1 { font-size: clamp(24px, 3.3vw, 36px); margin-bottom: 10px; }
+    .hero p { color: var(--text-secondary); max-width: 70ch; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .chip {
+      font-size: 12px;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+    .quick-links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .quick-link {
+      display: block;
+      text-decoration: none;
+      color: var(--text-primary);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      transition: border-color .2s, transform .2s;
+    }
+    .quick-link:hover { border-color: var(--accent-info); transform: translateY(-2px); }
+    .quick-link strong { display: block; margin-bottom: 3px; font-size: 14px; }
+    .quick-link span { color: var(--text-secondary); font-size: 12px; }
+    .card p { color: var(--text-secondary); }
+    .step-list { display: grid; gap: 12px; margin-top: 12px; }
+    .step {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      background: var(--bg-elevated);
+      padding: 12px;
+    }
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      background: var(--gradient-glow);
+      color: var(--bg-deep);
+    }
+    .step h3 { font-size: 15px; margin-bottom: 5px; }
+    .code-block {
+      margin-top: 8px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-deep);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      white-space: pre-wrap;
+      padding: 12px;
+      color: #d2d2e0;
+    }
+    .agent-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+    .agent-card {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-elevated);
+      border-radius: var(--radius-md);
+      padding: 12px;
+    }
+    .agent-card h3 { font-size: 14px; margin-bottom: 3px; }
+    .agent-card p { font-size: 12px; }
+    .flow-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+    .flow-card {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      background: var(--bg-elevated);
+      padding: 12px;
+    }
+    .flow-card h3 { font-size: 14px; margin-bottom: 6px; }
+    .flow-card ul { margin-left: 16px; color: var(--text-secondary); font-size: 13px; }
+    .settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+    .setting-item {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      background: var(--bg-elevated);
+      padding: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .setting-item code { color: var(--text-primary); font-family: var(--font-mono); }
+    @media (max-width: 1080px) {
+      .quick-links, .flow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 820px) {
+      .quick-links, .flow-grid, .agent-grid, .settings-grid { grid-template-columns: 1fr; }
+      .main-content { padding: 20px; }
+    }
   </style>
 </head>
 <body>
   <div class="app-layout">
-    <aside class="sidebar">
-      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
-      <nav class="sidebar-nav">
-        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
-          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
-          <a class="nav-link" href="/tools-skills.html">⚡ Skills</a>
-        </div>
-        <div class="nav-section"><div class="nav-section-title">System</div>
-          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
-          <a class="nav-link active" href="/INSTRUCTIONS.html">📖 Instructions</a>
-        </div>
-      </nav>
-      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
-    </aside>
+    <aside class="sidebar"></aside>
+
     <main class="main-content">
-      <div class="page-header"><h1>📖 Lux Agent Studio - Complete Instructions</h1><p class="subtitle">Your private AI agent orchestration platform</p></div>
+      <section class="hero">
+        <h1>How to Use Lux AI Studio</h1>
+        <p>This is the fastest way to get from setup to your first successful mission. Start with Super Agent for most tasks, and switch to specialist agents only when you need depth.</p>
+        <div class="chip-row">
+          <span class="chip">Private by default</span>
+          <span class="chip">Unlimited local tokens</span>
+          <span class="chip">Approvals for risky actions</span>
+        </div>
+      </section>
 
-      <!-- Quick Start -->
-      <div class="card">
-        <div class="card-title">🚀 Quick Start Guide</div>
-        <div class="instruction-step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h4>Start the Server</h4>
-            <p>Navigate to the project folder and run: <code class="code-block">cd /Users/asaspade/Desktop/lux-agent-bridge && npm start</code></p>
-          </div>
-        </div>
-        <div class="instruction-step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h4>Access the Interface</h4>
-            <p>Open your browser to <code class="code-block">http://localhost:8787</code></p>
-          </div>
-        </div>
-        <div class="instruction-step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h4>Configure OpenMono Agent</h4>
-            <p>Go to Tools → Skills to set your OpenMonoAgent path in environment variables (OPENMANUS_DIR)</p>
-          </div>
-        </div>
-        <div class="instruction-step">
-          <div class="step-number">4</div>
-          <div class="step-content">
-            <h4>Start Your First Mission</h4>
-            <p>Go to Chat and describe what you want to accomplish. The agent will orchestrate the workflow.</p>
-          </div>
-        </div>
-      </div>
+      <section class="quick-links">
+        <a class="quick-link" href="/lux-command-center.html"><strong>Command Center</strong><span>Daily overview + control</span></a>
+        <a class="quick-link" href="/control-chat.html"><strong>Chat</strong><span>Talk to agents and run tasks</span></a>
+        <a class="quick-link" href="/tools-skills.html"><strong>Skills</strong><span>Sync, verify, and clean skills</span></a>
+        <a class="quick-link" href="/docs/GUIDE.html"><strong>User Guide</strong><span>Detailed product playbook</span></a>
+      </section>
 
-      <!-- All Features -->
-      <div class="card">
-        <div class="card-title">⚡ All Available Features <span class="feature-badge">Complete</span></div>
-        <div class="feature-grid">
-          <div class="feature-item">
-            <div class="feature-icon">💬</div>
-            <div class="feature-name">Chat & Conversation <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Natural language chat with agent orchestration</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">📋</div>
-            <div class="feature-name">Mission Planning <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Break down objectives into actionable steps</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">▶️</div>
-            <div class="feature-name">Task Runner <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Execute autonomous or assisted missions</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">📊</div>
-            <div class="feature-name">Reports Generation <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Generate analysis, status, and data reports</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">📽️</div>
-            <div class="feature-name">Slides Creation <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Create presentation slides from data</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🖼️</div>
-            <div class="feature-name">Photos & Images <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Upload, analyze, and process images</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🎬</div>
-            <div class="feature-name">Videos <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Process and analyze video content</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🔬</div>
-            <div class="feature-name">Research <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Deep research on any topic with findings</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🌐</div>
-            <div class="feature-name">Web & Browser <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Search web, browse pages, gather info</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">📱</div>
-            <div class="feature-name">App Creation <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Generate code and build applications</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">💻</div>
-            <div class="feature-name">Code Execution <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Run JavaScript, Python, Bash code</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">⚡</div>
-            <div class="feature-name">Workflows <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Multi-step automated workflows</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🔒</div>
-            <div class="feature-name">Security Scanning <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Scan code for vulnerabilities and risks</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🔌</div>
-            <div class="feature-name">MCP Servers <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Connect Model Context Protocol servers</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">🎯</div>
-            <div class="feature-name">Skills & Capabilities <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Register and manage agent skills</div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon">✅</div>
-            <div class="feature-name">Approvals <span class="feature-badge">✓</span></div>
-            <div class="feature-desc">Human-in-the-loop approval system</div>
-          </div>
+      <section class="card">
+        <div class="card-title">Quick Start</div>
+        <p>Use this exact path the first time:</p>
+        <div class="step-list">
+          <article class="step">
+            <div class="step-number">1</div>
+            <div>
+              <h3>Start the app</h3>
+              <p>Run Lux AI Studio from the project root.</p>
+              <div class="code-block">npm start</div>
+            </div>
+          </article>
+          <article class="step">
+            <div class="step-number">2</div>
+            <div>
+              <h3>Open the workspace</h3>
+              <p>In browser, open local UI and verify health is green.</p>
+              <div class="code-block">http://localhost:8787</div>
+            </div>
+          </article>
+          <article class="step">
+            <div class="step-number">3</div>
+            <div>
+              <h3>Choose your default agent</h3>
+              <p>In Chat, set <strong>Super Agent</strong> as your default for mixed research + execution tasks.</p>
+            </div>
+          </article>
+          <article class="step">
+            <div class="step-number">4</div>
+            <div>
+              <h3>Run your first mission</h3>
+              <p>Example prompt:</p>
+              <div class="code-block">Create a 5-step launch plan for my app, then generate tasks and start with step 1.</div>
+            </div>
+          </article>
         </div>
-      </div>
+      </section>
 
-      <!-- How to Use Each Feature -->
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">💬 Using Chat</div>
-          <p class="text-muted" style="margin-bottom:12px;">Access via: Control → Chat</p>
-          <ol style="padding-left:20px;font-size:13px;color:var(--text-secondary);">
-            <li>Select Agent (OpenMono or Manus)</li>
-            <li>Choose Mode (Assisted/Autonomous/Manual)</li>
-            <li>Type your mission or use Tools dropdown</li>
-            <li>Press Send or Ctrl+Enter</li>
-          </ol>
+      <section class="card">
+        <div class="card-title">Agent Selection Cheat Sheet</div>
+        <div class="agent-grid">
+          <article class="agent-card"><h3>Super Agent</h3><p>Best default. Use for planning + web research + execution in one flow.</p></article>
+          <article class="agent-card"><h3>Lux AI (Native)</h3><p>Use for structured coding and local project actions with tighter control.</p></article>
+          <article class="agent-card"><h3>Lux Agent</h3><p>Use for deep refactors, tests, and code-heavy implementation missions.</p></article>
+          <article class="agent-card"><h3>Security Guard</h3><p>Use for vulnerability checks and approval-gated operations.</p></article>
         </div>
-        <div class="card">
-          <div class="card-title">🖼️ Photos & Media</div>
-          <p class="text-muted" style="margin-bottom:12px;">Access via: Chat → Tools → Upload Files</p>
-          <ol style="padding-left:20px;font-size:13px;color:var(--text-secondary);">
-            <li>Click Tools → Upload Files</li>
-            <li>Drag & drop or select images/PDFs</li>
-            <li>The agent analyzes automatically</li>
-            <li>View results in chat</li>
-          </ol>
-        </div>
-      </div>
+      </section>
 
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">📊 Reports & Slides</div>
-          <p class="text-muted" style="margin-bottom:12px;">Generate via Chat by asking:</p>
-          <div class="code-block">"Create a report on [topic]"<br>"Generate slides about [subject]"<br>"Summarize the data from [file]"</div>
+      <section class="card">
+        <div class="card-title">Section-by-Section Flow</div>
+        <div class="flow-grid">
+          <article class="flow-card">
+            <h3>Chat</h3>
+            <ul>
+              <li>Pick agent and mode</li>
+              <li>Attach files or research topics</li>
+              <li>Approve risky operations when prompted</li>
+            </ul>
+          </article>
+          <article class="flow-card">
+            <h3>Task Queue</h3>
+            <ul>
+              <li>Track active missions</li>
+              <li>Inspect run logs</li>
+              <li>Retry or branch failed runs</li>
+            </ul>
+          </article>
+          <article class="flow-card">
+            <h3>Skills</h3>
+            <ul>
+              <li>Sync Awesome Skills</li>
+              <li>Verify link health</li>
+              <li>Remove broken entries</li>
+            </ul>
+          </article>
         </div>
-        <div class="card">
-          <div class="card-title">🔬 Research Mode</div>
-          <p class="text-muted" style="margin-bottom:12px;">Use research tool in chat:</p>
-          <div class="code-block">Click Tools → Research Topic<br>Enter topic, select depth<br>Click Start Research</div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Core Settings</div>
+        <p>Recommended values in your `.env`:</p>
+        <div class="settings-grid">
+          <div class="setting-item"><code>PORT=8787</code></div>
+          <div class="setting-item"><code>ALLOWED_PROJECT_ROOTS=/path/to/projects</code></div>
+          <div class="setting-item"><code>OPENMANUS_DIR=/path/to/OpenManus</code></div>
+          <div class="setting-item"><code>REQUIRE_APPROVAL_AUTONOMOUS=true</code></div>
         </div>
-      </div>
-
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">🌐 Web & Browser</div>
-          <p class="text-muted" style="margin-bottom:12px;">Search web via:</p>
-          <div class="code-block">Click Tools → Web Search<br>Enter query, view results<br>Direct links to GitHub, docs</div>
-        </div>
-        <div class="card">
-          <div class="card-title">📱 App Creation</div>
-          <p class="text-muted" style="margin-bottom:12px;">Build apps through chat:</p>
-          <div class="code-block">"Create a React app for [purpose]"<br>"Build a Python CLI tool that [does X]"<br>"Make a web app with [features]"</div>
-        </div>
-      </div>
-
-      <!-- Configuration -->
-      <div class="card">
-        <div class="card-title">⚙️ Configuration</div>
-        <p class="text-muted" style="margin-bottom:16px;">Environment variables to set in .env:</p>
-        <div class="code-block">PORT=8787
-OPENMANUS_DIR=/path/to/OpenManus
-LUX_API_TOKEN=your-token-here
-ALLOWED_PROJECT_ROOTS=/path/to/projects
-REQUIRE_APPROVAL_AUTONOMOUS=true</div>
-      </div>
-
-      <!-- API Endpoints Reference -->
-      <div class="card">
-        <div class="card-title">🔌 API Endpoints Reference</div>
-        <table style="width:100%;font-size:13px;border-collapse:collapse;">
-          <thead>
-            <tr style="border-bottom:1px solid var(--border-subtle);">
-              <th style="text-align:left;padding:10px;">Endpoint</th>
-              <th style="text-align:left;padding:10px;">Description</th>
-            </tr>
-          </thead>
-          <tbody style="color:var(--text-secondary);">
-            <tr><td style="padding:8px;">GET /api/health</td><td>System health check</td></tr>
-            <tr><td style="padding:8px;">POST /api/tasks/run</td><td>Start a task/mission</td></tr>
-            <tr><td style="padding:8px;">POST /api/mission/plan</td><td>Generate a mission plan</td></tr>
-            <tr><td style="padding:8px;">GET /api/runs</td><td>List all runs</td></tr>
-            <tr><td style="padding:8px;">POST /api/chat/file</td><td>Upload and analyze files</td></tr>
-            <tr><td style="padding:8px;">POST /api/chat/web-search</td><td>Search the web</td></tr>
-            <tr><td style="padding:8px;">POST /api/chat/research</td><td>Research a topic</td></tr>
-            <tr><td style="padding:8px;">POST /api/chat/code</td><td>Execute code</td></tr>
-            <tr><td style="padding:8px;">POST /api/security/scan</td><td>Scan for security issues</td></tr>
-            <tr><td style="padding:8px;">GET /api/skills/discover</td><td>Discover skill repos</td></tr>
-            <tr><td style="padding:8px;">POST /api/openmono/configure</td><td>Configure OpenMono</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div style="text-align:center;padding:20px;">
-        <a href="/workspace.html" class="btn btn-primary" style="font-size:16px;padding:16px 32px;">🚀 Launch Workspace Hub</a>
-      </div>
+      </section>
     </main>
   </div>
+
   <script src="/sidebar-nav.js"></script>
 </body>
 </html>

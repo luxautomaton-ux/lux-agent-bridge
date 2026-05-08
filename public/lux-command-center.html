@@ -708,6 +708,8 @@
 
   <div class="app-container">
     <!-- Sidebar -->
+    
+    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-logo">
         <div class="logo-icon">⚡</div>
@@ -718,49 +720,166 @@
       </div>
       <nav class="nav-section">
         <div class="nav-section-title">Main</div>
-        <a href="/lux-command-center.html" class="nav-link active"><span class="icon">🎛️</span> Command Center</a>
+        <a href="/lux-command-center.html" class="nav-link"><span class="icon">🎛️</span> Command Center</a>
         <a href="/lux-mission-mode.html" class="nav-link"><span class="icon">🚀</span> Mission Mode</a>
         <a href="/control-chat.html" class="nav-link"><span class="icon">💬</span> Chat</a>
         <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🤖</span> Agent Console</a>
       </nav>
       <nav class="nav-section">
         <div class="nav-section-title">Agents</div>
-        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">⚡</span> Lux AI (Native)</a>
-        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🤖</span> Super Agent</a>
-        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🛡️</span> Security Guard</a>
-        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">💻</span> Lux Agent</a>
+        <a href="/tools-agents.html" class="nav-link"><span class="icon">⚡</span> Lux AI (Native)</a>
+        <a href="/tools-agents.html" class="nav-link"><span class="icon">🤖</span> Super Agent</a>
+        <a href="/tools-agents.html" class="nav-link"><span class="icon">🛡️</span> Security Guard</a>
+        <a href="/tools-agents.html" class="nav-link"><span class="icon">💻</span> Lux Agent</a>
       </nav>
       <nav class="nav-section">
         <div class="nav-section-title">Workspace</div>
-        <a href="/lux-projects.html" class="nav-link"><span class="icon">📁</span> Projects</a>
-        <a href="/lux-tasks.html" class="nav-link"><span class="icon">📋</span> Task Queue</a>
-        <a href="/lux-approvals.html" class="nav-link"><span class="icon">✓</span> Approvals</a>
-        <a href="/lux-playbooks.html" class="nav-link"><span class="icon">📜</span> Playbooks</a>
+        <a href="/workspace.html" class="nav-link"><span class="icon">📁</span> Projects</a>
+        <a href="/control-runner.html" class="nav-link"><span class="icon">📋</span> Task Queue</a>
+        <a href="/control-approvals.html" class="nav-link"><span class="icon">✓</span> Approvals</a>
+        <a href="/control-planner.html" class="nav-link"><span class="icon">📜</span> Playbooks</a>
       </nav>
       <nav class="nav-section">
         <div class="nav-section-title">Skills & Swarms</div>
         <a href="/tools-skills.html" class="nav-link"><span class="icon">⚡</span> Skills</a>
-        <a href="/lux-swarm.html" class="nav-link"><span class="icon">🕸️</span> Agent Swarms</a>
-        <a href="/tools-capabilities.html" class="nav-link"><span class="icon">📋</span> Workflows</a>
+        <a href="/tools-capabilities.html" class="nav-link"><span class="icon">🕸️</span> Agent Swarms</a>
+        <a href="/tools-features.html" class="nav-link"><span class="icon">📋</span> Workflows</a>
       </nav>
       <nav class="nav-section">
         <div class="nav-section-title">Tools</div>
-        <a href="/lux-memory.html" class="nav-link"><span class="icon">🧠</span> Memory</a>
-        <a href="/lux-mcp.html" class="nav-link"><span class="icon">🔗</span> MCP Tools</a>
-        <a href="/lux-deployments.html" class="nav-link"><span class="icon">☁️</span> Deployments</a>
+        <a href="/tools-memory.html" class="nav-link"><span class="icon">🧠</span> Memory</a>
+        <a href="/tools-mcp.html" class="nav-link"><span class="icon">🔗</span> MCP Tools</a>
+        <a href="/tools-storage.html" class="nav-link"><span class="icon">☁️</span> Storage</a>
+        <a href="/tools-media-diff.html" class="nav-link"><span class="icon">📸</span> Media</a>
       </nav>
       <nav class="nav-section">
         <div class="nav-section-title">System</div>
-        <a href="/lux-backup.html" class="nav-link"><span class="icon">💾</span> Backup/Restore</a>
-        <a href="/lux-settings.html" class="nav-link"><span class="icon">⚙️</span> Settings</a>
+        <a href="/tools-audit-backup.html" class="nav-link"><span class="icon">💾</span> Backup/Restore</a>
+        <a href="/setup.html" class="nav-link"><span class="icon">⚙️</span> Settings</a>
       </nav>
       <nav class="nav-section">
         <div class="nav-section-title">Documentation</div>
-        <a href="/docs/WHITEPAPER.html" class="nav-link"><span class="icon">📄</span> Whitepaper</a>
-        <a href="/docs/GUIDE.html" class="nav-link"><span class="icon">📖</span> User Guide</a>
-        <a href="/USB-SETUP.html" class="nav-link"><span class="icon">💾</span> USB Setup</a>
+        <a href="/INSTRUCTIONS.html" class="nav-link"><span class="icon">📄</span> Whitepaper</a>
+        <a href="/status.html" class="nav-link"><span class="icon">📖</span> Status</a>
       </nav>
     </aside>
+    <style>
+      /* Global Sidebar Styles */
+      .sidebar {
+        background: var(--bg-surface, #12121a);
+        border-right: 1px solid var(--border-subtle, #2a2a38);
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        overflow-y: auto;
+        width: 260px;
+        min-width: 260px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .sidebar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .sidebar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .sidebar::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.1);
+        border-radius: 3px;
+      }
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.1));
+      }
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--accent-gradient, linear-gradient(135deg, #00d4ff, #4f46e5));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      .logo-text h1 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.2;
+        color: var(--text-primary, #fff);
+      }
+      .logo-text span {
+        font-size: 11px;
+        color: var(--accent-cyan, #00d4ff);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+      }
+      .nav-section {
+        margin-bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .nav-section-title {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-muted, #71717a);
+        margin-bottom: 12px;
+        padding-left: 12px;
+      }
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: var(--text-secondary, #a1a1aa);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+      .nav-link:hover {
+        background: rgba(255,255,255,0.05);
+        color: var(--text-primary, #fff);
+      }
+      .nav-link.active {
+        background: rgba(0,212,255,0.1);
+        color: var(--accent-cyan, #00d4ff);
+        box-shadow: inset 2px 0 0 var(--accent-cyan, #00d4ff);
+      }
+      .nav-link .icon {
+        font-size: 18px;
+        width: 24px;
+        text-align: center;
+        opacity: 0.8;
+      }
+      .nav-link.active .icon {
+        opacity: 1;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+          link.classList.remove('active');
+          const href = link.getAttribute('href');
+          if (href && href.includes(currentPath)) {
+            link.classList.add('active');
+          }
+        });
+      });
+    </script>
+
 
     <!-- Main Content -->
     <main class="main-content">
@@ -929,7 +1048,7 @@
         </div>
         <div class="agent-card online">
           <div class="agent-avatar">💻</div>
-          <div class="agent-name">OpenMono</div>
+          <div class="agent-name">Lux Agent</div>
           <div class="agent-role">Code Builder</div>
           <div class="agent-status busy">Building</div>
         </div>
@@ -964,7 +1083,7 @@
             <tbody>
               <tr>
                 <td>Fix Dashboard Bug</td>
-                <td>OpenMono</td>
+                <td>Lux Agent</td>
                 <td><span class="status-badge running">Running</span></td>
                 <td>10:32</td>
               </tr>
@@ -1020,7 +1139,7 @@
         <div class="logs-terminal" id="logTerminal">
           <div class="log-entry"><span class="time">[10:42]</span> <span class="message success">Lux AI Studio started successfully</span></div>
           <div class="log-entry"><span class="time">[10:43]</span> <span class="message">USB portable mode active</span></div>
-          <div class="log-entry"><span class="time">[10:44]</span> <span class="message">OpenMono agent available</span></div>
+          <div class="log-entry"><span class="time">[10:44]</span> <span class="message">Lux Agent available</span></div>
           <div class="log-entry"><span class="time">[10:45]</span> <span class="message">OpenManus workflow ready</span></div>
           <div class="log-entry"><span class="time">[10:46]</span> <span class="message success">All systems operational</span></div>
           <div class="log-entry"><span class="time">[10:47]</span> <span class="message">Memory Core connected</span></div>
@@ -1199,7 +1318,7 @@
         steps = '8-12';
       } else if (input.includes('fix') || input.includes('bug')) {
         name = 'Fix Bug';
-        agent = 'OpenMono';
+        agent = 'Lux Agent';
         risk = 'Low';
         approvals = 'None';
         steps = '3-5';

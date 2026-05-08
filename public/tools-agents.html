@@ -65,25 +65,9 @@
 </head>
 <body>
   <div class="app-layout">
-    <aside class="sidebar">
-      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
-      <nav class="sidebar-nav">
-        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
-          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
-          <a class="nav-link" href="/control-runner.html">▶ Runner</a>
-        </div>
-        <div class="nav-section"><div class="nav-section-title">Tools</div>
-          <a class="nav-link active" href="/tools-agents.html">🤖 Agents</a>
-          <a class="nav-link" href="/tools-features.html">🎯 Features</a>
-          <a class="nav-link" href="/tools-memory.html">🧠 Memory</a>
-        </div>
-        <div class="nav-section"><div class="nav-section-title">System</div>
-          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
-          <a class="nav-link" href="/INSTRUCTIONS.html">📖 Instructions</a>
-        </div>
-      </nav>
-      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
-    </aside>
+    
+    <aside class="sidebar"></aside>
+
     <main class="main-content">
       <div class="page-header"><h1>🤖 Multi-Agent Control</h1><p class="subtitle">Manage Hermes, OpenClaw, and other agents</p></div>
 
@@ -143,7 +127,7 @@
                 <option value="lux">Lux Agent (Orchestrator)</option>
                 <option value="hermes">Hermes Agent (Reasoning)</option>
                 <option value="openclaw">OpenClaw (Execution)</option>
-                <option value="openmono">OpenMonoAgent (General)</option>
+                <option value="luxagent">Lux Agent (General)</option>
               </select>
             </div>
             <div class="form-group">
@@ -195,7 +179,7 @@
     }
 
     function getAgentIcon(id) {
-      const icons = { lux: '✦', hermes: '🧠', openclaw: '🦞', openmono: '🔵' };
+      const icons = { lux: '✦', hermes: '🧠', openclaw: '🦞', luxagent: '💻' };
       return icons[id] || '🤖';
     }
 
