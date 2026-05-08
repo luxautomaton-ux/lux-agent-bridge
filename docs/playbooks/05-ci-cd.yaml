@@ -1,0 +1,165 @@
+# CI/CD Pipeline Playbook
+# Set up continuous integration and deployment pipeline
+
+name: CI/CD Pipeline
+description: Complete CI/CD pipeline setup and execution
+version: 1.0
+category: devops
+icon: ⚙️
+
+parameters:
+  projectPath:
+    type: string
+    required: true
+    description: Path to project
+  
+  projectType:
+    type: string
+    required: true
+    enum: [node, python, java, go, rust, dotnet]
+    description: Project language/framework
+  
+  ciProvider:
+    type: string
+    default: github
+    enum: [github, gitlab, jenkins, circleci]
+    description: CI provider
+  
+  testFramework:
+    type: string
+    default: jest
+    description: Testing framework
+  
+  deployTarget:
+    type: string
+    default: vercel
+    enum: [vercel, netlify, aws, gcp, heroku, docker]
+    description: Deployment target
+  
+  includeE2E:
+    type: boolean
+    default: true
+    description: Include E2E tests
+
+steps:
+  # Phase 1: Environment Setup
+  - id: setup
+    description: Setup CI/CD environment
+    requires: []
+    gate: None
+    inline-prompt: |
+      Setup CI/CD for ${projectType} project at ${projectPath}:
+      
+      - Detect project structure
+      - Identify package manager
+      - Determine test commands
+      - Check existing configs
+    output: env_setup
+
+  # Phase 2: CI Configuration
+  - id: ci-config
+    description: Configure CI pipeline
+    requires: [setup]
+    gate: Review
+    inline-prompt: |
+      Create CI configuration for ${ciProvider}:
+      
+      Pipeline stages:
+      1. Install dependencies
+      2. Lint
+      3. Type check (if applicable)
+      4. Unit tests
+      5. Integration tests
+      6. Build
+      
+      Create: ${ciProvider}.yml (GitHub Actions) / .gitlab-ci.yml (GitLab)
+    output: ci_config
+    file: ${projectPath}/.github/workflows/ci.yml
+
+  # Phase 3: Test Configuration
+  - id: test-config
+    description: Configure test pipeline
+    requires: [ci-config]
+    gate: None
+    inline-prompt: |
+      Configure testing for ${projectType}:
+      
+      - Setup ${testFramework}
+      - Configure Jest/Mocha/Pytest
+      - Add coverage reporting
+      - Configure ${includeE2E ? 'Cypress/Playwright for E2E' : 'no E2E'}
+      
+      Ensure tests can run in CI.
+    output: test_config
+
+  # Phase 4: Build Configuration
+  - id: build-config
+    description: Configure build process
+    requires: [test-config]
+    gate: None
+    inline-prompt: |
+      Configure build pipeline:
+      
+      - Production build command
+      - Artifact creation
+      - Optimization (minification, compression)
+      - Environment variable handling
+    output: build_config
+
+  # Phase 5: Deploy Configuration (Conditional)
+  - id: deploy-config
+    description: Configure deployment
+    requires: [build-config]
+    gate: Confirm
+    condition: ${deployTarget} != 'none'
+    inline-prompt: |
+      Create deployment configuration for ${deployTarget}:
+      
+      - Environment setup
+      - Secrets management
+      - Health checks
+      - Rollback strategy
+      
+      Create: vercel.json / netlify.toml / Dockerfile / etc.
+    output: deploy_config
+
+  # Phase 6: Full Pipeline Test
+  - id: test-pipeline
+    description: Test the full CI/CD pipeline
+    requires: [deploy-config]
+    gate: None
+    inline-prompt: |
+      Run the complete pipeline:
+      
+      1. Trigger CI manually
+      2. Verify all stages pass
+      3. Check test coverage
+      4. Verify build artifact
+      5. Test deployment (if configured)
+      
+      Report pipeline status.
+    output: pipeline_results
+
+  # Phase 7: Documentation
+  - id: docs
+    description: Document CI/CD setup
+    requires: [test-pipeline]
+    gate: None
+    inline-prompt: |
+      Create CI/CD documentation:
+      
+      - Pipeline overview
+      - Stage descriptions
+      - Environment variables needed
+      - How to trigger builds
+      - Deployment process
+      
+      Save as: ${projectPath}/docs/CI-CD.md
+    output: documentation
+    file: ${projectPath}/docs/CI-CD.md
+
+settings:
+  allow-destructive: false
+  timeout: 600
+  retry-failed: true
+  max-retries: 2

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Agent Studio - Workspace</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
+
+    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+
+    .sidebar {
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+    }
+
+    .sidebar-logo {
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 16px;
+    }
+
+    .sidebar-logo img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-section { margin-bottom: 16px; }
+    .nav-section-title {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      padding: 0 12px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-primary);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-primary);
+    }
+
+    .main-content {
+      padding: 32px 40px;
+      overflow-y: auto;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
+
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    .stat-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      background: var(--gradient-glow);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .card-title { font-size: 16px; font-weight: 600; }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .badge-success { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .badge-warning { background: rgba(255,179,71,0.15); color: var(--accent-warning); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--gradient-glow);
+      color: var(--bg-deep);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,212,170,0.3);
+    }
+
+    .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-secondary:hover { border-color: var(--accent-primary); }
+
+    .text-secondary { color: var(--text-secondary); }
+    .text-muted { color: var(--text-muted); }
+    .text-accent { color: var(--accent-primary); }
+
+    .flex { display: flex; }
+    .flex-gap-sm { gap: 8px; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+
+    .mt-md { margin-top: 16px; }
+    .mt-lg { margin-top: 24px; }
+    .mb-lg { margin-bottom: 24px; }
+
+    .status-row-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+    }
+
+    @media (max-width: 900px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="/photos/Lux Automaton.png" alt="Lux Agent" />
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">🚀 Lux AI Hub</div>
+          <a class="nav-link" href="/lux-ai-hub.html" style="color: var(--accent-cyan); font-weight: 600;">⚡ All-in-One Hub</a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Mission Control</div>
+          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
+          <a class="nav-link" href="/control-planner.html">◎ Planner</a>
+          <a class="nav-link" href="/control-runner.html">▶ Runner</a>
+          <a class="nav-link" href="/control-approvals.html">✓ Approvals</a>
+          <a class="nav-link" href="/control-runs.html">⏱ Runs</a>
+          <a class="nav-link" href="/control-logs.html">☰ Logs</a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Tools</div>
+          <a class="nav-link" href="/tools-skills.html">⚡ Skills</a>
+          <a class="nav-link" href="/tools-mcp.html">🔗 MCP</a>
+          <a class="nav-link" href="/tools-capabilities.html">⊛ Workflows</a>
+          <a class="nav-link" href="/tools-enterprise.html">⚙ Enterprise</a>
+          <a class="nav-link" href="/tools-audit-backup.html">◐ Audit & Backup</a>
+          <a class="nav-link" href="/tools-storage.html">⛃ Storage</a>
+          <a class="nav-link" href="/tools-media-diff.html">◈ Media & Diff</a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">System</div>
+          <a class="nav-link" href="/">◈ Landing</a>
+          <a class="nav-link" href="/setup.html">⚒ Setup</a>
+          <a class="nav-link" href="/status.html">◐ Status</a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-row">
+          <span>v1.0.0</span>
+          <span class="status-dot"></span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h1>Workspace Hub</h1>
+        <p class="subtitle">Navigate all Lux Agent Studio features</p>
+      </div>
+
+      <div class="grid-4 mb-lg">
+        <div class="stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Active Runs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Skills</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">●</div>
+          <div class="stat-label">Status</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Quick Start</div>
+          </div>
+          <p class="text-secondary mb-lg">Launch a new agent mission or continue a conversation.</p>
+          <div class="flex flex-gap-sm">
+            <a href="/control-chat.html" class="btn btn-primary">Start Chat</a>
+            <a href="/control-runner.html" class="btn btn-secondary">New Run</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">System Health</div>
+            <span class="badge badge-success">Online</span>
+          </div>
+          <div class="mt-md">
+            <div class="status-row-item"><span class="status-dot" style="background: var(--accent-primary);"></span> Bridge Server</div>
+            <div class="status-row-item"><span style="width:8px;height:8px;background:var(--text-muted);border-radius:50%;"></span> OpenMonoAgent</div>
+            <div class="status-row-item"><span style="width:8px;height:8px;background:var(--text-muted);border-radius:50%;"></span> OpenManus</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-lg">
+        <div class="card-header">
+          <div class="card-title">Control Pages</div>
+        </div>
+        <div class="flex flex-gap-sm" style="flex-wrap:wrap;">
+          <a href="/control-chat.html" class="btn btn-secondary">Chat</a>
+          <a href="/control-planner.html" class="btn btn-secondary">Planner</a>
+          <a href="/control-runner.html" class="btn btn-secondary">Runner</a>
+          <a href="/control-approvals.html" class="btn btn-secondary">Approvals</a>
+          <a href="/control-runs.html" class="btn btn-secondary">Runs</a>
+          <a href="/control-logs.html" class="btn btn-secondary">Logs</a>
+        </div>
+      </div>
+
+      <div class="card mt-lg">
+        <div class="card-header">
+          <div class="card-title">Tools Pages</div>
+        </div>
+        <div class="flex flex-gap-sm" style="flex-wrap:wrap;">
+          <a href="/tools-skills.html" class="btn btn-secondary">Skills</a>
+          <a href="/tools-mcp.html" class="btn btn-secondary">MCP</a>
+          <a href="/tools-capabilities.html" class="btn btn-secondary">Workflows</a>
+          <a href="/tools-enterprise.html" class="btn btn-secondary">Enterprise</a>
+          <a href="/tools-audit-backup.html" class="btn btn-secondary">Audit</a>
+          <a href="/tools-storage.html" class="btn btn-secondary">Storage</a>
+          <a href="/tools-media-diff.html" class="btn btn-secondary">Media & Diff</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/lux-core.js"></script>
+</body>
+</html>

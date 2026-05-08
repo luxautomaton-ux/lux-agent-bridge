@@ -1,0 +1,64 @@
+[
+  {
+    "id": "13b4d9c8-4be4-4218-9be6-97b19d5b361d",
+    "name": "Filesystem MCP",
+    "type": "local",
+    "command": "node",
+    "args": [
+      "-v"
+    ],
+    "envRequired": [],
+    "enabled": true,
+    "createdAt": "2026-05-08T05:57:10.290Z"
+  },
+  {
+    "id": "69b9f3f6-b83f-47d3-b2ee-6d6244e8b0bb",
+    "name": "GitHub MCP",
+    "type": "remote",
+    "command": null,
+    "args": [],
+    "envRequired": [
+      "GITHUB_TOKEN"
+    ],
+    "enabled": false,
+    "createdAt": "2026-05-08T05:57:10.290Z"
+  },
+  {
+    "id": "de5944d5-112f-4fa4-b499-3eecd3e239c8",
+    "name": "Supabase MCP",
+    "type": "remote",
+    "command": null,
+    "args": [],
+    "envRequired": [
+      "SUPABASE_URL",
+      "SUPABASE_SERVICE_ROLE_KEY"
+    ],
+    "enabled": false,
+    "createdAt": "2026-05-08T05:57:10.290Z"
+  },
+  {
+    "id": "6aeaac66-755a-47a9-9ea8-cb6ec673ce79",
+    "name": "Google Workspace MCP",
+    "type": "remote",
+    "command": null,
+    "args": [],
+    "envRequired": [
+      "GOOGLE_CLIENT_ID",
+      "GOOGLE_CLIENT_SECRET"
+    ],
+    "enabled": false,
+    "createdAt": "2026-05-08T05:57:10.290Z"
+  },
+  {
+    "id": "e300ba58-fc20-4679-9765-920cb553655f",
+    "name": "Playwright Browser MCP",
+    "type": "local",
+    "command": "node",
+    "args": [
+      "-v"
+    ],
+    "envRequired": [],
+    "enabled": true,
+    "createdAt": "2026-05-08T05:57:10.290Z"
+  }
+]

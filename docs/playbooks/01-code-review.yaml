@@ -1,0 +1,133 @@
+# Code Review Playbook
+# Automated code review with linting and security scanning
+
+name: Code Review Pipeline
+description: Comprehensive code review with linting, analysis, and security scan
+version: 1.0
+category: quality
+icon: 🔍
+
+parameters:
+  projectPath:
+    type: string
+    required: true
+    description: Path to the project to review
+  
+  includeSecurity:
+    type: boolean
+    default: true
+    description: Include security vulnerability scanning
+  
+  includeTests:
+    type: boolean
+    default: true
+    description: Check test coverage
+  
+  maxIssues:
+    type: number
+    default: 50
+    description: Maximum issues to report
+
+steps:
+  # Step 1: Lint Codebase
+  - id: lint
+    description: Run linters on the entire codebase
+    requires: []
+    gate: None
+    inline-prompt: |
+      Run ESLint, Prettier, and other linters on the project at ${projectPath}.
+      Report all linting errors and warnings.
+    output: lint_report
+    validation:
+      script: test -d ${projectPath}
+      error: "Project path does not exist"
+
+  # Step 2: Code Analysis
+  - id: analyze
+    description: Analyze code complexity and quality
+    requires: [lint]
+    gate: None
+    inline-prompt: |
+      Analyze the codebase for:
+      - Cyclomatic complexity
+      - Code duplication
+      - Unused variables/functions
+      - Missing documentation
+      
+      Use tools like complexity-report, cloc, or custom analysis.
+    output: analysis_report
+
+  # Step 3: Security Scan (Conditional)
+  - id: security-scan
+    description: Scan for security vulnerabilities
+    requires: [analyze]
+    gate: None
+    condition: ${includeSecurity} == true
+    inline-prompt: |
+      Run security scanning tools:
+      - npm audit
+      - snyk
+      - retire.js
+      
+      Report all vulnerabilities with severity levels.
+    output: security_report
+
+  # Step 4: Test Coverage Check (Conditional)
+  - id: test-coverage
+    description: Check test coverage
+    requires: [analyze]
+    gate: None
+    condition: ${includeTests} == true
+    inline-prompt: |
+      Run test suite and generate coverage report.
+      Calculate coverage percentage for:
+      - Statements
+      - Branches
+      - Functions
+      - Lines
+    output: coverage_report
+
+  # Step 5: Human Review Gate
+  - id: review
+    description: Human review of all findings
+    requires: [security-scan, test-coverage]
+    gate: Review
+    inline-prompt: |
+      Present a summary of all findings:
+      
+      ## Lint Results
+      ${lint_report.summary}
+      
+      ## Code Analysis
+      ${analysis_report.summary}
+      
+      ## Security Issues (${includeSecurity})
+      ${security_report.summary}
+      
+      ## Test Coverage (${includeTests})
+      ${coverage_report.summary}
+      
+      Provide an overall assessment and recommended actions.
+    output: review_summary
+
+  # Step 6: Generate Report
+  - id: generate-report
+    description: Generate final review report
+    requires: [review]
+    gate: None
+    inline-prompt: |
+      Generate a comprehensive markdown report combining all findings.
+      Format with:
+      - Executive Summary
+      - Issues by Severity (Critical, High, Medium, Low)
+      - Recommendations
+      - Action Items
+    output: final_report
+    file: ${projectPath}/REVIEW-REPORT.md
+
+# Execution Settings
+settings:
+  allow-destructive: false
+  timeout: 600
+  retry-failed: true
+  max-retries: 2

@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lux AI Studio - Your Private AI Command Center</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-dark: #050507;
+      --bg-elevated: #0c0c10;
+      --bg-surface: #101014;
+      --bg-card: rgba(16, 16, 20, 0.7);
+      --bg-glass: rgba(255, 255, 255, 0.03);
+      --accent-cyan: #00d4ff;
+      --accent-blue: #4f46e5;
+      --accent-purple: #7c3aed;
+      --accent-pink: #ec4899;
+      --accent-gradient: linear-gradient(135deg, #00d4ff 0%, #4f46e5 50%, #7c3aed 100%);
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(0, 212, 255, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Background Effects */
+    .bg-effects {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .bg-grid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 212, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, black 70%, transparent 100%);
+    }
+    .bg-gradient {
+      position: absolute;
+      width: 100%;
+      height: 80%;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse 50% 50% at 20% 40%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 50% at 80% 30%, rgba(124, 58, 237, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 60% at 50% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
+    }
+    .glow-orb {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.3;
+    }
+    .glow-orb.cyan { background: var(--accent-cyan); top: -200px; left: -100px; }
+    .glow-orb.purple { background: var(--accent-purple); top: -100px; right: -200px; }
+
+    /* Typography */
+    .display-text {
+      font-size: clamp(48px, 7vw, 80px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+    .heading-1 { font-size: clamp(32px, 5vw, 56px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+    .heading-2 { font-size: clamp(24px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.02em; }
+    .heading-3 { font-size: 24px; font-weight: 600; }
+    .text-lg { font-size: 20px; font-weight: 400; line-height: 1.7; }
+    .text-md { font-size: 16px; line-height: 1.7; }
+    .text-sm { font-size: 14px; }
+    .text-muted { color: var(--text-secondary); }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(5, 5, 7, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+      background: #0b0d16;
+    }
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .logo-text h1 {
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .logo-text span {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: block;
+    }
+    .nav-header {
+      display: flex;
+      gap: 32px;
+    }
+    .nav-header a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-header a:hover { color: var(--accent-cyan); }
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: white;
+      box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 35px rgba(0, 212, 255, 0.5);
+    }
+    .btn-secondary {
+      background: var(--bg-glass);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(10px);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent-cyan);
+      background: rgba(0, 212, 255, 0.1);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+    }
+    .btn-ghost:hover { color: var(--accent-cyan); }
+    .btn-lg { padding: 16px 32px; font-size: 16px; border-radius: 12px; }
+
+    /* Hero Section */
+    .hero {
+      padding: 180px 0 120px;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(180deg, rgba(5, 5, 7, 0.78) 0%, rgba(5, 5, 7, 0.9) 100%), url('/photos/b_make_a_wallpaper_bac.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+      opacity: 0.9;
+    }
+    .hero-badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      backdrop-filter: blur(10px);
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--success);
+    }
+    .hero h1 {
+      margin-bottom: 24px;
+      background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero h1 span {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 22px;
+      color: var(--text-secondary);
+      max-width: 720px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+
+    /* Dashboard Preview */
+    .dashboard-preview {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .dashboard-mockup {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 
+        0 0 0 1px var(--border-subtle),
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 100px rgba(0, 212, 255, 0.1);
+    }
+    .dashboard-header {
+      background: var(--bg-elevated);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .dashboard-tabs {
+      display: flex;
+      gap: 8px;
+    }
+    .dashboard-tab {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dashboard-tab.active {
+      background: var(--bg-glass);
+      color: var(--text-primary);
+    }
+    .dashboard-status {
+      display: flex;
+      gap: 20px;
+    }
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 10px var(--success);
+    }
+    .dashboard-content {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+    .dashboard-main {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .stat-box {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .stat-box:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-2px);
+    }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .mission-panel {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .mission-input {
+      width: 100%;
+      padding: 16px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 14px;
+      resize: none;
+      min-height: 80px;
+      margin-bottom: 16px;
+    }
+    .mission-input:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+    }
+    .mission-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .mission-btn {
+      padding: 10px 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mission-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+    .dashboard-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .sidebar-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .sidebar-title {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+    .terminal-log {
+      background: var(--bg-dark);
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+    .log-line {
+      color: var(--text-muted);
+    }
+    .log-line .time { color: var(--accent-cyan); }
+    .log-line .msg { color: var(--text-secondary); }
+    .log-line.success .msg { color: var(--success); }
+    .agent-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .agent-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-dark);
+      border-radius: 10px;
+    }
+    .agent-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .agent-info { flex: 1; }
+    .agent-name { font-size: 13px; font-weight: 600; }
+    .agent-role { font-size: 11px; color: var(--text-muted); }
+    .agent-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .action-btn {
+      width: 100%;
+      justify-content: center;
+      padding: 12px;
+    }
+    .action-btn.danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* Sections */
+    section {
+      padding: 120px 0;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+    .section-header h2 {
+      margin-bottom: 20px;
+    }
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 18px;
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px;
+      transition: all 0.3s;
+    }
+    .feature-card:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-4px);
+    }
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--accent-gradient);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 24px;
+    }
+    .feature-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Use Cases */
+    .use-cases-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+    .use-case-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .use-case-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-3px);
+    }
+    .use-case-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .use-case-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Comparison */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .comparison-card {
+      padding: 40px;
+      border-radius: 20px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+    }
+    .comparison-card.before { opacity: 0.6; }
+    .comparison-card.after { border-color: var(--accent-cyan); }
+    .comparison-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+    .comparison-list {
+      list-style: none;
+    }
+    .comparison-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 15px;
+    }
+    .comparison-list li:last-child { border-bottom: none; }
+    .comparison-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .comparison-card.after .comparison-icon {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+    }
+    .comparison-card.before .comparison-icon {
+      background: rgba(113, 113, 122, 0.2);
+      color: var(--text-muted);
+    }
+
+    /* Architecture */
+    .architecture-diagram {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 50px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .arch-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    .arch-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px 40px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.3s;
+    }
+    .arch-box:hover {
+      border-color: var(--accent-cyan);
+      transform: scale(1.02);
+    }
+    .arch-box.highlight {
+      background: var(--accent-gradient);
+      border: none;
+    }
+    .arch-arrow {
+      color: var(--text-muted);
+      font-size: 20px;
+    }
+    .arch-sub {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .arch-sub .arch-box {
+      padding: 14px 24px;
+      font-size: 13px;
+    }
+
+    /* Agents */
+    .agents-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .agent-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 32px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .agent-card:hover {
+      border-color: var(--border-glow);
+    }
+    .agent-card-avatar {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      background: var(--bg-elevated);
+      border: 2px solid var(--border-subtle);
+    }
+    .agent-card h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    .agent-card .role {
+      font-size: 13px;
+      color: var(--accent-cyan);
+      margin-bottom: 16px;
+    }
+    .agent-card p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    /* Portable Section */
+    .portable-section {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .portable-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .portable-text h2 {
+      margin-bottom: 24px;
+    }
+    .portable-text p {
+      color: var(--text-secondary);
+      font-size: 17px;
+      margin-bottom: 32px;
+    }
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 15px;
+    }
+    .check-icon {
+      width: 24px;
+      height: 24px;
+      background: rgba(16, 185, 129, 0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--success);
+    }
+    .portable-visual {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+    }
+    .usb-icon {
+      font-size: 80px;
+      margin-bottom: 24px;
+    }
+
+    /* Feature List */
+    .feature-list-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .feature-list-item {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .feature-list-item:hover {
+      border-color: var(--accent-cyan);
+    }
+    .feature-list-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+    .feature-list-item h4 {
+      font-size: 14px;
+    }
+
+    /* Visual Gallery */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr;
+      gap: 18px;
+    }
+    .visual-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--border-subtle);
+      min-height: 220px;
+      background: var(--bg-elevated);
+    }
+    .visual-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.1);
+      transform: scale(1.01);
+      transition: transform 0.35s ease;
+    }
+    .visual-card:hover img {
+      transform: scale(1.06);
+    }
+    .visual-overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 14px;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.82) 100%);
+      font-size: 13px;
+      color: #d4d4d8;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .cta-section h2 {
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      color: var(--text-secondary);
+      font-size: 18px;
+      margin-bottom: 40px;
+    }
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 60px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+    .footer-brand img {
+      width: min(360px, 84vw);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 0 18px rgba(0, 212, 255, 0.15));
+    }
+    .footer-text {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .footer-links a:hover { color: var(--accent-cyan); }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .use-cases-grid { grid-template-columns: repeat(3, 1fr); }
+      .agents-grid { grid-template-columns: repeat(2, 1fr); }
+      .feature-list-grid { grid-template-columns: repeat(3, 1fr); }
+      .portable-content { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+      .nav-header { display: none; }
+      .hero h1 { font-size: 40px; }
+      .hero-subtitle { font-size: 18px; }
+      .hero-actions { flex-direction: column; }
+      .features-grid { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-content { grid-template-columns: 1fr; }
+      .use-cases-grid { grid-template-columns: repeat(2, 1fr); }
+      .comparison-grid { grid-template-columns: 1fr; }
+      .agents-grid { grid-template-columns: 1fr; }
+      .feature-list-grid { grid-template-columns: repeat(2, 1fr); }
+      .visual-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-effects">
+    <div class="bg-grid"></div>
+    <div class="bg-gradient"></div>
+    <div class="glow-orb cyan"></div>
+    <div class="glow-orb purple"></div>
+  </div>
+
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-icon"><img src="/photos/Lux%20Agent.PNG" alt="Lux Agent logo"></div>
+          <div class="logo-text">
+            <h1>Lux AI Studio</h1>
+            <span>by Lux Automaton</span>
+          </div>
+        </div>
+        <nav class="nav-header">
+          <a href="#features">Features</a>
+          <a href="#agents">Agents</a>
+          <a href="#which-agent">Compare</a>
+          <a href="#architecture">Architecture</a>
+          <a href="#portable">Portable</a>
+          <a href="/docs/GUIDE.html">Docs</a>
+        </nav>
+        <div class="header-actions">
+          <a href="/lux-settings.html" class="btn btn-ghost">Setup</a>
+          <a href="/lux-command-center.html" class="btn btn-primary">Launch Studio</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge-group">
+        <span class="hero-badge">USB Portable</span>
+        <span class="hero-badge">Local-First</span>
+        <span class="hero-badge">No Terminal Required</span>
+        <span class="hero-badge">Approval Gates</span>
+        <span class="hero-badge">Playbooks + MCP</span>
+        <span class="hero-badge">Private Memory</span>
+      </div>
+      
+      <h1 class="display-text">
+        AI Shouldn't Have a Meter.<br>
+        <span>Or Need a Terminal.</span>
+      </h1>
+      
+      <p class="hero-subtitle">
+        Lux AI Studio is your private, portable AI agent command center — built to run agents, workflows, approvals, memory, playbooks, and project automation from one Lux-branded dashboard. Your machine. Your agents. Your command center.
+      </p>
+      
+      <div class="hero-actions">
+        <a href="/lux-command-center.html" class="btn btn-primary btn-lg">🚀 Launch Lux AI Studio</a>
+        <a href="/USB-SETUP.html" class="btn btn-secondary btn-lg">📦 View Portable Setup</a>
+      </div>
+
+      <div class="dashboard-preview">
+        <div class="dashboard-mockup">
+          <div class="dashboard-header">
+            <div class="dashboard-tabs">
+              <button class="dashboard-tab active">Command Center</button>
+              <button class="dashboard-tab">Missions</button>
+              <button class="dashboard-tab">Agents</button>
+              <button class="dashboard-tab">Playbooks</button>
+            </div>
+            <div class="dashboard-status">
+              <div class="status-indicator">
+                <span class="status-dot"></span>
+                Online
+              </div>
+              <div class="status-indicator">USB Mode</div>
+              <div class="status-indicator">Protected</div>
+            </div>
+          </div>
+          <div class="dashboard-content">
+            <div class="dashboard-main">
+              <div class="stat-grid">
+                <div class="stat-box">
+                  <div class="stat-value">7</div>
+                  <div class="stat-label">Agents Online</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-value">5</div>
+                  <div class="stat-label">Providers</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-value">12</div>
+                  <div class="stat-label">Skills</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-value">8</div>
+                  <div class="stat-label">Workflows</div>
+                </div>
+              </div>
+              <div class="mission-panel">
+                <textarea class="mission-input" placeholder="What do you want your agents to accomplish? e.g., Refactor app and prepare client demo..."></textarea>
+                <div class="mission-buttons">
+                  <button class="mission-btn">🚀 Build App</button>
+                  <button class="mission-btn">🔧 Fix Bug</button>
+                  <button class="mission-btn">🔍 Audit Code</button>
+                  <button class="mission-btn">🎯 Client Demo</button>
+                  <button class="mission-btn">☁️ Deploy</button>
+                  <button class="mission-btn">📚 Docs</button>
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-sidebar">
+              <div class="sidebar-card">
+                <div class="sidebar-title">Live Terminal</div>
+                <div class="terminal-log">
+                  <div class="log-line"><span class="time">[10:42]</span> <span class="msg success">Lux AI Studio started</span></div>
+                  <div class="log-line"><span class="time">[10:43]</span> <span class="msg">USB portable mode active</span></div>
+                  <div class="log-line"><span class="time">[10:44]</span> <span class="msg">Lux Agent workflow available</span></div>
+                  <div class="log-line"><span class="time">[10:45]</span> <span class="msg">Super Agent ready</span></div>
+                  <div class="log-line"><span class="time">[10:46]</span> <span class="msg">Waiting for mission...</span></div>
+                </div>
+              </div>
+              <div class="sidebar-card">
+                <div class="sidebar-title">Agent Council</div>
+                <div class="agent-list">
+                  <div class="agent-item">
+                    <div class="agent-avatar">⚡</div>
+                    <div class="agent-info">
+                      <div class="agent-name">LANA</div>
+                      <div class="agent-role">Executive</div>
+                    </div>
+                    <div class="agent-status"></div>
+                  </div>
+                  <div class="agent-item">
+                    <div class="agent-avatar">🤖</div>
+                    <div class="agent-info">
+                      <div class="agent-name">Autonomous</div>
+                      <div class="agent-role">Unified Agent</div>
+                    </div>
+                    <div class="agent-status"></div>
+                  </div>
+                  <div class="agent-item">
+                    <div class="agent-avatar">🔮</div>
+                    <div class="agent-info">
+                      <div class="agent-name">Hermes</div>
+                      <div class="agent-role">Research</div>
+                    </div>
+                    <div class="agent-status"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="action-buttons">
+                <button class="btn btn-primary action-btn">▶️ Start Agent</button>
+                <button class="btn btn-secondary action-btn">✓ Approve Patch</button>
+                <button class="btn btn-secondary action-btn">📜 View Logs</button>
+                <button class="btn danger action-btn">⏹️ Emergency Stop</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="heading-1">Stop Renting Intelligence.<br>Start Operating It.</h2>
+        <p>Most AI tools meter your usage, lock your workflows in the cloud, and make you depend on someone else's platform. Lux AI Studio is built for a different future: your agents, your files, your approvals, your memory, your machine.</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">💻</div>
+          <h3>No-Terminal Control</h3>
+          <p>Start agents, launch tasks, run playbooks, approve changes, and review logs from a visual command center instead of typing commands all day.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Mission Mode</h3>
+          <p>Type a goal once. Lux AI Studio turns it into a plan, assigns the right agent, scores the risk, and waits for your approval.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Local-First Privacy</h3>
+          <p>Keep sensitive project context, memory, logs, and task history close to your own environment. Your data never leaves your machine.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3>Portable USB Mode</h3>
+          <p>Run from USB, keep your playbooks and memory with you, and launch your agent workspace from almost anywhere.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📜</div>
+          <h3>Playbook Automation</h3>
+          <p>Run reusable workflows for code review, full-stack builds, research, security audits, CI/CD, documentation, and deployments.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✓</div>
+          <h3>Approval Gates</h3>
+          <p>Review file patches, shell commands, browser actions, and deployments before your agents take action.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>MCP + Tools</h3>
+          <p>Connect file tools, code tools, browser tools, MCP servers, project memory, and provider routing into one workflow layer.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3>Persistent Memory</h3>
+          <p>Store session memory, founder context, project notes, agent instructions, and export/import memory when needed.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Enterprise Dashboard</h3>
+          <p>Track agents, providers, tasks, approvals, workflows, memory, backups, and system health from one beautiful interface.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="usecases" style="background: var(--bg-surface);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="heading-2">Built for Builders, Founders, and Operators</h2>
+        <p>From coding to research to client demos, Lux AI Studio handles it all.</p>
+      </div>
+      <div class="use-cases-grid">
+        <div class="use-case-card">
+          <div class="use-case-icon">🚀</div>
+          <h4>Build a landing page</h4>
+        </div>
+        <div class="use-case-card">
+          <div class="use-case-icon">🔧</div>
+          <h4>Fix a broken app</h4>
+        </div>
+        <div class="use-case-card">
+          <div class="use-case-icon">🔍</div>
+          <h4>Audit code quality</h4>
+        </div>
+        <div class="use-case-card">
+          <div class="use-case-icon">📄</div>
+          <h4>Generate client docs</h4>
+        </div>
+        <div class="use-case-card">
+          <div class="use-case-icon">📊</div>
+          <h4>Research competitors</h4>
+        </div>
+        <div class="use-case-card">
+          <div class="use-case-icon">☁️</div>
+          <h4>Deploy to Cloud Run</h4>
+        </div>
+        <div class="use-case-card">
+          <div class="use-case-icon">🗄️</div>
+          <h4>Create Supabase backend</h4>
+        </div>
+        <div class="use-case-card">
+          <div class="use-case-icon">⚙️</div>
+          <h4>Run business workflows</h4>
+        </div>
+        <div class="use-case-card">
+          <div class="use-case-icon">📱</div>
+          <h4>Manage customer apps</h4>
+        </div>
+        <div class="use-case-card">
+          <div class="use-case-icon">🎯</div>
+          <h4>Prepare client demos</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="visuals">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="heading-2">See Your Agent OS in Action</h2>
+        <p>Real screens and brand visuals from your Lux environment, integrated directly into the command experience.</p>
+      </div>
+      <div class="visual-grid">
+        <div class="visual-card">
+          <img src="/photos/1.jpg" alt="Lux visual one">
+          <div class="visual-overlay">Photo 1: Lux environment visual</div>
+        </div>
+        <div class="visual-card">
+          <img src="/photos/2.png" alt="Lux visual two">
+          <div class="visual-overlay">Photo 2: Mission and workflow context</div>
+        </div>
+        <div class="visual-card">
+          <img src="/photos/3.jpg" alt="Lux visual three">
+          <div class="visual-overlay">Photo 3: Brand and command center execution</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="comparison">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="heading-2">From Terminal Commands to Mission Control</h2>
+      </div>
+      <div class="comparison-grid">
+        <div class="comparison-card before">
+          <div class="comparison-label">Before</div>
+          <ul class="comparison-list">
+            <li>
+              <span class="comparison-icon">⌨️</span>
+              Open terminal
+            </li>
+            <li>
+              <span class="comparison-icon">🤔</span>
+              Remember commands
+            </li>
+            <li>
+              <span class="comparison-icon">▶️</span>
+              Start agent manually
+            </li>
+            <li>
+              <span class="comparison-icon">📜</span>
+              Watch raw logs
+            </li>
+            <li>
+              <span class="comparison-icon">📋</span>
+              Copy outputs
+            </li>
+            <li>
+              <span class="comparison-icon">✓</span>
+              Approve changes manually
+            </li>
+            <li>
+              <span class="comparison-icon">🧠</span>
+              Track memory yourself
+            </li>
+          </ul>
+        </div>
+        <div class="comparison-card after">
+          <div class="comparison-label">After</div>
+          <ul class="comparison-list">
+            <li>
+              <span class="comparison-icon">🚀</span>
+              Click Launch Mission
+            </li>
+            <li>
+              <span class="comparison-icon">📁</span>
+              Pick project
+            </li>
+            <li>
+              <span class="comparison-icon">🤖</span>
+              Choose agent
+            </li>
+            <li>
+              <span class="comparison-icon">📋</span>
+              Review plan
+            </li>
+            <li>
+              <span class="comparison-icon">✓</span>
+              Approve actions
+            </li>
+            <li>
+              <span class="comparison-icon">📈</span>
+              Watch live logs
+            </li>
+            <li>
+              <span class="comparison-icon">📤</span>
+              Export final report
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="architecture">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="heading-2">Lux Agent Architecture</h2>
+      </div>
+      <div class="architecture-diagram">
+        <div class="arch-flow">
+          <div class="arch-box">User</div>
+          <span class="arch-arrow">↓</span>
+          <div class="arch-box highlight">Lux AI Studio Interface</div>
+          <span class="arch-arrow">↓</span>
+          <div class="arch-box">Lux Agent Bridge</div>
+          <span class="arch-arrow">↓</span>
+          <div class="arch-box">Mission Runtime</div>
+          <span class="arch-arrow">↓</span>
+          <div class="arch-sub">
+            <div class="arch-box">Agent Council</div>
+            <div class="arch-box">Lux Agent Workflows</div>
+            <div class="arch-box">Super Agent</div>
+          </div>
+          <span class="arch-arrow">↓</span>
+          <div class="arch-sub">
+            <div class="arch-box">MCP Tools</div>
+            <div class="arch-box">Local Models</div>
+            <div class="arch-box">Project Files</div>
+          </div>
+          <span class="arch-arrow">↓</span>
+          <div class="arch-box">Approvals / Logs / Memory / Backups</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="agents" style="background: var(--bg-surface);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="heading-2">Agent Council</h2>
+        <p>Specialized AI agents working together under Lux rules. Choose the right agent for your task.</p>
+      </div>
+      <div class="agents-grid">
+        <div class="agent-card">
+          <div class="agent-card-avatar">⚡</div>
+          <h3>Lux AI (Native)</h3>
+          <div class="role">Like Cursor + GitHub Copilot</div>
+          <p>Your primary coding agent with Antigravity and Codex tools. Best for writing code, building apps, fixing bugs.</p>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-avatar">🤖</div>
+          <h3>Super Agent</h3>
+          <div class="role">Like ChatGPT + Manus</div>
+          <p>EASY MODE - Combines Hermes (research) + OpenClaw (automation). Best for research, create agents, deploy swarms.</p>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-avatar">🔮</div>
+          <h3>Hermes</h3>
+          <div class="role">Like Perplexity + Google AI</div>
+          <p>Research & strategy specialist. Now inside Super Agent for easier use. Deep research, competitor analysis.</p>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-avatar">🦀</div>
+          <h3>OpenClaw</h3>
+          <div class="role">Like Raycast + Zapier</div>
+          <p>Automation & deployment expert. Now inside Super Agent. Scripts, deployments, CI/CD, workflows.</p>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-avatar">💻</div>
+          <h3>Lux Agent</h3>
+          <div class="role">Like Replit + VS Code</div>
+          <p>Code development specialist. Complex coding, refactoring, writing tests, technical implementation.</p>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-avatar">🛡️</div>
+          <h3>Security Guard</h3>
+          <div class="role">Like Snyk + Dependabot</div>
+          <p>Reviews risky actions, scans vulnerabilities, manages approvals, and protects the system.</p>
+        </div>
+        <div class="agent-card">
+          <div class="agent-card-avatar">⚡</div>
+          <h3>LANA</h3>
+          <div class="role">Like Linear + Notion</div>
+          <p>Executive coordinator. Plans missions, routes work, manages business context, coordinates agents.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="which-agent">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="heading-2">Which Agent Should I Use?</h2>
+        <p>A quick reference to pick the right agent for your task.</p>
+      </div>
+      <style>
+        .agent-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+          font-size: 14px;
+        }
+        .agent-table th {
+          background: var(--bg-elevated);
+          padding: 16px;
+          text-align: left;
+          border-bottom: 2px solid var(--accent-cyan);
+          font-weight: 600;
+          color: var(--text-primary);
+        }
+        .agent-table td {
+          padding: 14px 16px;
+          border-bottom: 1px solid var(--border-subtle);
+          color: var(--text-secondary);
+        }
+        .agent-table tr:hover td {
+          background: var(--bg-glass);
+        }
+        .agent-table .agent-name {
+          font-weight: 600;
+          color: var(--text-primary);
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .agent-table .agent-icon {
+          width: 28px;
+          height: 28px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+        }
+        .agent-table .best-for {
+          color: var(--accent-cyan);
+          font-size: 13px;
+        }
+        .agent-table .easy-badge {
+          display: inline-block;
+          background: rgba(16, 185, 129, 0.15);
+          color: var(--success);
+          padding: 2px 8px;
+          border-radius: 4px;
+          font-size: 11px;
+          font-weight: 600;
+          margin-left: 8px;
+        }
+      </style>
+      <table class="agent-table">
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>Like...</th>
+            <th>Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="agent-name"><span class="agent-icon" style="background: linear-gradient(135deg, #00d4ff, #4f46e5);">⚡</span>Lux AI (Native)</div></td>
+            <td>Cursor + GitHub Copilot</td>
+            <td class="best-for">Write code, build apps, fix bugs, debug, code review</td>
+          </tr>
+          <tr>
+            <td><div class="agent-name"><span class="agent-icon" style="background: linear-gradient(135deg, #7b2cff, #ec4899);">🤖</span>Super Agent<span class="easy-badge">EASY</span></div></td>
+            <td>ChatGPT + Manus combined</td>
+            <td class="best-for">Research, create agents, build skills, deploy swarms, automation, CI/CD, docs, demos</td>
+          </tr>
+          <tr>
+            <td><div class="agent-name"><span class="agent-icon" style="background: linear-gradient(135deg, #ff00ff, #7b2cff);">🔮</span>Hermes</div></td>
+            <td>Perplexity + Google AI</td>
+            <td class="best-for">Deep research, competitor analysis, strategic planning, market research</td>
+          </tr>
+          <tr>
+            <td><div class="agent-name"><span class="agent-icon" style="background: linear-gradient(135deg, #ff6b35, #f59e0b);">🦀</span>OpenClaw</div></td>
+            <td>Raycast + Zapier</td>
+            <td class="best-for">Scripts, deployments, CI/CD pipelines, workflow automation</td>
+          </tr>
+          <tr>
+            <td><div class="agent-name"><span class="agent-icon" style="background: linear-gradient(135deg, #00ff88, #10b981);">💻</span>Lux Agent</div></td>
+            <td>Replit + VS Code</td>
+            <td class="best-for">Complex coding, refactoring, writing tests, technical docs, deep code analysis</td>
+          </tr>
+          <tr>
+            <td><div class="agent-name"><span class="agent-icon" style="background: linear-gradient(135deg, #ffaa00, #f59e0b);">🛡️</span>Security Guard</div></td>
+            <td>Snyk + Dependabot</td>
+            <td class="best-for">Security audits, vulnerability scans, approve file changes, review shell commands</td>
+          </tr>
+          <tr>
+            <td><div class="agent-name"><span class="agent-icon" style="background: linear-gradient(135deg, #00d4ff, #4f46e5);">⚡</span>LANA</div></td>
+            <td>Linear + Notion</td>
+            <td class="best-for">Mission planning, agent coordination, business logic, workflow orchestration</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="portable" class="portable-section">
+    <div class="container">
+      <div class="portable-content">
+        <div class="portable-text">
+          <h2 class="heading-2">Portable Mode</h2>
+          <p>Copy Lux AI Studio to a USB drive, launch it locally, and keep your logs, memory, tasks, backups, and playbooks with you. No registry edits. No system lock-in. No complicated setup.</p>
+          <div class="checklist">
+            <div class="check-item">
+              <span class="check-icon">✓</span>
+              Runs on localhost
+            </div>
+            <div class="check-item">
+              <span class="check-icon">✓</span>
+              USB portable setup
+            </div>
+            <div class="check-item">
+              <span class="check-icon">✓</span>
+              Data stays with project
+            </div>
+            <div class="check-item">
+              <span class="check-icon">✓</span>
+              Memory export/import
+            </div>
+            <div class="check-item">
+              <span class="check-icon">✓</span>
+              Backup and restore
+            </div>
+            <div class="check-item">
+              <span class="check-icon">✓</span>
+              Approval-based actions
+            </div>
+            <div class="check-item">
+              <span class="check-icon">✓</span>
+              Works on Mac, Windows, Linux
+            </div>
+          </div>
+        </div>
+        <div class="portable-visual">
+          <div class="usb-icon">💾</div>
+          <h3 style="margin-bottom: 16px;">Your Agents, Your Drive</h3>
+          <p style="color: var(--text-secondary);">Take your entire AI workspace anywhere.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2 class="heading-2">Command Center Features</h2>
+      </div>
+      <div class="feature-list-grid">
+        <div class="feature-list-item">
+          <div class="feature-list-icon">🎛️</div>
+          <h4>Agent Console</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">🚀</div>
+          <h4>Mission Mode</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">📁</div>
+          <h4>Project Workspace</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">📋</div>
+          <h4>Task Queue</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">✓</div>
+          <h4>Approval Queue</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">📜</div>
+          <h4>Live Logs</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">📋</div>
+          <h4>Playbooks</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">🔗</div>
+          <h4>MCP Manager</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">🔌</div>
+          <h4>Provider Routing</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">🧠</div>
+          <h4>Memory Manager</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">💾</div>
+          <h4>Backup/Restore</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">📊</div>
+          <h4>Audit Trail</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">📈</div>
+          <h4>Enterprise Dashboard</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">📦</div>
+          <h4>USB Launcher</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">⏹️</div>
+          <h4>Emergency Stop</h4>
+        </div>
+        <div class="feature-list-item">
+          <div class="feature-list-icon">☁️</div>
+          <h4>Deployment Panel</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="heading-1">Own the Command Center.<br>Control the Agents. Build Without the Meter.</h2>
+      <p>Lux AI Studio turns local agent infrastructure into a visual operating system for your business.</p>
+      <div class="cta-buttons">
+        <a href="/lux-command-center.html" class="btn btn-primary btn-lg">🚀 Launch Lux AI Studio</a>
+        <a href="/docs/GUIDE.html" class="btn btn-secondary btn-lg">📖 Open Setup Guide</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-brand">
+        <img src="/photos/Lux%20Automaton.png" alt="Lux Automaton logo">
+      </div>
+      <div class="footer-links">
+        <a href="/lux-command-center.html">Command Center</a>
+        <a href="/lux-mission-mode.html">Mission Mode</a>
+        <a href="/lux-agent-console.html">Agents</a>
+        <a href="/docs/WHITEPAPER.html">Whitepaper</a>
+        <a href="/docs/GUIDE.html">Documentation</a>
+        <a href="/USB-SETUP.html">Portable Setup</a>
+      </div>
+      <p class="footer-text">Private AI systems. Portable agent infrastructure. Business operating systems.</p>
+    </div>
+  </footer>
+</body>
+</html>

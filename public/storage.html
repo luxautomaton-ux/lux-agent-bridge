@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lux Storage</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-left">
+        <p class="console-eyebrow">Storage + Memory</p>
+        <h1>Lux External Drive Control</h1>
+      </div>
+      <div class="actions">
+        <a href="/console.html" class="inline-link">Console</a>
+        <a href="/setup.html" class="inline-link">Setup</a>
+      </div>
+    </header>
+
+    <main class="layout" style="max-width: 1100px; margin: 0 auto;">
+      <section class="card">
+        <h2>Storage Status</h2>
+        <button id="refreshStorage">Refresh</button>
+        <pre id="storageOut" class="terminal"></pre>
+      </section>
+
+      <section class="card">
+        <h2>Update Storage Config</h2>
+        <div class="grid2">
+          <label>Mode
+            <select id="mode">
+              <option value="local">local</option>
+              <option value="external">external</option>
+            </select>
+          </label>
+          <label>DB Option
+            <select id="db">
+              <option value="json">json</option>
+              <option value="sqlite">sqlite</option>
+              <option value="hybrid">hybrid</option>
+            </select>
+          </label>
+        </div>
+        <label>External Drive Path <input id="ext" placeholder="/Volumes/MyDrive/lux" /></label>
+        <label>Memory Backup Path <input id="mem" placeholder="/Volumes/MyDrive/lux-memory" /></label>
+        <label>Performance
+          <select id="perf">
+            <option value="balanced">balanced</option>
+            <option value="speed">speed</option>
+            <option value="memory-safe">memory-safe</option>
+          </select>
+        </label>
+        <button id="saveStorage">Save</button>
+      </section>
+    </main>
+
+    <script>
+      function tokenHeaders() {
+        const token = localStorage.getItem("luxApiToken") || "";
+        const h = { "Content-Type": "application/json" };
+        if (token) h["x-lux-token"] = token;
+        return h;
+      }
+
+      async function refreshStorage() {
+        const out = document.getElementById("storageOut");
+        const res = await fetch("/api/storage/status", { headers: tokenHeaders(), cache: "no-store" });
+        const data = await res.json();
+        if (!res.ok) {
+          out.textContent = data.error || "failed";
+          return;
+        }
+        out.textContent = JSON.stringify(data, null, 2);
+        document.getElementById("mode").value = data.storage.mode || "local";
+        document.getElementById("db").value = data.storage.databaseOption || "json";
+        document.getElementById("ext").value = data.storage.externalDrivePath || "";
+        document.getElementById("mem").value = data.storage.memoryBackupPath || "";
+        document.getElementById("perf").value = data.storage.performanceProfile || "balanced";
+      }
+
+      async function saveStorage() {
+        const body = {
+          mode: document.getElementById("mode").value,
+          databaseOption: document.getElementById("db").value,
+          externalDrivePath: document.getElementById("ext").value.trim(),
+          memoryBackupPath: document.getElementById("mem").value.trim(),
+          performanceProfile: document.getElementById("perf").value
+        };
+        const res = await fetch("/api/storage/config", {
+          method: "POST",
+          headers: tokenHeaders(),
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          alert(data.error || "failed");
+          return;
+        }
+        alert("Saved storage configuration");
+        refreshStorage();
+      }
+
+      document.getElementById("refreshStorage").onclick = refreshStorage;
+      document.getElementById("saveStorage").onclick = saveStorage;
+      refreshStorage();
+    </script>
+  </body>
+</html>

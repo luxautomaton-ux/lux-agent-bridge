@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Storage</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
+    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
+    .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
+    .sidebar-logo img { height: 40px; width: auto; display: block; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav-section { margin-bottom: 16px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; padding: 0 12px; }
+    .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+    .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 8px var(--accent-primary); }
+    .main-content { padding: 32px 40px; overflow-y: auto; max-width: 1200px; margin: 0 auto; width: 100%; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+    .form-input, .form-select { width: 100%; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; color: var(--text-primary); font-size: 14px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--gradient-glow); color: var(--bg-deep); }
+    .status-info { padding: 16px; background: var(--bg-elevated); border-radius: 8px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title">Tools</div>
+          <a class="nav-link" href="/tools-audit-backup.html">◐ Audit & Backup</a>
+          <a class="nav-link active" href="/tools-storage.html">⛃ Storage</a>
+          <a class="nav-link" href="/tools-media-diff.html">◈ Media & Diff</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">System</div>
+          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
+    </aside>
+    <main class="main-content">
+      <div class="page-header"><h1>Storage & Memory</h1><p class="subtitle">Configure data storage and memory options</p></div>
+      <div class="card">
+        <div class="card-title">Storage Status</div>
+        <div id="status" class="status-info">Loading...</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Configuration</div>
+        <div class="form-group">
+          <label class="form-label">Storage Mode</label>
+          <select id="mode" class="form-select">
+            <option value="local">Local</option>
+            <option value="external">External Drive</option>
+            <option value="memory">In-Memory</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Path</label>
+          <input id="path" class="form-input" placeholder="/path/to/storage" />
+        </div>
+        <button id="apply" class="btn btn-primary">Apply Configuration</button>
+      </div>
+    </main>
+  </div>
+  <script src="/lux-core.js"></script>
+  <script>
+    async function load() { try { const s = await luxApi('/api/storage/status'); document.getElementById('status').innerHTML = `Used: ${s.used || 'N/A'} | Available: ${s.available || 'N/A'} | Mode: ${s.mode || 'local'}`; document.getElementById('mode').value = s.config?.mode || 'local'; document.getElementById('path').value = s.config?.path || ''; } catch (e) { document.getElementById('status').textContent = e.message; } }
+    document.getElementById('apply').onclick = async () => { await luxApi('/api/storage/config', { method: 'PUT', body: JSON.stringify({ mode: document.getElementById('mode').value, path: document.getElementById('path').value }) }); load(); alert('Configuration applied'); };
+    load();
+  </script>
+</body>
+</html>

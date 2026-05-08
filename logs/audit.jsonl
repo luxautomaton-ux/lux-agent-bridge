@@ -1,0 +1,28 @@
+{"id":"f7c8178c-471d-456c-8f87-488867a5e5a6","timestamp":"2026-05-08T05:57:10.294Z","eventType":"server_start","port":8787}
+{"id":"80424f19-35b8-416d-a011-c334055e5e30","timestamp":"2026-05-08T06:02:42.322Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"fe087391-d32b-453f-8e90-215aa4a0b221","timestamp":"2026-05-08T06:06:44.143Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"9c2ab4f0-5c1c-4328-a43d-bb1008dee9b7","timestamp":"2026-05-08T06:06:54.777Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"af84a60e-b767-431d-8ce2-d9955a9df8a0","timestamp":"2026-05-08T06:06:57.232Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"b883ac00-696d-48c5-87cb-45ca60f1fdcb","timestamp":"2026-05-08T06:06:58.365Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"307f37c6-6026-458c-8e24-4b8499c7b9fb","timestamp":"2026-05-08T06:16:49.551Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"09ed17a0-f5cf-44fc-8fcc-0da919af7e70","timestamp":"2026-05-08T06:16:50.958Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"0c163057-b6df-40ea-8d4f-e7bb8be9e97a","timestamp":"2026-05-08T06:16:51.358Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"25b81657-70fd-4d0c-8873-808d0ebe3ad4","timestamp":"2026-05-08T06:16:53.758Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"0d315fd2-1330-4900-8d5a-78144dd9d51c","timestamp":"2026-05-08T06:16:56.815Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"92e76ddd-15b0-4bba-8ed3-2ec7fe9106f6","timestamp":"2026-05-08T06:16:57.258Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"4507f7a9-8470-475c-a154-1bd585837555","timestamp":"2026-05-08T06:16:57.650Z","eventType":"server_error","message":"CORS blocked: origin not allowed"}
+{"id":"cab8cf69-37f3-4321-b71d-65916e1590bf","timestamp":"2026-05-08T07:10:04.179Z","eventType":"server_start","port":8787}
+{"id":"2fd21858-c116-4126-be95-b5c4d62d75af","timestamp":"2026-05-08T07:49:00.030Z","eventType":"server_start","port":8787}
+{"id":"e565a436-4bf5-4c23-ba66-9ec21a1ab580","timestamp":"2026-05-08T08:07:08.269Z","eventType":"server_start","port":8787}
+{"id":"c5276574-7997-47c0-b7c4-3dcacb11984d","timestamp":"2026-05-08T08:17:20.775Z","eventType":"server_start","port":8787}
+{"id":"f4cddfd3-ff7b-4909-8654-14ab57834130","timestamp":"2026-05-08T08:17:25.297Z","eventType":"report_generated","title":"Test Report","type":"analysis"}
+{"id":"442aae1c-6b9e-4380-8c3c-d9236b7f01c3","timestamp":"2026-05-08T08:20:35.037Z","eventType":"server_start","port":8787}
+{"id":"c5d8170f-6920-4e4b-b35c-f82fb7fd8eb9","timestamp":"2026-05-08T08:32:30.098Z","eventType":"server_start","port":8787}
+{"id":"63ac6253-4200-4eda-8df3-b23b632e2ee9","timestamp":"2026-05-08T08:32:35.278Z","eventType":"code_analyzed","language":"javascript","issues":2}
+{"id":"590b2964-ca2d-423f-998f-f827693e3db1","timestamp":"2026-05-08T08:40:09.459Z","eventType":"server_start","port":8787}
+{"id":"66b0337a-1a1f-41de-a0b5-ecc58408128b","timestamp":"2026-05-08T08:49:16.671Z","eventType":"server_start","port":8787}
+{"id":"cf9752d5-15dd-4e88-9eba-ebcb4661e91a","timestamp":"2026-05-08T09:12:17.876Z","eventType":"server_start","port":8787}
+{"id":"373de07f-b279-4c33-8738-62d84f76f9c5","timestamp":"2026-05-08T09:12:20.532Z","eventType":"mission_created","missionId":"mission-1778231540532","type":"build","riskLevel":"medium"}
+{"id":"4ab0f474-3794-42a5-8abf-da0ff865c42b","timestamp":"2026-05-08T09:12:24.333Z","eventType":"mission_approved","missionId":"mission-1778231540532"}
+{"id":"1a639b32-3ee5-486d-ba44-60b0dabe4cad","timestamp":"2026-05-08T17:08:45.891Z","eventType":"server_start","port":8787}
+{"id":"c0337ffa-4086-4a47-b923-0acc8fd4cfb8","timestamp":"2026-05-08T17:25:56.522Z","eventType":"server_start","port":8787}

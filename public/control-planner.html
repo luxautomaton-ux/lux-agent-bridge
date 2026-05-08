@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Planner</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
+    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
+    .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
+    .sidebar-logo img { height: 40px; width: auto; display: block; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav-section { margin-bottom: 16px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; padding: 0 12px; }
+    .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+    .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 8px var(--accent-primary); }
+    .main-content { padding: 32px 40px; overflow-y: auto; max-width: 1200px; margin: 0 auto; width: 100%; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .card-title { font-size: 16px; font-weight: 600; }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-info { background: rgba(94,179,255,0.15); color: var(--accent-info); }
+    .badge-success { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .form-input, .form-select, .form-textarea { width: 100%; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; color: var(--text-primary); font-size: 14px; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--accent-primary); }
+    .form-textarea { min-height: 120px; resize: vertical; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--gradient-glow); color: var(--bg-deep); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,212,170,0.3); }
+    .terminal { background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); white-space: pre-wrap; min-height: 200px; max-height: 400px; overflow-y: auto; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .text-muted { color: var(--text-muted); }
+    @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } .app-layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
+          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
+          <a class="nav-link active" href="/control-planner.html">◎ Planner</a>
+          <a class="nav-link" href="/control-runner.html">▶ Runner</a>
+          <a class="nav-link" href="/control-approvals.html">✓ Approvals</a>
+          <a class="nav-link" href="/control-runs.html">⏱ Runs</a>
+          <a class="nav-link" href="/control-logs.html">☰ Logs</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Tools</div>
+          <a class="nav-link" href="/tools-skills.html">⚡ Skills</a>
+          <a class="nav-link" href="/tools-mcp.html">🔗 MCP</a>
+          <a class="nav-link" href="/tools-capabilities.html">⊛ Workflows</a>
+          <a class="nav-link" href="/tools-enterprise.html">⚙ Enterprise</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">System</div>
+          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
+          <a class="nav-link" href="/">◈ Landing</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
+    </aside>
+    <main class="main-content">
+      <div class="page-header"><h1>Mission Planner</h1><p class="subtitle">Break down objectives into actionable steps</p></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Plan Objective</div></div>
+          <div class="form-group">
+            <label class="form-label">Instruction</label>
+            <textarea id="instruction" class="form-textarea" placeholder="What do you need to accomplish? Describe in detail..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Complexity</label>
+            <select id="complexity" class="form-select">
+              <option value="simple">Simple - Single task</option>
+              <option value="moderate">Moderate - Multiple steps</option>
+              <option value="complex">Complex - Multi-phase project</option>
+            </select>
+          </div>
+          <button id="generateBtn" class="btn btn-primary">Generate Plan</button>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Generated Plan</div><span class="badge badge-info" id="planStatus">Ready</span></div>
+          <pre id="planOutput" class="terminal">No plan generated yet. Enter an instruction and click Generate Plan.</pre>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/lux-core.js"></script>
+  <script>
+    document.getElementById('generateBtn').onclick = async () => {
+      const instruction = document.getElementById('instruction').value.trim();
+      if (!instruction) return;
+      document.getElementById('planStatus').textContent = 'Generating...';
+      document.getElementById('planOutput').textContent = 'Analyzing and generating plan...';
+      try {
+        const data = await luxApi('/api/mission/plan', { method: 'POST', body: JSON.stringify({ instruction, complexity: document.getElementById('complexity').value }) });
+        document.getElementById('planOutput').textContent = JSON.stringify(data, null, 2);
+        document.getElementById('planStatus').textContent = 'Complete';
+      } catch (e) {
+        document.getElementById('planOutput').textContent = 'Error: ' + e.message;
+        document.getElementById('planStatus').textContent = 'Failed';
+      }
+    };
+  </script>
+</body>
+</html>

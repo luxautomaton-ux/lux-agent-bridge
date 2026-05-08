@@ -1,0 +1,98 @@
+[
+  {
+    "id": "lux-core-001",
+    "name": "Lux AI Core",
+    "sourceUrl": "built-in",
+    "description": "Primary Lux AI agent with full autonomy, auto-fix, code analysis, and task execution capabilities. Best for general development tasks.",
+    "capabilities": ["code-generation", "debugging", "file-operations", "shell-commands", "auto-fix", "code-review"],
+    "createdAt": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "id": "hermes-001",
+    "name": "Hermes Reasoning",
+    "sourceUrl": "built-in",
+    "description": "Advanced reasoning and research agent for complex analysis, planning, and strategy. Excels at multi-step problem solving.",
+    "capabilities": ["research", "analysis", "planning", "strategy", "reasoning", "deep-think"],
+    "createdAt": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "id": "openclaw-001",
+    "name": "OpenClaw Automation",
+    "sourceUrl": "built-in",
+    "description": "Automation and execution specialist. Handles scripting, system operations, deployments, and repetitive tasks.",
+    "capabilities": ["automation", "scripting", "deployment", "system-ops", "batch-processing"],
+    "createdAt": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "id": "openmono-001",
+    "name": "OpenMono Code",
+    "sourceUrl": "built-in",
+    "description": "Code-focused agent specialized in programming, debugging, refactoring, and software development.",
+    "capabilities": ["coding", "refactoring", "debugging", "testing", "documentation"],
+    "createdAt": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "id": "skill-frontend-001",
+    "name": "Frontend Fixer",
+    "sourceUrl": "https://github.com/StartupHakk/OpenMonoAgent.ai.git",
+    "description": "UI repair, component cleanup, responsive polish, CSS fixes, and frontend optimization.",
+    "capabilities": ["ui-repair", "css-fix", "responsive-design", "component-cleanup"],
+    "createdAt": "2026-05-08T05:57:10.290Z"
+  },
+  {
+    "id": "skill-security-001",
+    "name": "Security Auditor",
+    "sourceUrl": "https://github.com/",
+    "description": "Dependency checks, configuration audit, vulnerability scanning, and security risk tagging.",
+    "capabilities": ["security-scan", "dependency-check", "config-audit", "vulnerability-detection"],
+    "createdAt": "2026-05-08T05:57:10.290Z"
+  },
+  {
+    "id": "skill-docs-001",
+    "name": "Docs + Release Assistant",
+    "sourceUrl": "https://github.com/",
+    "description": "Generate changelogs, release notes, setup documentation, and API documentation.",
+    "capabilities": ["changelog-gen", "release-notes", "documentation", "api-docs"],
+    "createdAt": "2026-05-08T05:57:10.290Z"
+  },
+  {
+    "id": "skill-code-review-001",
+    "name": "Code Review Pro",
+    "sourceUrl": "built-in",
+    "description": "Comprehensive code review with linting, best practices, security checks, and performance suggestions.",
+    "capabilities": ["linting", "code-analysis", "best-practices", "performance-tips", "security-check"],
+    "createdAt": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "id": "skill-swarm-001",
+    "name": "Swarm Orchestrator",
+    "sourceUrl": "built-in",
+    "description": "Manage and orchestrate agent swarms for parallel task execution across multiple nodes.",
+    "capabilities": ["swarm-deploy", "load-balancing", "task-distribution", "cluster-management"],
+    "createdAt": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "id": "skill-testing-001",
+    "name": "Test Generator",
+    "sourceUrl": "built-in",
+    "description": "Generate unit tests, integration tests, and end-to-end tests based on code analysis.",
+    "capabilities": ["unit-tests", "integration-tests", "test-coverage", "mocking"],
+    "createdAt": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "id": "skill-migration-001",
+    "name": "Migration Assistant",
+    "sourceUrl": "built-in",
+    "description": "Help migrate codebases between frameworks, languages, and platforms with automated conversion.",
+    "capabilities": ["code-migration", "framework-migration", "language-conversion"],
+    "createdAt": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "id": "skill-refactor-001",
+    "name": "Refactoring Expert",
+    "sourceUrl": "built-in",
+    "description": "Analyze and refactor code for better readability, performance, and maintainability.",
+    "capabilities": ["code-refactor", "design-patterns", "tech-debt", "architecture-review"],
+    "createdAt": "2026-05-08T00:00:00.000Z"
+  }
+]

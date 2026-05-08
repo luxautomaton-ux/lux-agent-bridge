@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUX — Runs & Logs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="crt-overlay"></div>
+    <div class="scan-line"></div>
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>⬡ LUX CODEX WORKSPACE</h1>
+        <div class="hud" id="operatorHud">
+          <span id="hudRuns" class="hud-pill">Runs: 0</span>
+          <span id="hudApprovals" class="hud-pill">Pending: 0</span>
+          <span class="hud-pill live">● Online</span>
+        </div>
+      </div>
+      <div class="actions">
+        <a href="/" class="inline-link">Landing</a>
+        <a href="/setup.html" class="inline-link">Setup</a>
+        <input id="tokenInput" placeholder="x-lux-token" style="width:120px" />
+        <button id="saveTokenBtn" style="width:auto;padding:6px 14px">Save</button>
+        <button id="healthBtn" style="width:auto;padding:6px 14px">Health</button>
+        <button id="emergencyBtn" class="danger" style="width:auto;padding:6px 14px">⚠ Stop</button>
+      </div>
+    </header>
+
+    <div class="workspace" id="consoleRoot">
+      <aside class="left-rail">
+        <div class="brand-wrap">
+          <img src="/photos/Lux%20Agent.PNG" class="brand-logo" alt="Lux" />
+          <div>
+            <div class="brand">LUX AGENT STUDIO</div>
+            <p style="margin:2px 0 0;font-family:var(--font-mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Codex + Manus Unified</p>
+          </div>
+        </div>
+
+        <nav class="rail-tabs">
+          <a href="/console.html" class="rail-tab">◆ Control</a>
+          <a href="/runs.html" class="rail-tab active">◇ Runs</a>
+          <a href="/approvals.html" class="rail-tab">◈ Approvals</a>
+          <a href="/tools.html" class="rail-tab">◉ Tools</a>
+        </nav>
+
+        <div style="border-top:1px solid var(--line);padding-top:12px;margin-top:auto">
+          <p style="font-family:var(--font-mono);font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin:0 0 8px">Quick Launch</p>
+          <div class="rail-actions">
+            <button id="startOpenmonoBtn" class="primary">▶ Start OpenMono</button>
+            <button id="startOpenmanusBtn">▶ Start OpenManus</button>
+            <button id="startFlowBtn">▶ Manus Flow</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-feed layout">
+        <!-- ── LIVE TIMELINE ── -->
+        <section class="card" style="grid-column:1/-1">
+          <h2>◇ Live Timeline</h2>
+          <p class="muted">Real-time execution timeline for all active and recent agent runs.</p>
+          <button id="refreshTimelineBtn">↻ Refresh Timeline</button>
+          <div id="timelineOut" class="timeline" style="margin-top:12px"></div>
+        </section>
+
+        <!-- ── RUN HISTORY ── -->
+        <section class="card">
+          <h2>◇ Run History</h2>
+          <p class="muted">Historical record of all past agent executions with status and exit codes.</p>
+          <button id="refreshRunsBtn">↻ Refresh</button>
+          <div id="runsOut" style="margin-top:10px"></div>
+        </section>
+
+        <!-- ── LIVE LOGS ── -->
+        <section class="card">
+          <h2>◇ Live Logs</h2>
+          <p class="muted">Stream or load raw terminal output from any run by its ID.</p>
+          <label>Run ID <input id="runIdInput" placeholder="paste runId" /></label>
+          <div class="row">
+            <button id="loadLogsBtn">Load</button>
+            <button id="streamLogsBtn" class="primary">▶ Stream</button>
+          </div>
+          <pre id="logsOut" class="terminal" style="margin-top:10px;max-height:400px"></pre>
+        </section>
+      </main>
+    </div>
+
+    <div id="toastHost" class="toast-host"></div>
+    <div id="commandPalette" class="palette hidden">
+      <div class="palette-card">
+        <div class="palette-head">
+          <h3 style="margin:0;font-family:var(--font-display);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--amber)">Command Palette</h3>
+          <button id="closePaletteBtn" style="width:auto;padding:6px 14px">Close</button>
+        </div>
+        <input id="paletteSearch" placeholder="Type a command..." />
+        <div id="paletteList" class="palette-list"></div>
+      </div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

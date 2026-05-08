@@ -1,0 +1,66 @@
+[
+  {
+    "id": "cap-fullstack-dev",
+    "name": "Full-Stack Development",
+    "description": "Complete web application development from frontend to backend",
+    "steps": ["requirements", "design", "frontend", "backend", "testing", "deploy"],
+    "category": "development",
+    "icon": "🚀"
+  },
+  {
+    "id": "cap-code-review",
+    "name": "Code Review Pipeline",
+    "description": "Automated code review with linting, security scan, and best practices",
+    "steps": ["lint", "analyze", "security-scan", "report"],
+    "category": "quality",
+    "icon": "🔍"
+  },
+  {
+    "id": "cap-deploy-swarm",
+    "name": "Swarm Deployment",
+    "description": "Deploy agent swarm cluster for parallel processing",
+    "steps": ["provision", "configure", "deploy", "verify"],
+    "category": "infrastructure",
+    "icon": "🕸️"
+  },
+  {
+    "id": "cap-research-task",
+    "name": "Research Task",
+    "description": "Deep research with web search, analysis, and report generation",
+    "steps": ["search", "analyze", "synthesize", "report"],
+    "category": "research",
+    "icon": "🔬"
+  },
+  {
+    "id": "cap-security-audit",
+    "name": "Security Audit",
+    "description": "Comprehensive security scanning and vulnerability assessment",
+    "steps": ["scan", "analyze", "report", "remediate"],
+    "category": "security",
+    "icon": "🛡️"
+  },
+  {
+    "id": "cap-data-pipeline",
+    "name": "Data Pipeline",
+    "description": "Build ETL pipelines for data processing and transformation",
+    "steps": ["extract", "transform", "load", "verify"],
+    "category": "data",
+    "icon": "📊"
+  },
+  {
+    "id": "cap-api integration",
+    "name": "API Integration",
+    "description": "Connect and integrate external APIs and services",
+    "steps": ["discover", "auth", "implement", "test"],
+    "category": "integration",
+    "icon": "🔗"
+  },
+  {
+    "id": "cap-ci-cd",
+    "name": "CI/CD Pipeline",
+    "description": "Set up continuous integration and deployment pipelines",
+    "steps": ["configure", "build", "test", "deploy"],
+    "category": "devops",
+    "icon": "⚙️"
+  }
+]

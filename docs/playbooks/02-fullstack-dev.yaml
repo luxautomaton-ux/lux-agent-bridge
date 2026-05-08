@@ -1,0 +1,181 @@
+# Full-Stack Development Playbook
+# Complete web application development from design to deployment
+
+name: Full-Stack Development
+description: Complete web application development pipeline
+version: 1.0
+category: development
+icon: 🚀
+
+parameters:
+  projectName:
+    type: string
+    required: true
+    description: Name of the project
+  
+  projectType:
+    type: string
+    required: true
+    enum: [react, vue, angular, nextjs, express, django, flask]
+    description: Type of application
+  
+  description:
+    type: string
+    required: true
+    description: Brief description of the application
+  
+  features:
+    type: array
+    required: true
+    description: List of features to implement
+  
+  styling:
+    type: string
+    default: tailwind
+    description: CSS framework (tailwind, bootstrap, plain)
+  
+  database:
+    type: string
+    default: none
+    enum: [none, postgresql, mongodb, sqlite, mysql]
+    description: Database type
+  
+  auth:
+    type: boolean
+    default: true
+    description: Include authentication
+  
+  deployment:
+    type: string
+    default: vercel
+    enum: [none, vercel, netlify, heroku, docker]
+    description: Deployment target
+
+steps:
+  # Phase 1: Requirements & Design
+  - id: requirements
+    description: Create detailed specification
+    requires: []
+    gate: Review
+    inline-prompt: |
+      Based on the following requirements, create a detailed SPEC.md:
+      
+      - Project: ${projectName}
+      - Type: ${projectType}
+      - Description: ${description}
+      - Features: ${features}
+      - Styling: ${styling}
+      - Database: ${database}
+      - Auth: ${auth}
+      
+      Include:
+      - User stories
+      - Technical architecture
+      - API endpoints
+      - Database schema
+      - Component hierarchy
+    output: requirements_doc
+    file: ${projectName}/SPEC.md
+
+  - id: setup
+    description: Initialize project structure
+    requires: [requirements]
+    gate: None
+    inline-prompt: |
+      Create the project structure for ${projectName}:
+      
+      1. Initialize with ${projectType}
+      2. Install dependencies
+      3. Set up ${database} database
+      4. Configure ${styling}
+      5. Set up git repository
+      
+      Show all commands and their output.
+    output: setup_results
+
+  # Phase 2: Frontend Development
+  - id: frontend
+    description: Build frontend components
+    requires: [setup]
+    gate: Confirm
+    inline-prompt: |
+      Implement the frontend for ${projectName}:
+      
+      - Create components based on SPEC.md
+      - Implement routing
+      - Add state management
+      - Integrate UI framework
+      - Create pages: ${features}
+      
+      Write all component files.
+    output: frontend_code
+
+  # Phase 3: Backend Development
+  - id: backend
+    description: Build backend API
+    requires: [frontend]
+    gate: Confirm
+    inline-prompt: |
+      Implement the backend for ${projectName}:
+      
+      - Set up Express/Flask server
+      - Create REST API endpoints
+      - Implement ${database} models
+      - Add ${auth ? 'JWT authentication' : 'no auth'}
+      - Connect to database
+      
+      Write all server files.
+    output: backend_code
+
+  # Phase 4: Testing
+  - id: tests
+    description: Write and run tests
+    requires: [backend]
+    gate: None
+    inline-prompt: |
+      Create tests for ${projectName}:
+      
+      - Unit tests for components
+      - Unit tests for API endpoints
+      - Integration tests
+      - E2E tests (if applicable)
+      
+      Run all tests and report coverage.
+    output: test_results
+
+  # Phase 5: Review & Deploy
+  - id: review
+    description: Final review before deployment
+    requires: [tests]
+    gate: Approve
+    inline-prompt: |
+      Present final project summary:
+      
+      - Frontend: ${frontend_code.summary}
+      - Backend: ${backend_code.summary}
+      - Tests: ${test_results.coverage}%
+      - Deployment: ${deployment}
+      
+      Confirm ready for production.
+    output: final_approval
+
+  - id: deploy
+    description: Deploy to ${deployment}
+    requires: [review]
+    gate: None
+    inline-prompt: |
+      Deploy ${projectName} to ${deployment}:
+      
+      1. Build production bundle
+      2. Configure deployment
+      3. Push to ${deployment}
+      4. Verify deployment
+      
+      Report live URL.
+    output: deployment_url
+
+settings:
+  allow-destructive: false
+  timeout: 3600
+  retry-failed: true
+  max-retries: 2

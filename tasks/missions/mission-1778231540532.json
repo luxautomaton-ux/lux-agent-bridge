@@ -1,0 +1,73 @@
+{
+  "id": "mission-1778231540532",
+  "title": "Build a new React app",
+  "userInstruction": "Build a new React app",
+  "project": "test",
+  "missionType": "build",
+  "complexity": "high",
+  "assignedAgent": {
+    "id": "lana",
+    "name": "LANA",
+    "role": "Executive Orchestrator"
+  },
+  "riskLevel": "medium",
+  "status": "running",
+  "planSteps": [
+    {
+      "step": 1,
+      "action": "Analyze requirements",
+      "agent": "lana"
+    },
+    {
+      "step": 2,
+      "action": "Design architecture",
+      "agent": "hermes"
+    },
+    {
+      "step": 3,
+      "action": "Create project structure",
+      "agent": "openmono"
+    },
+    {
+      "step": 4,
+      "action": "Implement frontend",
+      "agent": "openmono"
+    },
+    {
+      "step": 5,
+      "action": "Implement backend",
+      "agent": "openmono"
+    },
+    {
+      "step": 6,
+      "action": "Add tests",
+      "agent": "openmono"
+    },
+    {
+      "step": 7,
+      "action": "Deploy application",
+      "agent": "openclaw"
+    }
+  ],
+  "requiredApprovals": [
+    "file_changes"
+  ],
+  "approvalDescription": "Approval required before file changes",
+  "logs": [
+    {
+      "time": "2026-05-08T09:12:24.333Z",
+      "message": "Mission approved"
+    },
+    {
+      "time": "2026-05-08T09:12:24.333Z",
+      "message": "Mission started after approval"
+    }
+  ],
+  "filesTouched": [],
+  "createdAt": "2026-05-08T09:12:20.532Z",
+  "startedAt": "2026-05-08T09:12:24.333Z",
+  "completedAt": null,
+  "finalReport": null,
+  "approved": true,
+  "approvedAt": "2026-05-08T09:12:24.333Z"
+}

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Agent Memory</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
+    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
+    .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
+    .sidebar-logo img { height: 40px; width: auto; display: block; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav-section { margin-bottom: 16px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; padding: 0 12px; }
+    .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+    .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 8px var(--accent-primary); }
+    .main-content { padding: 32px 40px; overflow-y: auto; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+    .stat-box { background: var(--bg-elevated); border-radius: 10px; padding: 20px; text-align: center; }
+    .stat-value { font-size: 32px; font-weight: 700; background: var(--gradient-glow); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; margin-right: 8px; }
+    .btn-primary { background: var(--gradient-glow); color: var(--bg-deep); }
+    .btn-secondary { background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-subtle); }
+    .btn-danger { background: rgba(255,87,87,0.15); color: var(--accent-danger); border: 1px solid rgba(255,87,87,0.3); }
+    .conversation-list { max-height: 400px; overflow-y: auto; }
+    .conversation-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; border: 1px solid var(--border-subtle); border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; }
+    .conversation-item:hover { border-color: var(--accent-primary); background: var(--bg-hover); }
+    .conversation-item.active { border-color: var(--accent-primary); background: rgba(0,212,170,0.1); }
+    .conv-info { flex: 1; }
+    .conv-title { font-weight: 600; font-size: 14px; }
+    .conv-meta { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+    .conv-actions { display: flex; gap: 8px; }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+    .terminal { background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+    .form-input, .form-select, .form-textarea { width: 100%; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; color: var(--text-primary); font-size: 14px; }
+    .form-textarea { min-height: 100px; }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-success { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
+          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Tools</div>
+          <a class="nav-link active" href="/tools-memory.html">🧠 Memory</a>
+          <a class="nav-link" href="/tools-skills.html">⚡ Skills</a>
+          <a class="nav-link" href="/tools-features.html">🎯 Features</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">System</div>
+          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
+          <a class="nav-link" href="/INSTRUCTIONS.html">📖 Instructions</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
+    </aside>
+    <main class="main-content">
+      <div class="page-header"><h1>🧠 Agent Memory & History</h1><p class="subtitle">Manage conversation history, context, and export/import</p></div>
+
+      <!-- Stats -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-box">
+          <div class="stat-value" id="totalConversations">-</div>
+          <div class="stat-label">Conversations</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="totalMessages">-</div>
+          <div class="stat-label">Total Messages</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="oldestDate">-</div>
+          <div class="stat-label">Oldest</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="contextActive">-</div>
+          <div class="stat-label">Context Active</div>
+        </div>
+      </div>
+
+      <!-- Export/Import -->
+      <div class="card">
+        <div class="card-title">💾 Export / Import Memory</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="exportMemory()">📥 Export Memory</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">📤 Import Memory</button>
+          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importMemory(this)" />
+          <button class="btn btn-danger" onclick="clearMemory()">🗑️ Clear All</button>
+        </div>
+        <div id="importStatus" style="margin-top:12px;"></div>
+      </div>
+
+      <!-- Import Options -->
+      <div class="card">
+        <div class="card-title">📥 Import Options</div>
+        <div class="form-group">
+          <label class="form-label">Import Mode</label>
+          <select id="importMode" class="form-select">
+            <option value="merge">Merge with existing (keep both)</option>
+            <option value="replace">Replace all (clear and import)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Or paste JSON directly</label>
+          <textarea id="importJson" class="form-textarea" placeholder='{"history": [], "context": {}}'></textarea>
+        </div>
+        <button class="btn btn-secondary" onclick="importFromPaste()">Import from Paste</button>
+      </div>
+
+      <!-- Context -->
+      <div class="card">
+        <div class="card-title">🎯 Current Context (Short-term Memory)</div>
+        <div class="grid-2">
+          <div>
+            <div class="form-group">
+              <label class="form-label">Current Task</label>
+              <input id="currentTask" class="form-input" placeholder="What the agent is working on..." />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Variables (JSON)</label>
+              <textarea id="contextVariables" class="form-textarea" style="min-height:80px;" placeholder='{"key": "value"}'></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="saveContext()">Save Context</button>
+          </div>
+          <div>
+            <pre id="contextDisplay" class="terminal">Loading context...</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conversation History -->
+      <div class="card">
+        <div class="card-title">📜 Conversation History</div>
+        <button class="btn btn-secondary btn-sm" onclick="loadHistory()" style="margin-bottom:16px;">🔄 Refresh</button>
+        <div class="conversation-list" id="conversationList">
+          <p class="text-muted">Loading conversations...</p>
+        </div>
+      </div>
+
+      <!-- Selected Conversation -->
+      <div class="card" id="conversationDetail" style="display:none;">
+        <div class="card-title">📝 Conversation Details</div>
+        <pre id="conversationContent" class="terminal"></pre>
+        <button class="btn btn-secondary btn-sm" onclick="closeConversation()" style="margin-top:12px;">Close</button>
+      </div>
+    </main>
+  </div>
+  <script src="/lux-core.js"></script>
+  <script>
+    // Load stats
+    async function loadStats() {
+      try {
+        const data = await luxApi('/api/memory/stats');
+        document.getElementById('totalConversations').textContent = data.stats.totalConversations;
+        document.getElementById('totalMessages').textContent = data.stats.totalMessages;
+        document.getElementById('oldestDate').textContent = data.stats.oldestConversation 
+          ? new Date(data.stats.oldestConversation).toLocaleDateString() 
+          : 'None';
+        document.getElementById('contextActive').textContent = data.stats.contextActive ? '✓' : '✗';
+      } catch (e) {
+        console.error('Stats error:', e);
+      }
+    }
+
+    // Export memory
+    async function exportMemory() {
+      try {
+        const data = await luxApi('/api/memory/export');
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `lux-memory-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById('importStatus').innerHTML = '<span style="color:var(--accent-primary);">✓ Memory exported successfully!</span>';
+      } catch (e) {
+        document.getElementById('importStatus').innerHTML = '<span style="color:var(--accent-danger);">Export failed: ' + e.message + '</span>';
+      }
+    }
+
+    // Import memory from file
+    async function importMemory(input) {
+      const file = input.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const json = JSON.parse(e.target.result);
+          const mode = document.getElementById('importMode').value;
+          await luxApi('/api/memory/import', {
+            method: 'POST',
+            body: JSON.stringify({ 
+              history: json.history, 
+              context: json.context, 
+              mode 
+            })
+          });
+          document.getElementById('importStatus').innerHTML = '<span style="color:var(--accent-primary);">✓ Memory imported successfully!</span>';
+          loadStats();
+          loadHistory();
+        } catch (err) {
+          document.getElementById('importStatus').innerHTML = '<span style="color:var(--accent-danger);">Import failed: ' + err.message + '</span>';
+        }
+      };
+      reader.readAsText(file);
+      input.value = '';
+    }
+
+    // Import from paste
+    async function importFromPaste() {
+      try {
+        const json = JSON.parse(document.getElementById('importJson').value);
+        const mode = document.getElementById('importMode').value;
+        await luxApi('/api/memory/import', {
+          method: 'POST',
+          body: JSON.stringify({ 
+            history: json.history, 
+            context: json.context, 
+            mode 
+          })
+        });
+        document.getElementById('importStatus').innerHTML = '<span style="color:var(--accent-primary);">✓ Memory imported from paste!</span>';
+        loadStats();
+        loadHistory();
+        document.getElementById('importJson').value = '';
+      } catch (e) {
+        document.getElementById('importStatus').innerHTML = '<span style="color:var(--accent-danger);">Invalid JSON: ' + e.message + '</span>';
+      }
+    }
+
+    // Clear all memory
+    async function clearMemory() {
+      if (!confirm('Are you sure you want to delete ALL memory? This cannot be undone.')) return;
+      
+      try {
+        await luxApi('/api/memory/history', { method: 'DELETE' });
+        document.getElementById('importStatus').innerHTML = '<span style="color:var(--accent-danger);">✓ All memory cleared!</span>';
+        loadStats();
+        loadHistory();
+      } catch (e) {
+        document.getElementById('importStatus').innerHTML = '<span style="color:var(--accent-danger);">Clear failed: ' + e.message + '</span>';
+      }
+    }
+
+    // Load context
+    async function loadContext() {
+      try {
+        const data = await luxApi('/api/memory/context');
+        document.getElementById('currentTask').value = data.context.currentTask || '';
+        document.getElementById('contextVariables').value = JSON.stringify(data.context.variables || {}, null, 2);
+        document.getElementById('contextDisplay').textContent = JSON.stringify(data.context, null, 2);
+      } catch (e) {
+        document.getElementById('contextDisplay').textContent = 'Error loading context';
+      }
+    }
+
+    // Save context
+    async function saveContext() {
+      try {
+        const variables = JSON.parse(document.getElementById('contextVariables').value || '{}');
+        await luxApi('/api/memory/context', {
+          method: 'POST',
+          body: JSON.stringify({
+            currentTask: document.getElementById('currentTask').value,
+            variables
+          })
+        });
+        loadContext();
+        alert('Context saved!');
+      } catch (e) {
+        alert('Invalid JSON in variables: ' + e.message);
+      }
+    }
+
+    // Load history
+    async function loadHistory() {
+      try {
+        const data = await luxApi('/api/memory/history');
+        const list = document.getElementById('conversationList');
+        
+        if (data.history.length === 0) {
+          list.innerHTML = '<p class="text-muted">No conversations yet.</p>';
+          return;
+        }
+        
+        list.innerHTML = data.history.slice().reverse().map(h => `
+          <div class="conversation-item" onclick="viewConversation('${h.id}')">
+            <div class="conv-info">
+              <div class="conv-title">${h.summary || h.id.substring(0, 8) + '...'}</div>
+              <div class="conv-meta">${new Date(h.createdAt).toLocaleString()} • ${h.messages?.length || 0} messages</div>
+            </div>
+            <div class="conv-actions">
+              <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation(); deleteConversation('${h.id}')">🗑️</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        document.getElementById('conversationList').innerHTML = '<p class="text-muted">Error loading history</p>';
+      }
+    }
+
+    // View conversation
+    async function viewConversation(id) {
+      try {
+        const data = await luxApi('/api/memory/history/' + id);
+        document.getElementById('conversationContent').textContent = JSON.stringify(data.conversation, null, 2);
+        document.getElementById('conversationDetail').style.display = 'block';
+      } catch (e) {
+        alert('Error: ' + e.message);
+      }
+    }
+
+    function closeConversation() {
+      document.getElementById('conversationDetail').style.display = 'none';
+    }
+
+    // Delete conversation
+    async function deleteConversation(id) {
+      if (!confirm('Delete this conversation?')) return;
+      try {
+        await luxApi('/api/memory/history/' + id, { method: 'DELETE' });
+        loadHistory();
+        loadStats();
+      } catch (e) {
+        alert('Error: ' + e.message);
+      }
+    }
+
+    // Initialize
+    loadStats();
+    loadContext();
+    loadHistory();
+  </script>
+</body>
+</html>

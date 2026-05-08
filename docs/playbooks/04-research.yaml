@@ -1,0 +1,159 @@
+# Research Task Playbook
+# Deep research with web search, analysis, and report generation
+
+name: Research Task
+description: Comprehensive research with sources and analysis
+version: 1.0
+category: research
+icon: 🔬
+
+parameters:
+  topic:
+    type: string
+    required: true
+    description: Research topic/question
+  
+  depth:
+    type: string
+    default: standard
+    enum: [quick, standard, deep]
+    description: Research depth
+  
+  sources:
+    type: number
+    default: 10
+    description: Minimum number of sources
+  
+  includeCode:
+    type: boolean
+    default: false
+    description: Include code examples
+  
+  outputFormat:
+    type: string
+    default: markdown
+    enum: [markdown, html, pdf]
+    description: Output format
+
+steps:
+  # Phase 1: Initial Search
+  - id: search
+    description: Search for relevant information
+    requires: []
+    gate: None
+    inline-prompt: |
+      Research topic: ${topic}
+      
+      Perform web searches to gather information:
+      - Use multiple search engines
+      - Search academic papers
+      - Find recent articles (2024-2026)
+      - Look for official documentation
+      
+      Collect at least ${sources} relevant sources.
+    output: search_results
+
+  # Phase 2: Deep Dive
+  - id: analyze
+    description: Analyze collected sources
+    requires: [search]
+    gate: None
+    inline-prompt: |
+      Analyze the collected sources for: ${topic}
+      
+      For each source:
+      - Summarize key findings
+      - Note credibility
+      - Extract relevant statistics/data
+      - Identify consensus/controversy
+      
+      Create annotated bibliography.
+    output: analysis_results
+
+  # Phase 3: Synthesis
+  - id: synthesize
+    description: Synthesize findings
+    requires: [analyze]
+    gate: None
+    inline-prompt: |
+      Synthesize findings on: ${topic}
+      
+      Create:
+      - Key findings summary
+      - Emerging trends
+      - Conflicting viewpoints
+      - Data/Statistics compilation
+      - Expert opinions
+      
+      Present as coherent narrative.
+    output: synthesis
+
+  # Phase 4: Code Examples (Conditional)
+  - id: code-examples
+    description: Find or generate code examples
+    requires: [synthesize]
+    gate: None
+    condition: ${includeCode} == true
+    inline-prompt: |
+      Find or generate practical code examples related to: ${topic}
+      
+      - Implementation examples
+      - Usage patterns
+      - Best practices
+      - Common pitfalls
+      
+      Provide working code snippets.
+    output: code_examples
+
+  # Phase 5: Expert Review
+  - id: expert-review
+    description: Expert review of findings
+    requires: [code-examples]
+    gate: Review
+    inline-prompt: |
+      Present research summary for: ${topic}
+      
+      ## Search Results
+      ${search_results.count} sources found
+      
+      ## Key Findings
+      ${synthesis.key_findings}
+      
+      ## Code Examples (${includeCode})
+      ${code_examples.summary}
+      
+      ## Questions for Review
+      1. Are the findings accurate?
+      2. Is the analysis complete?
+      3. Are there missing perspectives?
+      
+      Provide expert feedback.
+    output: expert_feedback
+
+  # Phase 6: Final Report
+  - id: report
+    description: Generate final research report
+    requires: [expert-review]
+    gate: None
+    inline-prompt: |
+      Generate comprehensive research report on: ${topic}
+      
+      Format: ${outputFormat}
+      
+      Include:
+      - Abstract/Executive Summary
+      - Introduction
+      - Methodology
+      - Findings
+      - Analysis
+      - Code Examples (${includeCode})
+      - Conclusions
+      - References
+      - Appendix
+    output: final_report
+
+settings:
+  allow-destructive: false
+  timeout: 600
+  retry-failed: true
+  max-retries: 2

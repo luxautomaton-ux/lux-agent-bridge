@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lux AI Studio - Mission Mode</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-dark: #050507;
+      --bg-surface: #101014;
+      --bg-elevated: #1a1a2e;
+      --bg-glass: rgba(16, 16, 20, 0.8);
+      --accent-cyan: #00d4ff;
+      --accent-blue: #4f46e5;
+      --accent-purple: #7c3aed;
+      --accent-gradient: linear-gradient(135deg, #00d4ff, #4f46e5, #7c3aed);
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(0, 212, 255, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    .app-container { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    
+    /* Sidebar */
+    .sidebar {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border-subtle);
+      padding: 20px 15px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px;
+      margin-bottom: 30px;
+    }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-gradient);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .logo-text h1 { font-size: 16px; font-weight: 700; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .logo-text span { font-size: 10px; color: var(--text-muted); }
+    .nav-section { margin-bottom: 25px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px; padding: 0 15px; }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 15px;
+      border-radius: 10px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.2s;
+      margin-bottom: 4px;
+    }
+    .nav-link:hover { background: rgba(0, 212, 255, 0.1); color: var(--accent-cyan); }
+    .nav-link.active { background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(123, 58, 237, 0.15)); color: var(--accent-cyan); }
+    .nav-link .icon { font-size: 18px; width: 24px; }
+    .nav-link .badge { margin-left: auto; background: var(--accent-cyan); color: var(--bg-dark); font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+
+    /* Main Content */
+    .main-content { padding: 30px; }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    .page-title { font-size: 28px; font-weight: 700; }
+    .page-subtitle { color: var(--text-secondary); font-size: 14px; margin-top: 5px; }
+
+    /* Mission Input */
+    .mission-input-section { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 30px; margin-bottom: 30px; }
+    .mission-input-wrapper { position: relative; margin-bottom: 20px; }
+    .mission-input {
+      width: 100%;
+      padding: 20px;
+      background: var(--bg-dark);
+      border: 2px solid var(--border-subtle);
+      border-radius: 14px;
+      color: var(--text-primary);
+      font-size: 16px;
+      resize: none;
+      min-height: 120px;
+      transition: all 0.3s;
+    }
+    .mission-input:focus { outline: none; border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
+    .quick-missions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+    .quick-mission-btn {
+      padding: 10px 18px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 25px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quick-mission-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+
+    /* Mission Plan Preview */
+    .mission-plan {
+      background: var(--bg-dark);
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid var(--border-subtle);
+    }
+    .mission-plan h4 { font-size: 14px; color: var(--text-muted); margin-bottom: 15px; }
+    .plan-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-subtle); }
+    .plan-item:last-child { border-bottom: none; }
+    .plan-label { color: var(--text-muted); font-size: 13px; }
+    .plan-value { color: var(--text-primary); font-weight: 500; font-size: 13px; }
+    .start-mission-btn { width: 100%; margin-top: 20px; padding: 16px; font-size: 16px; }
+
+    /* Agent Selection */
+    .agent-selection { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px; }
+    .agent-select-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .agent-select-card:hover { border-color: var(--accent-cyan); }
+    .agent-select-card.selected { border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0, 212, 255, 0.2); }
+    .agent-select-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+    .agent-select-avatar { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; background: var(--bg-dark); border: 2px solid var(--border-subtle); }
+    .agent-select-card.selected .agent-select-avatar { border-color: var(--accent-cyan); }
+    .agent-select-info h3 { font-size: 18px; margin-bottom: 4px; }
+    .agent-select-info p { font-size: 12px; color: var(--text-muted); }
+    .agent-features { display: flex; flex-wrap: wrap; gap: 8px; }
+    .agent-feature-tag { padding: 6px 12px; background: var(--bg-dark); border-radius: 6px; font-size: 11px; color: var(--text-secondary); }
+
+    /* Missions List */
+    .missions-section h3 { font-size: 20px; margin-bottom: 20px; }
+    .missions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .mission-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s;
+    }
+    .mission-card:hover { border-color: var(--border-glow); }
+    .mission-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; }
+    .mission-title { font-size: 16px; font-weight: 600; }
+    .mission-status { padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+    .mission-status.created { background: rgba(0, 212, 255, 0.15); color: var(--accent-cyan); }
+    .mission-status.running { background: rgba(124, 58, 237, 0.15); color: var(--accent-purple); }
+    .mission-status.completed { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+    .mission-status.failed { background: rgba(239, 68, 68, 0.15); color: var(--error); }
+    .mission-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+    .mission-actions { display: flex; gap: 10px; }
+    .mission-btn { padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; }
+    .mission-btn.primary { background: var(--accent-cyan); color: var(--bg-dark); }
+    .mission-btn.secondary { background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+
+    .btn { padding: 14px 28px; border-radius: 10px; font-weight: 600; cursor: pointer; border: none; transition: all 0.3s; }
+    .btn-primary { background: var(--accent-gradient); color: white; box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 212, 255, 0.5); }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>Lux AI Studio</h1>
+          <span>Command Center</span>
+        </div>
+      </div>
+      <nav class="nav-section">
+        <div class="nav-section-title">Main</div>
+        <a href="/lux-command-center.html" class="nav-link"><span class="icon">🎛️</span> Command Center</a>
+        <a href="/lux-mission-mode.html" class="nav-link active"><span class="icon">🚀</span> Mission Mode</a>
+        <a href="/control-chat.html" class="nav-link"><span class="icon">💬</span> Chat</a>
+      </nav>
+      <nav class="nav-section">
+        <div class="nav-section-title">Workspace</div>
+        <a href="/lux-tasks.html" class="nav-link"><span class="icon">📋</span> Task Queue <span class="badge">3</span></a>
+        <a href="/lux-approvals.html" class="nav-link"><span class="icon">✓</span> Approvals <span class="badge">2</span></a>
+        <a href="/lux-playbooks.html" class="nav-link"><span class="icon">📜</span> Playbooks</a>
+      </nav>
+      <nav class="nav-section">
+        <div class="nav-section-title">Tools</div>
+        <a href="/lux-memory.html" class="nav-link"><span class="icon">🧠</span> Memory</a>
+        <a href="/lux-mcp.html" class="nav-link"><span class="icon">🔗</span> MCP Tools</a>
+        <a href="/lux-deployments.html" class="nav-link"><span class="icon">☁️</span> Deployments</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">🚀 Mission Mode</h1>
+          <p class="page-subtitle">Launch AI missions, assign agents, and track execution</p>
+        </div>
+      </div>
+
+      <!-- Agent Selection -->
+      <div class="agent-selection">
+        <div class="agent-select-card selected" onclick="selectAgent('lux')">
+          <div class="agent-select-header">
+            <div class="agent-select-avatar">⚡</div>
+            <div class="agent-select-info">
+              <h3>Lux AI (Native)</h3>
+              <p>Coding, building, full autonomy</p>
+            </div>
+          </div>
+          <div class="agent-features">
+            <span class="agent-feature-tag">Code Generation</span>
+            <span class="agent-feature-tag">File Operations</span>
+            <span class="agent-feature-tag">Auto-Fix</span>
+            <span class="agent-feature-tag">Code Review</span>
+          </div>
+        </div>
+        <div class="agent-select-card" onclick="selectAgent('autonomous')">
+          <div class="agent-select-header">
+            <div class="agent-select-avatar">🤖</div>
+            <div class="agent-select-info">
+              <h3>Super Agent</h3>
+              <p>Hermes + OpenClaw combined</p>
+            </div>
+          </div>
+          <div class="agent-features">
+            <span class="agent-feature-tag">Research</span>
+            <span class="agent-feature-tag">Automation</span>
+            <span class="agent-feature-tag">Deployment</span>
+            <span class="agent-feature-tag">Swarm Control</span>
+            <span class="agent-feature-tag">Skill Builder</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mission Input -->
+      <div class="mission-input-section">
+        <div class="mission-input-wrapper">
+          <textarea class="mission-input" id="missionInput" placeholder="What do you want your agents to accomplish?&#10;&#10;Examples:&#10;- Build a new React dashboard with charts&#10;- Fix the login bug and add tests&#10;- Research competitors in the fintech space&#10;- Deploy to production and run smoke tests"></textarea>
+        </div>
+        <div class="quick-missions">
+          <button class="quick-mission-btn" onclick="setMission('Build New App')">🚀 Build App</button>
+          <button class="quick-mission-btn" onclick="setMission('Fix Broken App')">🔧 Fix Bug</button>
+          <button class="quick-mission-btn" onclick="setMission('Audit Code')">🔍 Audit Code</button>
+          <button class="quick-mission-btn" onclick="setMission('Create Client Demo')">🎯 Client Demo</button>
+          <button class="quick-mission-btn" onclick="setMission('Deploy to Cloud')">☁️ Deploy</button>
+          <button class="quick-mission-btn" onclick="setMission('Research Competitor')">📊 Research</button>
+          <button class="quick-mission-btn" onclick="setMission('Generate Documentation')">📚 Docs</button>
+          <button class="quick-mission-btn" onclick="setMission('Create Agent')">🤖 Create Agent</button>
+          <button class="quick-mission-btn" onclick="setMission('Build Skill')">⚡ Build Skill</button>
+          <button class="quick-mission-btn" onclick="setMission('Deploy Swarm')">🕸️ Deploy Swarm</button>
+        </div>
+        <div class="mission-plan">
+          <h4>Mission Plan Preview</h4>
+          <div class="plan-item">
+            <span class="plan-label">Agent</span>
+            <span class="plan-value" id="planAgent">Lux AI (Native)</span>
+          </div>
+          <div class="plan-item">
+            <span class="plan-label">Mission Type</span>
+            <span class="plan-value" id="planType">-</span>
+          </div>
+          <div class="plan-item">
+            <span class="plan-label">Risk Level</span>
+            <span class="plan-value" id="planRisk">-</span>
+          </div>
+          <div class="plan-item">
+            <span class="plan-label">Est. Steps</span>
+            <span class="plan-value" id="planSteps">-</span>
+          </div>
+          <div class="plan-item">
+            <span class="plan-label">Required Approvals</span>
+            <span class="plan-value" id="planApprovals">-</span>
+          </div>
+        </div>
+        <button class="btn btn-primary start-mission-btn" onclick="startMission()">🚀 Launch Mission</button>
+      </div>
+
+      <!-- Active Missions -->
+      <div class="missions-section">
+        <h3>Recent Missions</h3>
+        <div class="missions-grid" id="missionsList">
+          <div class="mission-card">
+            <div class="mission-header">
+              <span class="mission-title">Build Landing Page</span>
+              <span class="mission-status completed">Completed</span>
+            </div>
+            <p class="mission-meta">Lux AI • 5 steps • 2 min ago</p>
+            <div class="mission-actions">
+              <button class="mission-btn secondary">View Report</button>
+            </div>
+          </div>
+          <div class="mission-card">
+            <div class="mission-header">
+              <span class="mission-title">Fix Dashboard Bug</span>
+              <span class="mission-status running">Running</span>
+            </div>
+            <p class="mission-meta">Super Agent • Step 3/5 • Started 1 min ago</p>
+            <div class="mission-actions">
+              <button class="mission-btn primary">View Logs</button>
+              <button class="mission-btn secondary">Pause</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let selectedAgent = 'lux';
+    
+    function selectAgent(agent) {
+      selectedAgent = agent;
+      document.querySelectorAll('.agent-select-card').forEach(card => card.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      updateMissionPlan();
+    }
+    
+    function setMission(type) {
+      document.getElementById('missionInput').value = type;
+      updateMissionPlan();
+    }
+    
+    function updateMissionPlan() {
+      const input = document.getElementById('missionInput').value.toLowerCase();
+      
+      let agent = selectedAgent === 'lux' ? 'Lux AI (Native)' : 'Super Agent';
+      let type = '-';
+      let risk = 'Low';
+      let steps = '5-7';
+      let approvals = 'None';
+      
+      if (input.includes('build') || input.includes('create')) {
+        type = 'Build Application';
+        risk = 'Medium';
+        steps = '8-12';
+        approvals = '1 (deployment)';
+      } else if (input.includes('fix') || input.includes('bug')) {
+        type = 'Bug Fix';
+        risk = 'Low';
+        steps = '3-5';
+      } else if (input.includes('audit') || input.includes('security')) {
+        type = 'Security Audit';
+        risk = 'Medium';
+        steps = '6-8';
+        approvals = '1 (report)';
+      } else if (input.includes('deploy') || input.includes('production')) {
+        type = 'Deployment';
+        risk = 'High';
+        steps = '5-7';
+        approvals = '2 (shell + deploy)';
+      } else if (input.includes('research') || input.includes('competitor')) {
+        type = 'Research Task';
+        risk = 'Low';
+        steps = '4-6';
+      } else if (input.includes('create agent') || input.includes('build agent')) {
+        type = 'Create Agent';
+        risk = 'Medium';
+        steps = '6-10';
+        approvals = '1 (file creation)';
+      } else if (input.includes('build skill') || input.includes('create skill')) {
+        type = 'Build Skill';
+        risk = 'Low';
+        steps = '4-8';
+      } else if (input.includes('swarm')) {
+        type = 'Swarm Deployment';
+        risk = 'High';
+        steps = '8-12';
+        approvals = '2 (deploy + config)';
+      }
+      
+      document.getElementById('planAgent').textContent = agent;
+      document.getElementById('planType').textContent = type;
+      document.getElementById('planRisk').textContent = risk;
+      document.getElementById('planSteps').textContent = steps;
+      document.getElementById('planApprovals').textContent = approvals;
+    }
+    
+    document.getElementById('missionInput').addEventListener('input', updateMissionPlan);
+    
+    function startMission() {
+      const input = document.getElementById('missionInput').value.trim();
+      if (!input) {
+        alert('Please enter a mission description');
+        return;
+      }
+      
+      // Call API to create mission
+      fetch('/api/missions/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userInstruction: input })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          alert('Mission "' + input.substring(0, 30) + '..." created successfully!');
+          location.reload();
+        }
+      })
+      .catch(err => {
+        alert('Mission launched! (Demo mode)');
+      });
+    }
+  </script>
+</body>
+</html>

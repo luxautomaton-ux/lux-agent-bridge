@@ -1,0 +1,10 @@
+{
+  "name": "Lux Agent Studio",
+  "short_name": "Lux",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1515",
+  "theme_color": "#0d1515",
+  "description": "Private local AI operating system for OpenMonoAgent and OpenManus.",
+  "icons": []
+}

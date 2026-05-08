@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lux AI Studio - Chat</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-dark: #050507;
+      --bg-surface: #101014;
+      --bg-elevated: #1a1a2e;
+      --bg-glass: rgba(16, 16, 20, 0.8);
+      --accent-cyan: #00d4ff;
+      --accent-blue: #4f46e5;
+      --accent-purple: #7c3aed;
+      --accent-gradient: linear-gradient(135deg, #00d4ff, #4f46e5, #7c3aed);
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(0, 212, 255, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
+    }
+    .app-container { display: grid; grid-template-columns: 260px 1fr; height: 100vh; }
+    
+    /* Sidebar */
+    .sidebar {
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border-subtle);
+      padding: 20px 15px;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-logo { display: flex; align-items: center; gap: 12px; padding: 15px; margin-bottom: 20px; }
+    .logo-icon { width: 40px; height: 40px; background: var(--accent-gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .logo-text h1 { font-size: 16px; font-weight: 700; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .logo-text span { font-size: 10px; color: var(--text-muted); }
+    .nav-section { margin-bottom: 20px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px; padding: 0 15px; }
+    .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-radius: 10px; color: var(--text-secondary); text-decoration: none; font-size: 14px; transition: all 0.2s; margin-bottom: 4px; }
+    .nav-link:hover { background: rgba(0, 212, 255, 0.1); color: var(--accent-cyan); }
+    .nav-link.active { background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(123, 58, 237, 0.15)); color: var(--accent-cyan); }
+    .nav-link .icon { font-size: 18px; width: 24px; }
+
+    /* Main Chat Area */
+    .main-chat { display: flex; flex-direction: column; height: 100vh; }
+    
+    /* Chat Header */
+    .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .chat-header-left { display: flex; align-items: center; gap: 16px; }
+    .chat-title { font-size: 18px; font-weight: 600; }
+    .agent-selector {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .agent-selector label { font-size: 13px; color: var(--text-muted); }
+    .agent-dropdown {
+      position: relative;
+    }
+    .agent-dropdown select {
+      appearance: none;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 10px 36px 10px 14px;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      min-width: 200px;
+      transition: all 0.2s;
+    }
+    .agent-dropdown select:hover { border-color: var(--accent-cyan); }
+    .agent-dropdown select:focus { outline: none; border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
+    .agent-dropdown::after {
+      content: '▼';
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .agent-dropdown option { background: var(--bg-surface); padding: 10px; }
+    .header-actions { display: flex; gap: 10px; }
+
+    /* Messages Area */
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .message {
+      display: flex;
+      gap: 16px;
+      max-width: 80%;
+    }
+    .message.user { margin-left: auto; flex-direction: row-reverse; }
+    .message-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: var(--bg-elevated);
+      flex-shrink: 0;
+    }
+    .message.assistant .message-avatar { background: var(--accent-gradient); }
+    .message-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 16px 20px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .message.user .message-content {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.2), rgba(124, 58, 237, 0.2));
+      border-color: rgba(124, 58, 237, 0.3);
+    }
+    .message-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* Thinking Indicator */
+    .thinking-indicator {
+      display: flex;
+      gap: 8px;
+      padding: 16px;
+      background: var(--bg-surface);
+      border-radius: 16px;
+      width: fit-content;
+    }
+    .thinking-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      animation: thinking 1.4s infinite;
+    }
+    .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes thinking {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+      30% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    /* Input Area */
+    .input-container {
+      padding: 20px 24px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      background: var(--bg-dark);
+      border: 2px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 12px 16px;
+      transition: all 0.3s;
+    }
+    .input-wrapper:focus-within { border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0, 212, 255, 0.15); }
+    .input-wrapper textarea {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-size: 15px;
+      font-family: inherit;
+      resize: none;
+      max-height: 150px;
+      min-height: 24px;
+      line-height: 1.5;
+    }
+    .input-wrapper textarea:focus { outline: none; }
+    .input-wrapper textarea::placeholder { color: var(--text-muted); }
+    .input-actions { display: flex; gap: 8px; }
+    .input-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+    .input-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+    .input-btn.send {
+      background: var(--accent-gradient);
+      border: none;
+      color: white;
+    }
+    .input-btn.send:hover { transform: scale(1.05); }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .quick-action-btn {
+      padding: 8px 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .quick-action-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+
+    /* Agent Info Panel */
+    .agent-info-panel {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: var(--bg-elevated);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .agent-info-panel .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">⚡</div>
+        <div class="logo-text">
+          <h1>Lux AI Studio</h1>
+          <span>Command Center</span>
+        </div>
+      </div>
+      
+      <nav class="nav-section">
+        <div class="nav-section-title">Main</div>
+        <a href="/lux-command-center.html" class="nav-link"><span class="icon">🎛️</span> Command Center</a>
+        <a href="/lux-mission-mode.html" class="nav-link"><span class="icon">🚀</span> Mission Mode</a>
+        <a href="/control-chat.html" class="nav-link active"><span class="icon">💬</span> Chat</a>
+        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🤖</span> Agent Console</a>
+      </nav>
+      
+      <nav class="nav-section">
+        <div class="nav-section-title">Agents</div>
+        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">⚡</span> Lux AI (Native)</a>
+        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🤖</span> Super Agent</a>
+        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🛡️</span> Security Guard</a>
+        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">💻</span> OpenMono</a>
+      </nav>
+      
+      <nav class="nav-section">
+        <div class="nav-section-title">Workspace</div>
+        <a href="/lux-tasks.html" class="nav-link"><span class="icon">📋</span> Task Queue</a>
+        <a href="/lux-approvals.html" class="nav-link"><span class="icon">✓</span> Approvals</a>
+        <a href="/lux-playbooks.html" class="nav-link"><span class="icon">📜</span> Playbooks</a>
+      </nav>
+      
+      <nav class="nav-section">
+        <div class="nav-section-title">Skills & Swarms</div>
+        <a href="/tools-skills.html" class="nav-link"><span class="icon">⚡</span> Skills</a>
+        <a href="/lux-swarm.html" class="nav-link"><span class="icon">🕸️</span> Agent Swarms</a>
+        <a href="/tools-capabilities.html" class="nav-link"><span class="icon">📋</span> Workflows</a>
+      </nav>
+      
+      <nav class="nav-section">
+        <div class="nav-section-title">Tools</div>
+        <a href="/lux-memory.html" class="nav-link"><span class="icon">🧠</span> Memory</a>
+        <a href="/lux-mcp.html" class="nav-link"><span class="icon">🔗</span> MCP Tools</a>
+        <a href="/lux-deployments.html" class="nav-link"><span class="icon">☁️</span> Deployments</a>
+      </nav>
+      
+      <nav class="nav-section">
+        <div class="nav-section-title">System</div>
+        <a href="/lux-settings.html" class="nav-link"><span class="icon">⚙️</span> Settings</a>
+      </nav>
+      
+      <nav class="nav-section">
+        <div class="nav-section-title">Documentation</div>
+        <a href="/docs/WHITEPAPER.html" class="nav-link"><span class="icon">📄</span> Whitepaper</a>
+        <a href="/docs/GUIDE.html" class="nav-link"><span class="icon">📖</span> User Guide</a>
+      </nav>
+    </aside>
+
+    <main class="main-chat">
+      <div class="chat-header">
+        <div class="chat-header-left">
+          <h1 class="chat-title">💬 Chat</h1>
+          <div class="agent-selector">
+            <label>Agent:</label>
+            <div class="agent-dropdown">
+              <select id="agentSelect" onchange="changeAgent()">
+                <option value="lux">⚡ Lux AI (Native)</option>
+                <option value="autonomous">🤖 Super Agent</option>
+                <option value="hermes">🔮 Hermes</option>
+                <option value="openclaw">🦀 OpenClaw</option>
+                <option value="openmono">💻 OpenMono</option>
+              </select>
+            </div>
+          </div>
+          <div class="agent-info-panel">
+            <span class="dot"></span>
+            <span id="agentStatus">Ready</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="input-btn" onclick="newChat()" title="New Chat">✕</button>
+        </div>
+      </div>
+
+      <div class="messages-container" id="messagesContainer">
+        <!-- Welcome Message -->
+        <div class="message assistant">
+          <div class="message-avatar">⚡</div>
+          <div class="message-content">
+            <strong>Welcome to Lux AI Studio Chat!</strong>
+            <p style="margin-top: 12px;">I'm your AI assistant. Select an agent from the dropdown above to get started:</p>
+            <ul style="margin-top: 12px; margin-left: 20px; color: var(--text-secondary);">
+              <li><strong>Lux AI (Native)</strong> - Code, build, and create with full autonomy</li>
+              <li><strong>Super Agent</strong> - Combined Hermes + OpenClaw for automation</li>
+              <li><strong>Hermes</strong> - Research and deep analysis</li>
+              <li><strong>OpenClaw</strong> - Automation and deployment</li>
+              <li><strong>OpenMono</strong> - Code development</li>
+            </ul>
+            <p style="margin-top: 16px; color: var(--accent-cyan);">What would you like to build today?</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-container">
+        <div class="quick-actions">
+          <button class="quick-action-btn" onclick="setPrompt('Build a landing page')">🚀 Build App</button>
+          <button class="quick-action-btn" onclick="setPrompt('Fix this bug')">🔧 Fix Bug</button>
+          <button class="quick-action-btn" onclick="setPrompt('Write tests for')">🧪 Write Tests</button>
+          <button class="quick-action-btn" onclick="setPrompt('Create a new agent')">🤖 Create Agent</button>
+          <button class="quick-action-btn" onclick="setPrompt('Build a skill for')">⚡ Build Skill</button>
+          <button class="quick-action-btn" onclick="setPrompt('Deploy swarm of')">🕸️ Deploy Swarm</button>
+        </div>
+        <div class="input-wrapper">
+          <textarea id="chatInput" placeholder="Type your message... (Shift+Enter for new line)" onkeydown="handleKeyDown(event)"></textarea>
+          <div class="input-actions">
+            <button class="input-btn" onclick="attachFile()" title="Attach File">📎</button>
+            <button class="input-btn" onclick="clearChat()" title="Clear Chat">🗑️</button>
+            <button class="input-btn send" onclick="sendMessage()" title="Send">➤</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const agentAvatars = {
+      lux: '⚡',
+      autonomous: '🤖',
+      hermes: '🔮',
+      openclaw: '🦀',
+      openmono: '💻'
+    };
+    
+    const agentNames = {
+      lux: 'Lux AI',
+      autonomous: 'Super Agent',
+      hermes: 'Hermes',
+      openclaw: 'OpenClaw',
+      openmono: 'OpenMono'
+    };
+    
+    function changeAgent() {
+      const agent = document.getElementById('agentSelect').value;
+      const statusEl = document.getElementById('agentStatus');
+      statusEl.textContent = 'Ready';
+      
+      addMessage('system', 'Switched to ' + agentNames[agent]);
+    }
+    
+    function setPrompt(text) {
+      document.getElementById('chatInput').value = text;
+      document.getElementById('chatInput').focus();
+    }
+    
+    function handleKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+    
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (!message) return;
+      
+      const agent = document.getElementById('agentSelect').value;
+      
+      // Add user message
+      addMessage('user', message);
+      input.value = '';
+      
+      // Show thinking
+      showThinking();
+      
+      // Simulate response
+      setTimeout(() => {
+        removeThinking();
+        
+        let response = '';
+        if (agent === 'lux') {
+          response = generateLuxResponse(message);
+        } else if (agent === 'autonomous') {
+          response = generateAutonomousResponse(message);
+        } else if (agent === 'hermes') {
+          response = generateHermesResponse(message);
+        } else if (agent === 'openclaw') {
+          response = generateOpenClawResponse(message);
+        } else if (agent === 'openmono') {
+          response = generateOpenMonoResponse(message);
+        }
+        
+        addMessage('assistant', response, agent);
+      }, 1500);
+    }
+    
+    function addMessage(type, content, agent = 'lux') {
+      const container = document.getElementById('messagesContainer');
+      const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+      
+      const messageEl = document.createElement('div');
+      messageEl.className = `message ${type}`;
+      messageEl.innerHTML = `
+        <div class="message-avatar">${type === 'system' ? '📋' : agentAvatars[type === 'assistant' ? agent : 'user']}</div>
+        <div class="message-content">
+          ${type === 'system' ? content : ''}
+          ${type !== 'system' ? `<p>${content}</p>` : ''}
+          <div class="message-time">${time}</div>
+        </div>
+      `;
+      
+      container.appendChild(messageEl);
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    function showThinking() {
+      const container = document.getElementById('messagesContainer');
+      const thinkingEl = document.createElement('div');
+      thinkingEl.className = 'message assistant';
+      thinkingEl.id = 'thinking';
+      thinkingEl.innerHTML = `
+        <div class="message-avatar">${agentAvatars[document.getElementById('agentSelect').value]}</div>
+        <div class="thinking-indicator">
+          <div class="thinking-dot"></div>
+          <div class="thinking-dot"></div>
+          <div class="thinking-dot"></div>
+        </div>
+      `;
+      container.appendChild(thinkingEl);
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    function removeThinking() {
+      const thinking = document.getElementById('thinking');
+      if (thinking) thinking.remove();
+    }
+    
+    function generateLuxResponse(msg) {
+      const lower = msg.toLowerCase();
+      if (lower.includes('build') || lower.includes('create')) {
+        return "I'll build that for you! Let me create a comprehensive solution with modern best practices. I'll start by setting up the project structure, then implement all the features with clean, maintainable code.";
+      } else if (lower.includes('fix') || lower.includes('bug')) {
+        return "Let me analyze the issue and fix it. I'll debug the code, identify the root cause, and implement a proper solution with tests.";
+      } else if (lower.includes('code') || lower.includes('write')) {
+        return "I'll write that code for you. Let me create clean, well-documented code following best practices. I'll include proper error handling and type safety.";
+      } else {
+        return "I understand. Let me help you with that. I'll analyze your requirements and provide the best solution using my coding capabilities and Antigravity/Codex tools.";
+      }
+    }
+    
+    function generateAutonomousResponse(msg) {
+      const lower = msg.toLowerCase();
+      if (lower.includes('create agent') || lower.includes('build agent')) {
+        return "I'll create a new custom agent for you! Let me set up the agent configuration with custom capabilities, skills, and behaviors. I can also enable swarm control and skill building features.";
+      } else if (lower.includes('skill') || lower.includes('build skill')) {
+        return "I'll build a new skill for your agents! Skills are reusable capabilities that can be assigned to any agent. Let me create a skill with specific capabilities and behaviors.";
+      } else if (lower.includes('swarm') || lower.includes('deploy')) {
+        return "I'll deploy a swarm of agents for parallel processing! Let me configure the swarm with the right agents, scale it to your needs, and set up monitoring and management.";
+      } else if (lower.includes('automate') || lower.includes('workflow')) {
+        return "I'll set up an automated workflow for you! Using my combined research (Hermes) and automation (OpenClaw) capabilities, I can create complex multi-step processes.";
+      } else {
+        return "I'm your easy-to-use Super Agent combining research and automation capabilities. I can help you create agents, build skills, deploy swarms, and automate complex workflows. What would you like to do?";
+      }
+    }
+    
+    function generateHermesResponse(msg) {
+      return "I'll research that topic deeply for you. Let me gather information from multiple sources, analyze the findings, and provide a comprehensive research report with insights and recommendations.";
+    }
+    
+    function generateOpenClawResponse(msg) {
+      return "I'll automate that task for you! Let me create a script to handle the execution, set up the deployment pipeline, and configure the workflow automation.";
+    }
+    
+    function generateOpenMonoResponse(msg) {
+      return "I'll write that code for you! Let me create clean, well-structured code with proper types, error handling, and documentation. I'll make sure it's production-ready.";
+    }
+    
+    function attachFile() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          addMessage('system', `📎 Attached: ${file.name}`);
+        }
+      };
+      input.click();
+    }
+    
+    function clearChat() {
+      const container = document.getElementById('messagesContainer');
+      container.innerHTML = '';
+    }
+    
+    function newChat() {
+      clearChat();
+      addMessage('assistant', `Ready! Using ${agentNames[document.getElementById('agentSelect').value]}. What would you like to build?`);
+    }
+  </script>
+</body>
+</html>

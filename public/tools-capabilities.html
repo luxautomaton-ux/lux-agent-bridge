@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Workflows</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
+    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
+    .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
+    .sidebar-logo img { height: 40px; width: auto; display: block; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav-section { margin-bottom: 16px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; padding: 0 12px; }
+    .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+    .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 8px var(--accent-primary); }
+    .main-content { padding: 32px 40px; overflow-y: auto; max-width: 1200px; margin: 0 auto; width: 100%; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+    .list-item { padding: 14px; border: 1px solid var(--border-subtle); border-radius: 8px; margin-bottom: 10px; }
+    .list-item-title { font-weight: 600; }
+    .list-item-subtitle { font-size: 12px; color: var(--text-secondary); }
+    .text-muted { color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
+          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
+          <a class="nav-link" href="/control-runner.html">▶ Runner</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Tools</div>
+          <a class="nav-link" href="/tools-skills.html">⚡ Skills</a>
+          <a class="nav-link" href="/tools-mcp.html">🔗 MCP</a>
+          <a class="nav-link active" href="/tools-capabilities.html">⊛ Workflows</a>
+          <a class="nav-link" href="/tools-enterprise.html">⚙ Enterprise</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">System</div>
+          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
+    </aside>
+    <main class="main-content">
+      <div class="page-header"><h1>Capability Workflows</h1><p class="subtitle">Orchestrate multi-step agent workflows</p></div>
+      <div class="card">
+        <div class="card-title">Available Workflows</div>
+        <div id="capsList"><p class="text-muted">Loading...</p></div>
+      </div>
+    </main>
+  </div>
+  <script src="/lux-core.js"></script>
+  <script>
+    async function load() { const data = await luxApi('/api/capabilities'); document.getElementById('capsList').innerHTML = data.length ? data.map(c => `<div class="list-item"><div class="list-item-title">${c.name}</div><div class="list-item-subtitle">${c.steps?.length || 0} steps</div></div>`).join('') : '<p class="text-muted">No capabilities defined</p>'; }
+    load();
+  </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUX — Mission Control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="crt-overlay"></div>
+    <div class="scan-line"></div>
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>⬡ LUX CODEX WORKSPACE</h1>
+        <div class="hud" id="operatorHud">
+          <span id="hudRuns" class="hud-pill">Runs: 0</span>
+          <span id="hudApprovals" class="hud-pill">Pending: 0</span>
+          <span class="hud-pill live">● Online</span>
+        </div>
+      </div>
+      <div class="actions">
+        <a href="/" class="inline-link">Landing</a>
+        <a href="/setup.html" class="inline-link">Setup</a>
+        <input id="tokenInput" placeholder="x-lux-token" style="width:120px" />
+        <button id="saveTokenBtn" style="width:auto;padding:6px 14px">Save</button>
+        <button id="healthBtn" style="width:auto;padding:6px 14px">Health</button>
+        <button id="emergencyBtn" class="danger" style="width:auto;padding:6px 14px">⚠ Stop</button>
+      </div>
+    </header>
+
+    <div class="workspace" id="consoleRoot">
+      <aside class="left-rail">
+        <div class="brand-wrap">
+          <img src="/photos/Lux%20Agent.PNG" class="brand-logo" alt="Lux" />
+          <div>
+            <div class="brand">LUX AGENT STUDIO</div>
+            <p style="margin:2px 0 0;font-family:var(--font-mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Codex + Manus Unified</p>
+          </div>
+        </div>
+
+        <nav class="rail-tabs">
+          <a href="/console.html" class="rail-tab active">◆ Control</a>
+          <a href="/runs.html" class="rail-tab">◇ Runs</a>
+          <a href="/approvals.html" class="rail-tab">◈ Approvals</a>
+          <a href="/tools.html" class="rail-tab">◉ Tools</a>
+        </nav>
+
+        <div style="border-top:1px solid var(--line);padding-top:12px;margin-top:auto">
+          <p style="font-family:var(--font-mono);font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin:0 0 8px">Quick Launch</p>
+          <div class="rail-actions">
+            <button id="startOpenmonoBtn" class="primary">▶ Start OpenMono</button>
+            <button id="startOpenmanusBtn">▶ Start OpenManus</button>
+            <button id="startFlowBtn">▶ Manus Flow</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-feed layout">
+        <!-- ── MISSION CHAT ── -->
+        <section class="card" style="grid-column:1/-1">
+          <h2>◆ Mission Chat</h2>
+          <p class="muted">Give Lux one instruction. Codex + Manus execute with tools.</p>
+          <div class="chat-history" id="chatHistory">
+            <div class="chat-msg chat-msg-agent">LANA: Ready for your mission.</div>
+          </div>
+          <div class="grid2">
+            <label>Agent
+              <select id="chatAgentSelect">
+                <option value="openmono">openmono</option>
+                <option value="openmanus">openmanus</option>
+              </select>
+            </label>
+            <label>Mode
+              <select id="chatModeSelect">
+                <option value="assisted">assisted</option>
+                <option value="manual">manual</option>
+                <option value="autonomous">autonomous</option>
+              </select>
+            </label>
+          </div>
+          <label>Project Path <input id="chatProjectPathInput" placeholder="/absolute/path/to/project" /></label>
+          <label>Mission Prompt <textarea id="chatInstructionInput" rows="3" placeholder="Fix, verify, test, summarize, and prepare release notes."></textarea></label>
+          <div class="row">
+            <button id="chatSendBtn" class="primary">▶ Run Mission</button>
+            <button id="chatPlanBtn">Plan Mission</button>
+            <button id="chatClearBtn">Clear</button>
+          </div>
+        </section>
+
+        <!-- ── MISSION PLANNER ── -->
+        <section class="card">
+          <h2>◆ Mission Planner (LANA)</h2>
+          <textarea id="missionInput" rows="2" placeholder="Improve onboarding flow and validate auth paths."></textarea>
+          <div class="row">
+            <button id="planMissionBtn" class="primary">Generate Plan</button>
+          </div>
+          <pre id="missionOut" class="terminal"></pre>
+          <div id="missionCard" class="mission-card"></div>
+        </section>
+
+        <!-- ── TASK RUNNER ── -->
+        <section class="card">
+          <h2>◆ Task Runner</h2>
+          <div class="grid2">
+            <label>Agent
+              <select id="agentSelect">
+                <option value="openmono">openmono</option>
+                <option value="openmanus">openmanus</option>
+              </select>
+            </label>
+            <label>Mode
+              <select id="modeSelect">
+                <option value="manual">manual</option>
+                <option value="assisted">assisted</option>
+                <option value="autonomous">autonomous</option>
+              </select>
+            </label>
+          </div>
+          <label>Project Path <input id="projectPathInput" placeholder="/absolute/path/to/project" /></label>
+          <label>Instruction <textarea id="instructionInput" rows="2"></textarea></label>
+          <button id="runTaskBtn" class="primary">▶ Run Task</button>
+          <h3>System Health</h3>
+          <pre id="healthOut" class="terminal">Loading...</pre>
+        </section>
+      </main>
+    </div>
+
+    <div id="toastHost" class="toast-host"></div>
+    <div id="commandPalette" class="palette hidden">
+      <div class="palette-card">
+        <div class="palette-head">
+          <h3 style="margin:0;font-family:var(--font-display);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--amber)">Command Palette</h3>
+          <button id="closePaletteBtn" style="width:auto;padding:6px 14px">Close</button>
+        </div>
+        <input id="paletteSearch" placeholder="Type a command..." />
+        <div id="paletteList" class="palette-list"></div>
+      </div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

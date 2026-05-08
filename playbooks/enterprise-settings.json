@@ -1,0 +1,136 @@
+{
+  "brand": {
+    "name": "Lux AI Studio",
+    "tagline": "Your private AI command center",
+    "version": "2.6.1",
+    "logo": "⚡",
+    "product": "Lux AI Studio",
+    "backend": "Lux Agent Bridge",
+    "platform": "Lux Agent OS"
+  },
+  "modelRouter": {
+    "gpuModel": "Qwen3.6 27B",
+    "cpuModel": "Qwen3.6 35B A3B",
+    "routeMode": "auto"
+  },
+  "agents": [
+    {
+      "id": "lux",
+      "name": "Lux AI (Native)",
+      "fullName": "Lux AI Native Agent",
+      "role": "Code & Build Specialist",
+      "like": "Cursor + GitHub Copilot",
+      "description": "Your primary coding agent with Antigravity and Codex tools built-in. Best for: writing code, creating apps, debugging, file operations, code review, auto-fixing issues, shell commands, and web fetching.",
+      "icon": "⚡",
+      "color": "#00d4ff",
+      "enabled": true,
+      "isNative": true,
+      "bestFor": ["Write code", "Build apps", "Fix bugs", "Debug", "Code review", "Create files", "Run commands"],
+      "tools": ["Antigravity Code Tools", "Codex Analysis", "Code Generation", "File Operations", "Auto-Fix", "Code Review", "Shell Commands", "Web Fetch"]
+    },
+    {
+      "id": "autonomous",
+      "name": "Super Agent",
+      "fullName": "Unified Super Agent",
+      "role": "Research • Automation • Deployment • Swarm",
+      "like": "ChatGPT + Manus combined",
+      "description": "The ultimate easy-to-use agent combining the best of Hermes (research/analysis) and OpenClaw (automation/deployment) into ONE powerful agent. Best for: research tasks, competitor analysis, creating agents, building skills, deploying swarms, automation workflows, CI/CD pipelines, documentation, client demos, and complex multi-step projects.",
+      "icon": "🤖",
+      "color": "#7b2cff",
+      "enabled": true,
+      "isUnified": true,
+      "bestFor": ["Research", "Analysis", "Create agents", "Build skills", "Deploy swarms", "Automation", "CI/CD", "Docs", "Demos", "Competitor analysis", "Workflows"],
+      "fromHermes": ["Deep research", "Market analysis", "Strategic planning", "Competitor research", "Data synthesis", "Report generation"],
+      "fromOpenClaw": ["Automation scripts", "Deployments", "Infrastructure", "CI/CD pipelines", "Task automation", "Workflow execution"],
+      "newFeatures": ["Create custom agents", "Build reusable skills", "Deploy agent swarms", "Multi-agent coordination", "Skill marketplace", "Swarm management"],
+      "tools": ["Research Engine", "Analysis System", "Agent Builder", "Skill Creator", "Swarm Controller", "Automation Runner", "Deployment Manager", "Workflow Orchestrator", "Documentation Generator", "Demo Creator"]
+    },
+    {
+      "id": "hermes",
+      "name": "Hermes",
+      "fullName": "Hermes Research Agent",
+      "role": "Research & Strategy",
+      "like": "Perplexity + Google AI",
+      "description": "Research & strategy specialist. Now integrated into Super Agent for easier use. Available separately for advanced research tasks.",
+      "icon": "🔮",
+      "color": "#ff00ff",
+      "enabled": true,
+      "hidden": true,
+      "bestFor": ["Deep research", "Competitor analysis", "Strategic planning", "Market research"],
+      "capabilities": ["research", "analysis", "planning", "strategy", "reasoning"]
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "fullName": "OpenClaw Automation Agent",
+      "role": "Automation & Deployment",
+      "like": "Raycast + Zapier",
+      "description": "Automation & deployment expert. Now integrated into Super Agent for easier use. Available separately for advanced automation tasks.",
+      "icon": "🦀",
+      "color": "#ff6b35",
+      "enabled": true,
+      "hidden": true,
+      "bestFor": ["Scripts", "Deployments", "CI/CD", "Workflow automation"],
+      "capabilities": ["automation", "scripting", "deployment", "system-ops"]
+    },
+    {
+      "id": "security-guard",
+      "name": "Security Guard",
+      "fullName": "Security & Approval Agent",
+      "role": "Safety & Compliance",
+      "like": "Snyk + Dependabot",
+      "description": "Your security sentinel. Reviews risky actions, scans for vulnerabilities, manages the approval workflow, and protects your system.",
+      "icon": "🛡️",
+      "color": "#ffaa00",
+      "enabled": true,
+      "bestFor": ["Security audits", "Vulnerability scans", "Approve file changes", "Review shell commands", "Check deployments", "Compliance checks"],
+      "tools": ["Security Scanner", "Vulnerability Detector", "Approval Queue", "Risk Assessor", "Compliance Checker", "Audit Logger"]
+    },
+    {
+      "id": "lux-agent",
+      "name": "Lux Agent",
+      "fullName": "Lux Agent Code Specialist",
+      "role": "Code Development",
+      "like": "Replit + VS Code",
+      "description": "Specialized code development agent focusing on programming, debugging, refactoring, and technical implementation.",
+      "icon": "💻",
+      "color": "#00ff88",
+      "enabled": true,
+      "bestFor": ["Complex coding", "Refactoring", "Writing tests", "Technical docs", "Deep code analysis"],
+      "tools": ["Code Editor", "Refactoring Engine", "Test Generator", "Documentation Writer", "Static Analyzer"]
+    },
+    {
+      "id": "lana",
+      "name": "LANA",
+      "fullName": "Lux Automaton Network Assistant",
+      "role": "Executive Orchestrator",
+      "like": "Linear + Notion",
+      "description": "The executive coordinator that orchestrates all agents, manages mission planning, and handles business logic.",
+      "icon": "⚡",
+      "color": "#00d4ff",
+      "enabled": true,
+      "bestFor": ["Mission planning", "Agent coordination", "Business logic", "Workflow orchestration"],
+      "tools": ["Mission Planner", "Agent Coordinator", "Context Manager", "Workflow Orchestrator"]
+    }
+  ],
+  "providers": [
+    {"id": "lux-native", "name": "Lux AI Core", "type": "native", "status": "active", "description": "Built-in Lux AI engine with Antigravity/Codex tools"},
+    {"id": "openclaude-portable", "name": "OpenClaude Portable", "type": "external", "status": "available", "description": "Portable Claude Code from USB"},
+    {"id": "ollama-local", "name": "Ollama Local", "type": "local", "status": "available", "description": "Run local models offline"},
+    {"id": "nvidia-nim", "name": "NVIDIA NIM", "type": "cloud", "status": "available", "description": "Free tier AI"},
+    {"id": "openrouter", "name": "OpenRouter", "type": "cloud", "status": "available", "description": "Multi-model gateway"}
+  ],
+  "missionTemplates": [
+    {"id": "build-new-app", "name": "Build New App", "icon": "🚀", "defaultAgent": "lux", "description": "Build a complete application"},
+    {"id": "fix-broken-app", "name": "Fix Broken App", "icon": "🔧", "defaultAgent": "lux", "description": "Debug and fix issues"},
+    {"id": "create-agent", "name": "Create Custom Agent", "icon": "🤖", "defaultAgent": "autonomous", "description": "Build a new agent"},
+    {"id": "build-skill", "name": "Build New Skill", "icon": "⚡", "defaultAgent": "autonomous", "description": "Create a reusable skill"},
+    {"id": "deploy-swarm", "name": "Deploy Agent Swarm", "icon": "🕸️", "defaultAgent": "autonomous", "description": "Deploy swarm for processing"},
+    {"id": "research-task", "name": "Research Task", "icon": "📊", "defaultAgent": "autonomous", "description": "Deep research and analysis"},
+    {"id": "competitor-analysis", "name": "Competitor Analysis", "icon": "🔍", "defaultAgent": "autonomous", "description": "Research competitors"},
+    {"id": "audit-code", "name": "Security Audit", "icon": "🛡️", "defaultAgent": "security-guard", "description": "Security vulnerability scan"}
+  ],
+  "memoryPolicy": {"sessionRetentionDays": 30, "longTermMemoryEnabled": true, "piiRedactionEnabled": true},
+  "businessMode": {"enabled": true, "requireApprovalsForAutonomous": true, "strictAudit": true, "localhostOnly": true},
+  "features": {"autoAgentSelect": true, "autoFixUntilComplete": true, "codeLinting": true, "swarmMode": true, "cronJobs": true, "taskQueue": true, "missionMode": true, "agentCreation": true, "skillBuilding": true, "swarmDeployment": true}
+}

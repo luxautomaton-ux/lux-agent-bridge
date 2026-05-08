@@ -1,0 +1,167 @@
+# Security Audit Playbook
+# Comprehensive security scanning and vulnerability assessment
+
+name: Security Audit
+description: Full security audit with vulnerability scanning and remediation
+version: 1.0
+category: security
+icon: 🛡️
+
+parameters:
+  projectPath:
+    type: string
+    required: true
+    description: Path to project to audit
+  
+  scanLevel:
+    type: string
+    default: standard
+    enum: [quick, standard, deep]
+    description: Depth of security scan
+  
+  checkOWASP:
+    type: boolean
+    default: true
+    description: Check OWASP Top 10 vulnerabilities
+  
+  checkSecrets:
+    type: boolean
+    default: true
+    description: Scan for exposed secrets/keys
+  
+  generateReport:
+    type: boolean
+    default: true
+    description: Generate detailed security report
+
+steps:
+  # Phase 1: Preparation
+  - id: inventory
+    description: Inventory project dependencies
+    requires: []
+    gate: None
+    inline-prompt: |
+      Scan and inventory all dependencies in ${projectPath}:
+      
+      - npm/yarn packages
+      - Python packages
+      - Docker images
+      - System dependencies
+      
+      Create dependency manifest.
+    output: dependency_manifest
+
+  # Phase 2: Vulnerability Scanning
+  - id: vuln-scan
+    description: Scan for known vulnerabilities
+    requires: [inventory]
+    gate: None
+    inline-prompt: |
+      Run vulnerability scans based on scan level (${scanLevel}):
+      
+      Quick: npm audit, pip-audit
+      Standard: + snyk, OWASP dependency-check
+      Deep: + semgrep, bandit, checksec
+      
+      Report all CVEs with severity.
+    output: vuln_results
+
+  # Phase 3: Secret Detection (Conditional)
+  - id: secrets-scan
+    description: Scan for exposed secrets
+    requires: [vuln-scan]
+    gate: None
+    condition: ${checkSecrets} == true
+    inline-prompt: |
+      Scan for exposed secrets in ${projectPath}:
+      
+      - API keys (AWS, GCP, Azure)
+      - Database credentials
+      - Private keys
+      - tokens/secrets in code
+      - Environment files
+      
+      Use tools like: git-secrets, trufflehog, gitleaks
+    output: secrets_found
+
+  # Phase 4: OWASP Top 10 Check (Conditional)
+  - id: owasp-check
+    description: Check OWASP vulnerabilities
+    requires: [secrets-scan]
+    gate: None
+    condition: ${checkOWASP} == true
+    inline-prompt: |
+      Check for OWASP Top 10 vulnerabilities:
+      
+      A01 - Broken Access Control
+      A02 - Cryptographic Failures
+      A03 - Injection
+      A04 - Insecure Design
+      A05 - Security Misconfiguration
+      A06 - Vulnerable Components
+      A07 - Auth Failures
+      A08 - Data Integrity Failures
+      A09 - Logging Failures
+      A10 - SSRF
+      
+      Use manual review + static analysis.
+    output: owasp_results
+
+  # Phase 5: Configuration Audit
+  - id: config-audit
+    description: Audit security configurations
+    requires: [owasp-check]
+    gate: None
+    inline-prompt: |
+      Audit security configurations:
+      
+      - package.json scripts
+      - Docker security
+      - Cloud configs (if any)
+      - Security headers
+      - CORS policies
+      - CSRF protection
+      
+      Check against best practices.
+    output: config_issues
+
+  # Phase 6: Remediation Plan
+  - id: remediation
+    description: Create remediation plan
+    requires: [config-audit]
+    gate: Review
+    inline-prompt: |
+      Create prioritized remediation plan:
+      
+      Vulnerabilities: ${vuln_results.summary}
+      Secrets Found: ${secrets_found.count}
+      OWASP Issues: ${owasp_results.count}
+      Config Issues: ${config_issues.count}
+      
+      Prioritize by severity and provide fix suggestions.
+    output: remediation_plan
+
+  # Phase 7: Generate Report (Conditional)
+  - id: report
+    description: Generate security audit report
+    requires: [remediation]
+    gate: None
+    condition: ${generateReport} == true
+    inline-prompt: |
+      Generate comprehensive security report:
+      
+      - Executive Summary
+      - Methodology
+      - Findings by Severity
+      - Remediation Plan
+      - Risk Assessment
+      
+      Format as markdown.
+    output: security_report
+    file: ${projectPath}/SECURITY-AUDIT.md
+
+settings:
+  allow-destructive: false
+  timeout: 900
+  retry-failed: true
+  max-retries: 1

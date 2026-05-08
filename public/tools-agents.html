@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Agent - Multi-Agent Control</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
+    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
+    .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
+    .sidebar-logo img { height: 40px; width: auto; display: block; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav-section { margin-bottom: 16px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; padding: 0 12px; }
+    .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+    .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 8px var(--accent-primary); }
+    .main-content { padding: 32px 40px; overflow-y: auto; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+    .agent-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .agent-card { background: var(--bg-elevated); border-radius: 12px; padding: 20px; border: 2px solid var(--border-subtle); transition: all 0.2s; }
+    .agent-card.enabled { border-color: var(--accent-primary); }
+    .agent-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+    .agent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .agent-icon { font-size: 32px; }
+    .agent-toggle { position: relative; width: 48px; height: 26px; }
+    .agent-toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-subtle); border-radius: 26px; transition: 0.3s; }
+    .toggle-slider:before { content: ""; position: absolute; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+    .agent-toggle input:checked + .toggle-slider { background: var(--accent-primary); }
+    .agent-toggle input:checked + .toggle-slider:before { transform: translateX(22px); }
+    .agent-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .agent-type { font-size: 12px; color: var(--text-muted); text-transform: uppercase; }
+    .agent-desc { font-size: 13px; color: var(--text-secondary); margin: 12px 0; }
+    .agent-caps { display: flex; flex-wrap: wrap; gap: 6px; }
+    .cap-tag { padding: 4px 10px; background: rgba(0,212,170,0.1); border-radius: 12px; font-size: 11px; color: var(--accent-primary); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--gradient-glow); color: var(--bg-deep); }
+    .btn-secondary { background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-subtle); }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+    .form-input, .form-select { width: 100%; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; color: var(--text-primary); font-size: 14px; }
+    .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .checkbox-label { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; }
+    .checkbox-label input { accent-color: var(--accent-primary); }
+    .terminal { background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); white-space: pre-wrap; max-height: 200px; overflow-y: auto; }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-success { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .badge-warning { background: rgba(255,179,71,0.15); color: var(--accent-warning); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
+          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
+          <a class="nav-link" href="/control-runner.html">▶ Runner</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Tools</div>
+          <a class="nav-link active" href="/tools-agents.html">🤖 Agents</a>
+          <a class="nav-link" href="/tools-features.html">🎯 Features</a>
+          <a class="nav-link" href="/tools-memory.html">🧠 Memory</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">System</div>
+          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
+          <a class="nav-link" href="/INSTRUCTIONS.html">📖 Instructions</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
+    </aside>
+    <main class="main-content">
+      <div class="page-header"><h1>🤖 Multi-Agent Control</h1><p class="subtitle">Manage Hermes, OpenClaw, and other agents</p></div>
+
+      <!-- Agent Cards -->
+      <div class="card">
+        <div class="card-title">Available Agents</div>
+        <div class="agent-grid" id="agentGrid">Loading agents...</div>
+      </div>
+
+      <!-- Auto-Selection -->
+      <div class="card">
+        <div class="card-title">🔀 Auto-Selection Test</div>
+        <div class="form-group">
+          <label class="form-label">Test Task (see which agent gets selected)</label>
+          <input id="testTask" class="form-input" placeholder="e.g., research this topic, build an app, fix this bug" />
+        </div>
+        <button class="btn btn-primary" onclick="testAutoSelect()">Test Auto-Select</button>
+        <pre id="autoSelectResult" class="terminal" style="margin-top:16px;">Result will appear here...</pre>
+      </div>
+
+      <!-- Execution Policy -->
+      <div class="card">
+        <div class="card-title">⚖️ Execution Policy</div>
+        <div class="grid-2">
+          <div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="autoExecute" /> Auto-Execute safe commands
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="autoFix" /> Auto-Fix issues
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Max Retries</label>
+              <input type="number" id="maxRetries" class="form-input" value="3" min="1" max="10" />
+            </div>
+          </div>
+          <div>
+            <p class="text-muted" style="font-size:12px;margin-bottom:12px;">Commands requiring approval:</p>
+            <div class="form-input" style="height:80px;overflow-y:auto;font-size:12px;" id="requireApprovalList">delete, remove, sudo, chmod 777</div>
+            <button class="btn btn-secondary btn-sm" onclick="savePolicy()" style="margin-top:8px;">Save Policy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Run with Agent -->
+      <div class="card">
+        <div class="card-title">▶️ Run Task with Agent</div>
+        <div class="grid-2">
+          <div>
+            <div class="form-group">
+              <label class="form-label">Select Agent</label>
+              <select id="runAgent" class="form-select">
+                <option value="lux">Lux Agent (Orchestrator)</option>
+                <option value="hermes">Hermes Agent (Reasoning)</option>
+                <option value="openclaw">OpenClaw (Execution)</option>
+                <option value="openmono">OpenMonoAgent (General)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Task</label>
+              <textarea id="runTask" class="form-textarea" placeholder="What should the agent do?" style="min-height:100px;"></textarea>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="runAutoFix" /> Enable Auto-Fix (retry on failure)
+              </label>
+            </div>
+            <button class="btn btn-primary" onclick="runAgent()">Run Agent</button>
+          </div>
+          <div>
+            <pre id="runOutput" class="terminal">Agent output will appear here...</pre>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/lux-core.js"></script>
+  <script>
+    // Load agents
+    async function loadAgents() {
+      try {
+        const data = await luxApi('/api/agents');
+        const grid = document.getElementById('agentGrid');
+        
+        grid.innerHTML = data.agents.map(agent => `
+          <div class="agent-card ${agent.enabled ? 'enabled' : ''}">
+            <div class="agent-header">
+              <span class="agent-icon">${getAgentIcon(agent.id)}</span>
+              <label class="agent-toggle">
+                <input type="checkbox" ${agent.enabled ? 'checked' : ''} onchange="toggleAgent('${agent.id}', this.checked)" />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="agent-name">${agent.name}</div>
+            <div class="agent-type">${agent.type}</div>
+            <div class="agent-desc">${agent.description}</div>
+            <div class="agent-caps">
+              ${(agent.capabilities || []).map(c => `<span class="cap-tag">${c}</span>`).join('')}
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        document.getElementById('agentGrid').innerHTML = '<p class="text-muted">Error loading agents</p>';
+      }
+    }
+
+    function getAgentIcon(id) {
+      const icons = { lux: '✦', hermes: '🧠', openclaw: '🦞', openmono: '🔵' };
+      return icons[id] || '🤖';
+    }
+
+    // Toggle agent
+    async function toggleAgent(agentId, enabled) {
+      try {
+        await luxApi('/api/agents/configure', {
+          method: 'POST',
+          body: JSON.stringify({ agentId, enabled })
+        });
+        loadAgents();
+      } catch (e) {
+        alert('Error: ' + e.message);
+      }
+    }
+
+    // Auto-select test
+    async function testAutoSelect() {
+      const task = document.getElementById('testTask').value;
+      if (!task) return;
+      
+      document.getElementById('autoSelectResult').textContent = 'Analyzing task...';
+      
+      try {
+        const data = await luxApi('/api/agents/auto-select', {
+          method: 'POST',
+          body: JSON.stringify({ task })
+        });
+        
+        document.getElementById('autoSelectResult').textContent = 
+          `Selected: ${data.selectedAgent.name} (${data.selectedAgent.type})\n` +
+          `Capabilities: ${data.selectedAgent.capabilities.join(', ')}\n\n` +
+          `All Available: ${data.allAgents.filter(a => a.enabled).map(a => a.name).join(', ')}`;
+      } catch (e) {
+        document.getElementById('autoSelectResult').textContent = 'Error: ' + e.message;
+      }
+    }
+
+    // Load policy
+    async function loadPolicy() {
+      try {
+        const data = await luxApi('/api/policy');
+        document.getElementById('autoExecute').checked = data.policy.autoExecute;
+        document.getElementById('autoFix').checked = data.policy.autoFix;
+        document.getElementById('maxRetries').value = data.policy.maxRetries;
+      } catch (e) {
+        console.error('Policy load error:', e);
+      }
+    }
+
+    // Save policy
+    async function savePolicy() {
+      try {
+        await luxApi('/api/policy', {
+          method: 'POST',
+          body: JSON.stringify({
+            autoExecute: document.getElementById('autoExecute').checked,
+            autoFix: document.getElementById('autoFix').checked,
+            maxRetries: parseInt(document.getElementById('maxRetries').value)
+          })
+        });
+        alert('Policy saved!');
+      } catch (e) {
+        alert('Error: ' + e.message);
+      }
+    }
+
+    // Run agent
+    async function runAgent() {
+      const agentId = document.getElementById('runAgent').value;
+      const task = document.getElementById('runTask').value;
+      const autoFix = document.getElementById('runAutoFix').checked;
+      
+      if (!task) return;
+      
+      document.getElementById('runOutput').textContent = 'Running agent...';
+      
+      try {
+        const data = await luxApi('/api/agents/run', {
+          method: 'POST',
+          body: JSON.stringify({ agentId, task, autoFix, maxRetries: 3 })
+        });
+        
+        document.getElementById('runOutput').textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        document.getElementById('runOutput').textContent = 'Error: ' + e.message;
+      }
+    }
+
+    loadAgents();
+    loadPolicy();
+  </script>
+</body>
+</html>

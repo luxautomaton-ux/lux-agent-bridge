@@ -1,0 +1,34 @@
+[
+  {
+    "id": "code-review-pro",
+    "name": "Code Review Pro",
+    "description": "Lint, analyze, and generate a prioritized code quality report with optional security checks.",
+    "category": "quality",
+    "risk": "low",
+    "steps": ["validate_project", "lint", "analyze", "security_scan", "report"]
+  },
+  {
+    "id": "release-ready",
+    "name": "Release Readiness",
+    "description": "Run pre-release checks including tests, dependency audit, changelog draft, and deployment checklist.",
+    "category": "devops",
+    "risk": "medium",
+    "steps": ["validate_branch", "run_tests", "audit_dependencies", "generate_release_notes", "review_gate"]
+  },
+  {
+    "id": "incident-response",
+    "name": "Incident Response",
+    "description": "Triage production issue, collect logs, identify root cause, and prepare rollback/remediation plan.",
+    "category": "operations",
+    "risk": "high",
+    "steps": ["collect_context", "classify_severity", "capture_logs", "propose_fix", "approve_action", "publish_postmortem"]
+  },
+  {
+    "id": "founder-demo-pack",
+    "name": "Founder Demo Pack",
+    "description": "Build a polished demo package: script, talking points, screenshots, and FAQ for client presentations.",
+    "category": "business",
+    "risk": "low",
+    "steps": ["define_audience", "compose_narrative", "capture_assets", "generate_faq", "export_demo_pack"]
+  }
+]

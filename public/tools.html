@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LUX — Tools & Enterprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="crt-overlay"></div>
+    <div class="scan-line"></div>
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1>⬡ LUX CODEX WORKSPACE</h1>
+        <div class="hud" id="operatorHud">
+          <span id="hudRuns" class="hud-pill">Runs: 0</span>
+          <span id="hudApprovals" class="hud-pill">Pending: 0</span>
+          <span class="hud-pill live">● Online</span>
+        </div>
+      </div>
+      <div class="actions">
+        <a href="/" class="inline-link">Landing</a>
+        <a href="/setup.html" class="inline-link">Setup</a>
+        <input id="tokenInput" placeholder="x-lux-token" style="width:120px" />
+        <button id="saveTokenBtn" style="width:auto;padding:6px 14px">Save</button>
+        <button id="healthBtn" style="width:auto;padding:6px 14px">Health</button>
+        <button id="emergencyBtn" class="danger" style="width:auto;padding:6px 14px">⚠ Stop</button>
+      </div>
+    </header>
+
+    <div class="workspace" id="consoleRoot">
+      <aside class="left-rail">
+        <div class="brand-wrap">
+          <img src="/photos/Lux%20Agent.PNG" class="brand-logo" alt="Lux" />
+          <div>
+            <div class="brand">LUX AGENT STUDIO</div>
+            <p style="margin:2px 0 0;font-family:var(--font-mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">Codex + Manus Unified</p>
+          </div>
+        </div>
+
+        <nav class="rail-tabs">
+          <a href="/console.html" class="rail-tab">◆ Control</a>
+          <a href="/runs.html" class="rail-tab">◇ Runs</a>
+          <a href="/approvals.html" class="rail-tab">◈ Approvals</a>
+          <a href="/tools.html" class="rail-tab active">◉ Tools</a>
+        </nav>
+
+        <div style="border-top:1px solid var(--line);padding-top:12px;margin-top:auto">
+          <p style="font-family:var(--font-mono);font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin:0 0 8px">Quick Launch</p>
+          <div class="rail-actions">
+            <button id="startOpenmonoBtn" class="primary">▶ Start OpenMono</button>
+            <button id="startOpenmanusBtn">▶ Start OpenManus</button>
+            <button id="startFlowBtn">▶ Manus Flow</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-feed layout">
+        <!-- ── SKILLS + MCP ── -->
+        <section class="card">
+          <h2>◉ Skills + MCP</h2>
+          <p class="muted">Register agent skill modules and manage Model Context Protocol integrations.</p>
+          <label>Skill Name <input id="skillNameInput" placeholder="Frontend Refactor Agent" /></label>
+          <label>Skill Repo URL <input id="skillUrlInput" placeholder="https://github.com/org/repo" /></label>
+          <label>Description <input id="skillDescInput" placeholder="optional" /></label>
+          <div class="row">
+            <button id="addSkillBtn" class="primary">Add Skill</button>
+            <button id="refreshSkillsBtn">↻ Refresh</button>
+            <button id="bootstrapSkillsBtn">Install Defaults</button>
+          </div>
+          <div id="skillsOut" style="margin-top:10px"></div>
+          <h3>MCP Integrations</h3>
+          <div class="row">
+            <button id="refreshMcpsBtn">↻ Refresh MCPs</button>
+            <button id="refreshMcpHealthBtn">MCP Health</button>
+          </div>
+          <div id="mcpsOut" style="margin-top:10px"></div>
+        </section>
+
+        <!-- ── CAPABILITIES + ENTERPRISE ── -->
+        <section class="card">
+          <h2>◉ Capabilities + Enterprise</h2>
+          <p class="muted">Define multi-step capability chains and configure enterprise-level runtime controls.</p>
+          <button id="refreshCredsBtn">Credential Check</button>
+          <div id="credsOut" style="margin-top:8px"></div>
+          <h3>Capability Studio</h3>
+          <label>Name <input id="capNameInput" placeholder="Bugfix + Validation Chain" /></label>
+          <label>Description <input id="capDescInput" placeholder="Plan, patch, verify, report" /></label>
+          <label>Steps JSON <textarea id="capStepsInput" rows="3" placeholder='[{"action":"Scan project","agent":"openmono","mode":"assisted"}]'></textarea></label>
+          <div class="row">
+            <button id="addCapBtn" class="primary">Save</button>
+            <button id="refreshCapsBtn">↻ Refresh</button>
+          </div>
+          <div id="capsOut" style="margin-top:10px"></div>
+          <h3>Enterprise Controls</h3>
+          <div class="grid2">
+            <label>GPU Model <input id="gpuModelInput" /></label>
+            <label>CPU Model <input id="cpuModelInput" /></label>
+          </div>
+          <label>Route Mode
+            <select id="routeModeInput">
+              <option value="auto">auto</option>
+              <option value="gpu-first">gpu-first</option>
+              <option value="cpu-only">cpu-only</option>
+            </select>
+          </label>
+          <div class="grid2">
+            <label>Session Retention <input id="retentionDaysInput" type="number" value="30" /></label>
+            <label><input id="longTermMemoryInput" type="checkbox" checked style="width:auto" /> Long-term memory</label>
+          </div>
+          <label><input id="piiRedactionInput" type="checkbox" checked style="width:auto" /> PII redaction</label>
+          <div class="row">
+            <button id="refreshEnterpriseBtn">↻ Refresh</button>
+            <button id="saveEnterpriseBtn" class="primary">Save</button>
+            <button id="enableBusinessModeBtn">Enable Business</button>
+            <button id="disableBusinessModeBtn">Disable Business</button>
+          </div>
+          <pre id="enterpriseOut" class="terminal"></pre>
+        </section>
+
+        <!-- ── AUDIT + BACKUP ── -->
+        <section class="card">
+          <h2>◉ Audit + Backup</h2>
+          <p class="muted">Query the audit log, create system backups, and configure external storage.</p>
+          <div class="row">
+            <input id="auditTypeInput" placeholder="audit eventType" />
+            <button id="refreshAuditBtn" style="width:auto;padding:10px 20px">Audit</button>
+          </div>
+          <pre id="auditOut" class="terminal" style="margin-top:8px"></pre>
+          <div class="row" style="margin-top:10px">
+            <button id="createBackupBtn">Create Backup</button>
+            <button id="refreshBackupsBtn">↻ Refresh Backups</button>
+          </div>
+          <div class="dropzone" id="backupDropzone">
+            <p style="margin:0;font-family:var(--font-mono);font-size:10px;color:var(--muted);text-transform:uppercase">Drag .json backup here</p>
+            <input id="backupFileInput" type="file" accept="application/json,.json" />
+            <button id="importBackupBtn">Import Backup</button>
+          </div>
+          <div id="backupsOut" style="margin-top:10px"></div>
+          <h3>Storage + Memory</h3>
+          <div class="grid2">
+            <label>Mode
+              <select id="storageModeInput">
+                <option value="local">local</option>
+                <option value="external">external drive</option>
+              </select>
+            </label>
+            <label>DB Option
+              <select id="storageDbInput">
+                <option value="json">json</option>
+                <option value="sqlite">sqlite</option>
+                <option value="hybrid">hybrid</option>
+              </select>
+            </label>
+          </div>
+          <label>External Drive Path <input id="storageExternalPathInput" placeholder="/Volumes/MyDrive/lux" /></label>
+          <label>Memory Backup Path <input id="storageMemoryPathInput" placeholder="/Volumes/MyDrive/lux-memory" /></label>
+          <label>Performance
+            <select id="storagePerfInput">
+              <option value="balanced">balanced</option>
+              <option value="speed">speed</option>
+              <option value="memory-safe">memory-safe</option>
+            </select>
+          </label>
+          <div class="row">
+            <button id="refreshStorageBtn">↻ Refresh</button>
+            <button id="saveStorageBtn" class="primary">Save Storage</button>
+          </div>
+          <pre id="storageOut" class="terminal"></pre>
+        </section>
+
+        <!-- ── MEDIA + DIFF ── -->
+        <section class="card">
+          <h2>◉ Media + Diff + Snapshots</h2>
+          <p class="muted">Analyze files, compare before/after diffs, and create project snapshots for rollback.</p>
+          <label>File Path <input id="mediaPathInput" placeholder="/absolute/path/to/file.pdf" /></label>
+          <div class="row">
+            <button id="analyzeMediaBtn" class="primary">Analyze</button>
+            <button id="refreshMediaBtn">↻ Refresh</button>
+          </div>
+          <div id="mediaOut" style="margin-top:10px"></div>
+          <h3>Diff Viewer</h3>
+          <label>Before <input id="diffBeforeInput" placeholder="/path/to/before.txt" /></label>
+          <label>After <input id="diffAfterInput" placeholder="/path/to/after.txt" /></label>
+          <button id="runDiffBtn">Compare</button>
+          <pre id="diffOut" class="terminal" style="margin-top:8px"></pre>
+          <h3>Snapshots</h3>
+          <label>Project Path <input id="snapshotProjectInput" placeholder="/absolute/path/to/project" /></label>
+          <label>Label <input id="snapshotLabelInput" placeholder="Before major refactor" /></label>
+          <div class="row">
+            <button id="createSnapshotBtn" class="primary">Create</button>
+            <button id="refreshSnapshotsBtn">↻ Refresh</button>
+          </div>
+          <div id="snapshotsOut" style="margin-top:10px"></div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toastHost" class="toast-host"></div>
+    <div id="commandPalette" class="palette hidden">
+      <div class="palette-card">
+        <div class="palette-head">
+          <h3 style="margin:0;font-family:var(--font-display);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--amber)">Command Palette</h3>
+          <button id="closePaletteBtn" style="width:auto;padding:6px 14px">Close</button>
+        </div>
+        <input id="paletteSearch" placeholder="Type a command..." />
+        <div id="paletteList" class="palette-list"></div>
+      </div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

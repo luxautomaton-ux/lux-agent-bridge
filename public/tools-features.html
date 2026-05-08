@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Features - All Manus Capabilities</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
+    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
+    .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
+    .sidebar-logo img { height: 40px; width: auto; display: block; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav-section { margin-bottom: 16px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; padding: 0 12px; }
+    .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; cursor: pointer; }
+    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+    .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 8px var(--accent-primary); }
+    .main-content { padding: 32px 40px; overflow-y: auto; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+    .feature-card { padding: 20px; background: var(--bg-elevated); border-radius: 12px; border: 1px solid var(--border-subtle); transition: all 0.2s; cursor: pointer; }
+    .feature-card:hover { border-color: var(--accent-primary); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,212,170,0.15); }
+    .feature-icon { font-size: 36px; margin-bottom: 12px; }
+    .feature-name { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .feature-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+    .feature-btn { display: inline-block; padding: 8px 16px; background: var(--gradient-glow); border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--bg-deep); text-decoration: none; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+    .form-input, .form-select, .form-textarea { width: 100%; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; color: var(--text-primary); font-size: 14px; }
+    .form-textarea { min-height: 100px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--gradient-glow); color: var(--bg-deep); }
+    .btn-secondary { background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-subtle); }
+    .terminal { background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
+    .template-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .template-item { padding: 16px; background: var(--bg-elevated); border-radius: 8px; text-align: center; cursor: pointer; border: 1px solid var(--border-subtle); transition: all 0.2s; }
+    .template-item:hover { border-color: var(--accent-primary); }
+    .template-icon { font-size: 28px; margin-bottom: 8px; }
+    .template-name { font-size: 13px; font-weight: 600; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
+          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
+          <a class="nav-link" href="/control-runner.html">▶ Runner</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Tools</div>
+          <a class="nav-link" href="/tools-skills.html">⚡ Skills</a>
+          <a class="nav-link active" href="/tools-features.html">🎯 All Features</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">System</div>
+          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
+          <a class="nav-link" href="/INSTRUCTIONS.html">📖 Instructions</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
+    </aside>
+    <main class="main-content">
+      <div class="page-header"><h1>🎯 All Features</h1><p class="subtitle">Complete Manus-style capabilities</p></div>
+
+      <!-- Quick Actions Grid -->
+      <div class="card">
+        <div class="card-title">🚀 Quick Actions</div>
+        <div class="feature-grid">
+          <div class="feature-card" onclick="openFeature('reports')">
+            <div class="feature-icon">📊</div>
+            <div class="feature-name">Generate Report</div>
+            <div class="feature-desc">Create analysis, status, and summary reports</div>
+            <span class="feature-btn">Create Report</span>
+          </div>
+          <div class="feature-card" onclick="openFeature('slides')">
+            <div class="feature-icon">📽️</div>
+            <div class="feature-name">Create Slides</div>
+            <div class="feature-desc">Generate presentation slides from topics</div>
+            <span class="feature-btn">Create Slides</span>
+          </div>
+          <div class="feature-card" onclick="openFeature('research')">
+            <div class="feature-icon">🔬</div>
+            <div class="feature-name">Research</div>
+            <div class="feature-desc">Deep research on any topic</div>
+            <span class="feature-btn">Start Research</span>
+          </div>
+          <div class="feature-card" onclick="openFeature('browser')">
+            <div class="feature-icon">🌐</div>
+            <div class="feature-name">Web Browser</div>
+            <div class="feature-desc">Navigate and extract web content</div>
+            <span class="feature-btn">Open Browser</span>
+          </div>
+          <div class="feature-card" onclick="openFeature('app')">
+            <div class="feature-icon">📱</div>
+            <div class="feature-name">Create App</div>
+            <div class="feature-desc">Build web, React, Python apps</div>
+            <span class="feature-btn">Create App</span>
+          </div>
+          <div class="feature-card" onclick="openFeature('video')">
+            <div class="feature-icon">🎬</div>
+            <div class="feature-name">Video Analysis</div>
+            <div class="feature-desc">Analyze video content and extract info</div>
+            <span class="feature-btn">Analyze Video</span>
+          </div>
+          <div class="feature-card" onclick="openFeature('code')">
+            <div class="feature-icon">💻</div>
+            <div class="feature-name">Code Runner</div>
+            <div class="feature-desc">Execute JavaScript, Python, Bash</div>
+            <span class="feature-btn">Run Code</span>
+          </div>
+          <div class="feature-card" onclick="openFeature('security')">
+            <div class="feature-icon">🔒</div>
+            <div class="feature-name">Security Scan</div>
+            <div class="feature-desc">Scan code for vulnerabilities</div>
+            <span class="feature-btn">Scan Code</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Panels -->
+      <div id="featurePanels" style="display:none;">
+        <!-- Reports Panel -->
+        <div class="card" id="panel-reports">
+          <div class="card-title">📊 Generate Report</div>
+          <div class="grid-2">
+            <div>
+              <div class="form-group">
+                <label class="form-label">Report Title</label>
+                <input id="reportTitle" class="form-input" placeholder="e.g., Weekly Status Report" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Report Type</label>
+                <select id="reportType" class="form-select">
+                  <option value="summary">Summary</option>
+                  <option value="analysis">Analysis</option>
+                  <option value="status">Status Update</option>
+                  <option value="audit">Audit</option>
+                  <option value="performance">Performance</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Content</label>
+                <textarea id="reportContent" class="form-textarea" placeholder="What should be in the report..."></textarea>
+              </div>
+              <button class="btn btn-primary" onclick="generateReport()">Generate Report</button>
+            </div>
+            <div>
+              <pre id="reportOutput" class="terminal">Report will appear here...</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slides Panel -->
+        <div class="card" id="panel-slides">
+          <div class="card-title">📽️ Create Slides</div>
+          <div class="grid-2">
+            <div>
+              <div class="form-group">
+                <label class="form-label">Presentation Topic</label>
+                <input id="slidesTopic" class="form-input" placeholder="e.g., AI in 2024" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Number of Slides</label>
+                <input id="slidesCount" type="number" class="form-input" value="5" min="3" max="20" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Style</label>
+                <select id="slidesStyle" class="form-select">
+                  <option value="modern">Modern</option>
+                  <option value="classic">Classic</option>
+                  <option value="minimal">Minimal</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="generateSlides()">Generate Slides</button>
+            </div>
+            <div>
+              <pre id="slidesOutput" class="terminal">Slides will appear here...</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Browser Panel -->
+        <div class="card" id="panel-browser">
+          <div class="card-title">🌐 Web Browser</div>
+          <div class="form-group">
+            <label class="form-label">URL</label>
+            <input id="browserUrl" class="form-input" placeholder="https://example.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Action</label>
+            <select id="browserAction" class="form-select">
+              <option value="scrape">Extract Content</option>
+              <option value="screenshot">Take Screenshot</option>
+              <option value="links">Get All Links</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="runBrowser()">Navigate</button>
+          <pre id="browserOutput" class="terminal" style="margin-top:16px;">Browser output...</pre>
+        </div>
+
+        <!-- App Creation Panel -->
+        <div class="card" id="panel-app">
+          <div class="card-title">📱 Create Application</div>
+          <div class="form-group">
+            <label class="form-label">App Name</label>
+            <input id="appName" class="form-input" placeholder="My Awesome App" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">App Type</label>
+            <div class="template-grid" id="appTemplates">
+              <div class="template-item" onclick="selectTemplate('web')">
+                <div class="template-icon">🌐</div>
+                <div class="template-name">Web App</div>
+              </div>
+              <div class="template-item" onclick="selectTemplate('react')">
+                <div class="template-icon">⚛️</div>
+                <div class="template-name">React</div>
+              </div>
+              <div class="template-item" onclick="selectTemplate('python')">
+                <div class="template-icon">🐍</div>
+                <div class="template-name">Python</div>
+              </div>
+              <div class="template-item" onclick="selectTemplate('cli')">
+                <div class="template-icon">💻</div>
+                <div class="template-name">CLI Tool</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Features (comma-separated)</label>
+            <input id="appFeatures" class="form-input" placeholder="e.g., auth, dashboard, api" />
+          </div>
+          <button class="btn btn-primary" onclick="createApp()">Create App</button>
+          <pre id="appOutput" class="terminal" style="margin-top:16px;">App creation output...</pre>
+        </div>
+
+        <!-- Video Panel -->
+        <div class="card" id="panel-video">
+          <div class="card-title">🎬 Video Analysis</div>
+          <div class="form-group">
+            <label class="form-label">Video URL or Path</label>
+            <input id="videoUrl" class="form-input" placeholder="https://... or /path/to/video.mp4" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Analysis Type</label>
+            <select id="videoAnalysisType" class="form-select">
+              <option value="summary">Content Summary</option>
+              <option value="transcript">Extract Transcript</option>
+              <option value="scenes">Scene Detection</option>
+              <option value="frames">Key Frames</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="analyzeVideo()">Analyze Video</button>
+          <pre id="videoOutput" class="terminal" style="margin-top:16px;">Video analysis output...</pre>
+        </div>
+
+        <!-- Code Panel -->
+        <div class="card" id="panel-code">
+          <div class="card-title">💻 Code Execution</div>
+          <div class="form-group">
+            <label class="form-label">Language</label>
+            <select id="codeLang" class="form-select">
+              <option value="javascript">JavaScript</option>
+              <option value="python">Python</option>
+              <option value="bash">Bash</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Code</label>
+            <textarea id="codeEditor" class="form-textarea" style="min-height:150px;font-family:var(--font-mono);" placeholder="// Write your code here..."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="runCode()">Run Code</button>
+          <pre id="codeOutput" class="terminal" style="margin-top:16px;">Code output...</pre>
+        </div>
+
+        <!-- Security Panel -->
+        <div class="card" id="panel-security">
+          <div class="card-title">🔒 Security Scanner</div>
+          <div class="form-group">
+            <label class="form-label">Code to Scan</label>
+            <textarea id="securityCode" class="form-textarea" style="min-height:150px;font-family:var(--font-mono);" placeholder="// Paste code here..."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="runSecurityScan()">Scan for Issues</button>
+          <pre id="securityOutput" class="terminal" style="margin-top:16px;">Scan results...</pre>
+        </div>
+
+        <!-- Research Panel -->
+        <div class="card" id="panel-research">
+          <div class="card-title">🔬 Research Mode</div>
+          <div class="form-group">
+            <label class="form-label">Research Topic</label>
+            <input id="researchTopic" class="form-input" placeholder="Enter topic..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Depth</label>
+            <select id="researchDepth" class="form-select">
+              <option value="quick">Quick</option>
+              <option value="standard">Standard</option>
+              <option value="deep">Deep</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="runResearch()">Start Research</button>
+          <pre id="researchOutput" class="terminal" style="margin-top:16px;">Research results...</pre>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/lux-core.js"></script>
+  <script>
+    let selectedAppType = 'web';
+
+    function openFeature(name) {
+      document.getElementById('featurePanels').style.display = 'block';
+      document.querySelectorAll('.card[id^="panel-"]').forEach(c => c.style.display = 'none');
+      document.getElementById('panel-' + name).style.display = 'block';
+    }
+
+    function selectTemplate(type) {
+      selectedAppType = type;
+      document.querySelectorAll('.template-item').forEach(t => t.style.borderColor = '');
+      event.target.closest('.template-item').style.borderColor = 'var(--accent-primary)';
+    }
+
+    async function generateReport() {
+      const data = await luxApi('/api/reports/generate', {
+        method: 'POST',
+        body: JSON.stringify({
+          title: document.getElementById('reportTitle').value,
+          type: document.getElementById('reportType').value,
+          content: document.getElementById('reportContent').value
+        })
+      });
+      document.getElementById('reportOutput').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function generateSlides() {
+      const data = await luxApi('/api/slides/generate', {
+        method: 'POST',
+        body: JSON.stringify({
+          topic: document.getElementById('slidesTopic').value,
+          slides: parseInt(document.getElementById('slidesCount').value),
+          style: document.getElementById('slidesStyle').value
+        })
+      });
+      document.getElementById('slidesOutput').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function runBrowser() {
+      const data = await luxApi('/api/browser/navigate', {
+        method: 'POST',
+        body: JSON.stringify({
+          url: document.getElementById('browserUrl').value,
+          action: document.getElementById('browserAction').value
+        })
+      });
+      document.getElementById('browserOutput').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function createApp() {
+      const data = await luxApi('/api/apps/create', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: document.getElementById('appName').value,
+          appType: selectedAppType,
+          features: document.getElementById('appFeatures').value.split(',').map(f => f.trim()).filter(Boolean)
+        })
+      });
+      document.getElementById('appOutput').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function analyzeVideo() {
+      const data = await luxApi('/api/media/video/analyze', {
+        method: 'POST',
+        body: JSON.stringify({
+          videoUrl: document.getElementById('videoUrl').value,
+          analyzeType: document.getElementById('videoAnalysisType').value
+        })
+      });
+      document.getElementById('videoOutput').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function runCode() {
+      const data = await luxApi('/api/chat/code', {
+        method: 'POST',
+        body: JSON.stringify({
+          code: document.getElementById('codeEditor').value,
+          language: document.getElementById('codeLang').value
+        })
+      });
+      document.getElementById('codeOutput').textContent = data.ok ? data.result : data.error;
+    }
+
+    async function runSecurityScan() {
+      const data = await luxApi('/api/security/scan', {
+        method: 'POST',
+        body: JSON.stringify({ code: document.getElementById('securityCode').value })
+      });
+      document.getElementById('securityOutput').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function runResearch() {
+      const data = await luxApi('/api/chat/research', {
+        method: 'POST',
+        body: JSON.stringify({
+          topic: document.getElementById('researchTopic').value,
+          depth: document.getElementById('researchDepth').value
+        })
+      });
+      document.getElementById('researchOutput').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>

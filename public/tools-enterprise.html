@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Enterprise</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
+    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
+    .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
+    .sidebar-logo img { height: 40px; width: auto; display: block; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav-section { margin-bottom: 16px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; padding: 0 12px; }
+    .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+    .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 8px var(--accent-primary); }
+    .main-content { padding: 32px 40px; overflow-y: auto; max-width: 1200px; margin: 0 auto; width: 100%; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+    .form-input, .form-select { width: 100%; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; color: var(--text-primary); font-size: 14px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--gradient-glow); color: var(--bg-deep); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .checkbox-group { display: flex; flex-direction: column; gap: 12px; }
+    .checkbox-label { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .checkbox-label input { accent-color: var(--accent-primary); }
+    @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
+          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
+          <a class="nav-link" href="/control-runner.html">▶ Runner</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Tools</div>
+          <a class="nav-link" href="/tools-skills.html">⚡ Skills</a>
+          <a class="nav-link" href="/tools-mcp.html">🔗 MCP</a>
+          <a class="nav-link" href="/tools-capabilities.html">⊛ Workflows</a>
+          <a class="nav-link active" href="/tools-enterprise.html">⚙ Enterprise</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">System</div>
+          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
+    </aside>
+    <main class="main-content">
+      <div class="page-header"><h1>Enterprise Settings</h1><p class="subtitle">Configure model, memory, and business controls</p></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Model Configuration</div>
+          <div class="form-group">
+            <label class="form-label">Provider</label>
+            <select id="modelProvider" class="form-select">
+              <option value="openai">OpenAI</option>
+              <option value="anthropic">Anthropic</option>
+              <option value="local">Local</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Model Name</label>
+            <input id="modelName" class="form-input" placeholder="gpt-4o" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Memory Settings</div>
+          <div class="form-group">
+            <label class="form-label">Max Context Tokens</label>
+            <input id="maxTokens" type="number" class="form-input" value="128000" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Memory Mode</label>
+            <select id="memoryMode" class="form-select">
+              <option value="standard">Standard</option>
+              <option value="expanded">Expanded</option>
+              <option value="minimal">Minimal</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Business Controls</div>
+        <div class="checkbox-group">
+          <label class="checkbox-label"><input type="checkbox" id="approvalRequired" /> Require Approval for Risky Actions</label>
+          <label class="checkbox-label"><input type="checkbox" id="auditLogging" checked /> Enable Audit Logging</label>
+        </div>
+      </div>
+      <button id="saveBtn" class="btn btn-primary">Save Settings</button>
+    </main>
+  </div>
+  <script src="/lux-core.js"></script>
+  <script>
+    async function load() { try { const s = await luxApi('/api/enterprise/settings'); if (s) { document.getElementById('modelProvider').value = s.modelProvider || 'openai'; document.getElementById('modelName').value = s.modelName || ''; document.getElementById('maxTokens').value = s.maxTokens || 128000; document.getElementById('memoryMode').value = s.memoryMode || 'standard'; document.getElementById('approvalRequired').checked = s.approvalRequired; document.getElementById('auditLogging').checked = s.auditLogging !== false; } } catch (e) {} }
+    document.getElementById('saveBtn').onclick = async () => { await luxApi('/api/enterprise/settings', { method: 'PUT', body: JSON.stringify({ modelProvider: document.getElementById('modelProvider').value, modelName: document.getElementById('modelName').value, maxTokens: parseInt(document.getElementById('maxTokens').value), memoryMode: document.getElementById('memoryMode').value, approvalRequired: document.getElementById('approvalRequired').checked, auditLogging: document.getElementById('auditLogging').checked }) }); alert('Settings saved'); };
+    load();
+  </script>
+</body>
+</html>

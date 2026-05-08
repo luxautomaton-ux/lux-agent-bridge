@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lux Status</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
+    .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
+    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
+    .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
+    .sidebar-logo img { height: 40px; width: auto; display: block; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .nav-section { margin-bottom: 16px; }
+    .nav-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; padding: 0 12px; }
+    .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .nav-link:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .nav-link.active { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-subtle); }
+    .status-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); }
+    .status-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; box-shadow: 0 0 8px var(--accent-primary); }
+    .main-content { padding: 32px 40px; overflow-y: auto; max-width: 1200px; margin: 0 auto; width: 100%; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 14px; color: var(--text-secondary); }
+    .card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .card-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+    .status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .status-item { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--bg-elevated); border-radius: 8px; }
+    .status-icon { font-size: 24px; }
+    .status-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .status-info p { font-size: 12px; color: var(--text-secondary); }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-success { background: rgba(0,212,170,0.15); color: var(--accent-primary); }
+    .badge-warning { background: rgba(255,179,71,0.15); color: var(--accent-warning); }
+    .badge-danger { background: rgba(255,87,87,0.15); color: var(--accent-danger); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+    .btn-primary { background: var(--gradient-glow); color: var(--bg-deep); }
+    .terminal { background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); white-space: pre-wrap; max-height: 200px; overflow-y: auto; }
+    @media (max-width: 800px) { .status-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
+      <nav class="sidebar-nav">
+        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
+          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
+          <a class="nav-link" href="/control-runner.html">▶ Runner</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">System</div>
+          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
+          <a class="nav-link" href="/">◈ Landing</a>
+          <a class="nav-link" href="/setup.html">⚒ Setup</a>
+          <a class="nav-link active" href="/status.html">◐ Status</a>
+        </div>
+      </nav>
+      <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
+    </aside>
+    <main class="main-content">
+      <div class="page-header"><h1>System Status</h1><p class="subtitle">Monitor your Lux Agent Studio</p></div>
+
+      <div class="card">
+        <div class="card-title">🔴 System Health</div>
+        <div class="status-grid" id="healthGrid">
+          <div class="status-item">
+            <span class="status-icon">🌐</span>
+            <div class="status-info">
+              <h4>Bridge Server</h4>
+              <p id="bridgeStatus">Loading...</p>
+            </div>
+          </div>
+          <div class="status-item">
+            <span class="status-icon">🤖</span>
+            <div class="status-info">
+              <h4>OpenMono Agent</h4>
+              <p id="openMonoStatus">Loading...</p>
+            </div>
+          </div>
+          <div class="status-item">
+            <span class="status-icon">🐳</span>
+            <div class="status-info">
+              <h4>Docker</h4>
+              <p id="dockerStatus">Loading...</p>
+            </div>
+          </div>
+          <div class="status-item">
+            <span class="status-icon">🧠</span>
+            <div class="status-info">
+              <h4>Local Model</h4>
+              <p id="modelStatus">Loading...</p>
+            </div>
+          </div>
+          <div class="status-item">
+            <span class="status-icon">🔒</span>
+            <div class="status-info">
+              <h4>Privacy Mode</h4>
+              <p id="privacyStatus">Loading...</p>
+            </div>
+          </div>
+          <div class="status-item">
+            <span class="status-icon">🔗</span>
+            <div class="status-info">
+              <h4>Relay Server</h4>
+              <p id="relayStatus">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📊 API Endpoints</div>
+        <button onclick="loadApiStatus()" class="btn btn-primary">Refresh Status</button>
+        <pre id="apiStatus" class="terminal" style="margin-top:16px;">Click Refresh to load API status.</pre>
+      </div>
+    </main>
+  </div>
+  <script src="/lux-core.js"></script>
+  <script>
+    async function loadHealth() {
+      try {
+        const data = await luxApi('/api/health');
+        
+        document.getElementById('bridgeStatus').innerHTML = data.online 
+          ? '<span class="badge badge-success">Online</span>' 
+          : '<span class="badge badge-danger">Offline</span>';
+        
+        document.getElementById('openMonoStatus').innerHTML = data.openMonoAgentDetected 
+          ? '<span class="badge badge-success">Detected</span>' 
+          : '<span class="badge badge-warning">Not Found</span>';
+        
+        document.getElementById('dockerStatus').innerHTML = data.dockerDetected 
+          ? '<span class="badge badge-success">Detected</span>' 
+          : '<span class="badge badge-warning">Not Found</span>';
+        
+        document.getElementById('modelStatus').innerHTML = data.localModel?.ok 
+          ? '<span class="badge badge-success">Ready</span>' 
+          : '<span class="badge badge-warning">Not Available</span>';
+        
+        document.getElementById('privacyStatus').innerHTML = data.localPrivateMode?.localhostOnly 
+          ? '<span class="badge badge-success">Local Only</span>' 
+          : '<span class="badge badge-warning">LAN Mode</span>';
+        
+        document.getElementById('relayStatus').innerHTML = '<span class="badge badge-warning">Not Connected</span>';
+        
+      } catch (e) {
+        console.error('Health check failed:', e);
+      }
+    }
+
+    async function loadApiStatus() {
+      document.getElementById('apiStatus').textContent = 'Loading...';
+      try {
+        const endpoints = [
+          { name: 'Health', url: '/api/health' },
+          { name: 'Skills', url: '/api/skills' },
+          { name: 'MCP', url: '/api/mcps' },
+          { name: 'Projects', url: '/api/projects' },
+          { name: 'Backups', url: '/api/backups' },
+          { name: 'Storage', url: '/api/storage/status' }
+        ];
+        
+        let output = '';
+        for (const ep of endpoints) {
+          try {
+            const res = await fetch(ep.url);
+            const status = res.ok ? '✓' : '✗';
+            output += `${status} ${ep.name}: ${res.status}\n`;
+          } catch {
+            output += `✗ ${ep.name}: Error\n`;
+          }
+        }
+        document.getElementById('apiStatus').textContent = output;
+      } catch (e) {
+        document.getElementById('apiStatus').textContent = 'Error: ' + e.message;
+      }
+    }
+
+    loadHealth();
+    loadApiStatus();
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+{
+  "tokenPricePerTokenUsd": 0.000004,
+  "hardware": [
+    {
+      "name": "Ryzen 9 7940HS + DDR5 dual-channel",
+      "memory": "32 GB",
+      "tokS": "~20"
+    },
+    {
+      "name": "RTX 3090 (recommended value)",
+      "memory": "24 GB VRAM",
+      "tokS": "~42-45"
+    },
+    {
+      "name": "RTX 4090",
+      "memory": "24 GB VRAM",
+      "tokS": "~47-50"
+    },
+    {
+      "name": "RTX 5090",
+      "memory": "32 GB VRAM",
+      "tokS": "~75-80"
+    }
+  ],
+  "compare": {
+    "cost": {
+      "claude": "Per-token",
+      "opencode": "Per-token",
+      "lux": "Unlimited local prompts"
+    },
+    "privacy": {
+      "claude": "Cloud-first",
+      "opencode": "Cloud + Offline",
+      "lux": "Local-first private runtime"
+    },
+    "install": {
+      "claude": "Simple",
+      "opencode": "Advanced",
+      "lux": "Simple + setup wizard"
+    },
+    "localLLM": {
+      "claude": "Limited",
+      "opencode": "Agent-side",
+      "lux": "Agent + inference routing"
+    },
+    "tools": {
+      "claude": "Rich",
+      "opencode": "Moderate",
+      "lux": "Native + MCP expansion"
+    },
+    "sandboxing": {
+      "claude": "Varies",
+      "opencode": "Host-centric",
+      "lux": "Docker-native + approvals"
+    },
+    "license": {
+      "claude": "Commercial",
+      "opencode": "Open source",
+      "lux": "Open core private stack"
+    }
+  }
+}

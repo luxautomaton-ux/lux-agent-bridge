@@ -1,0 +1,127 @@
+# PLAYBOOK TEMPLATE
+# Copy this template to create new playbooks
+
+name: Playbook Name
+description: Brief description of what this playbook does
+version: 1.0
+category: development|security|research|devops|quality
+icon: 🚀|🔍|🛡️|⚙️|📊
+
+# Parameters - user inputs
+parameters:
+  paramName:
+    type: string|number|boolean|array
+    required: true|false
+    default: default_value
+    description: What this parameter does
+    enum: [option1, option2]  # Optional: for limited choices
+
+# Steps - execution pipeline
+steps:
+  # Step 1
+  - id: step-one
+    description: What this step does
+    requires: []  # No dependencies - runs first
+    gate: None|Confirm|Review|Approve
+    inline-prompt: |
+      Instructions for the agent.
+      Use ${parameterName} to reference inputs.
+      Use ${previousStep.output} to reference outputs.
+    output: step_one_output
+    # Optional: Save output to file
+    file: ${projectPath}/output.txt
+    # Optional: Only run if condition is true
+    condition: ${paramName} == value
+
+  # Step 2 - depends on step 1
+  - id: step-two
+    description: What happens after step one
+    requires: [step-one]  # Wait for step one
+    gate: None
+    inline-prompt: |
+      More instructions...
+      Reference previous: ${step_one_output}
+    output: step_two_output
+
+# Settings
+settings:
+  allow-destructive: false  # Allow file deletions?
+  timeout: 600              # Max seconds
+  retry-failed: true       # Retry on failure?
+  max-retries: 2           # How many retries
+
+---
+
+## Gate Types
+
+| Gate | Description | Use Case |
+|------|-------------|----------|
+| `None` | No pause, continues immediately | Safe operations |
+| `Confirm` | Show what's about to happen, wait for yes/no | Reversible changes |
+| `Review` | Show output, allow editing before continuing | Sign-off required |
+| `Approve` | Full summary, explicit approval needed | Production changes |
+
+---
+
+## Variable References
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `${paramName}` | User input parameter | `${projectPath}` |
+| `${stepId.output}` | Previous step's output | `${lint_results.summary}` |
+| `${stepId.file}` | File created by step | `${analysis_report}` |
+
+---
+
+## Conditional Execution
+
+Use `condition` to optionally run steps:
+
+```yaml
+- id: security-scan
+  condition: ${includeSecurity} == true
+  # Only runs if includeSecurity is true
+```
+
+---
+
+## File Outputs
+
+Save step output to a file:
+
+```yaml
+- id: generate-report
+  file: ${projectPath}/REPORT.md
+  # Saves output to REPORT.md
+```
+
+---
+
+## Example: Minimal Playbook
+
+```yaml
+name: Hello World
+description: Simple example playbook
+version: 1.0
+
+parameters:
+  name:
+    type: string
+    required: true
+
+steps:
+  - id: greet
+    requires: []
+    gate: None
+    inline-prompt: |
+      Say hello to ${name}!
+    output: greeting
+
+  - id: confirm
+    requires: [greet]
+    gate: Confirm
+    inline-prompt: |
+      The greeting is: ${greeting}
+      Should we proceed?
+    output: confirmation
+```
