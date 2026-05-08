@@ -2238,6 +2238,127 @@ app.get("/api/skills/all", (_req, res) => {
   res.json({ ok: true, skills });
 });
 
+// Sync skills from VoltAgent awesome-agent-skills list
+app.post("/api/skills/sync-awesome", async (_req, res) => {
+  const awesomeUrl = "https://raw.githubusercontent.com/VoltAgent/awesome-agent-skills/main/README.md";
+  try {
+    const response = await fetch(awesomeUrl);
+    if (!response.ok) {
+      return res.status(502).json({ ok: false, error: `Failed to fetch list (${response.status})` });
+    }
+
+    const markdown = await response.text();
+    const regex = /\[[^\]]+\]\((https:\/\/github\.com\/[^)\s]+)\)/g;
+    const links = [];
+    let match;
+    while ((match = regex.exec(markdown)) !== null) {
+      links.push(match[1]);
+    }
+
+    const cleaned = Array.from(new Set(links
+      .map((u) => u.replace(/\/$/, "").replace(/\.git$/, ""))
+      .filter((u) => /^https:\/\/github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(u))
+      .filter((u) => !u.includes("VoltAgent/awesome-agent-skills"))
+      .filter((u) => !u.includes("github.com/user-attachments/"))
+      .filter((u) => !u.includes("github.com/sponsors/"))
+    ));
+
+    const skills = safeReadJSON(SKILLS_DB_PATH, []);
+    const existingUrls = new Set(skills.map((s) => String(s.sourceUrl || "").replace(/\/$/, "")));
+
+    let added = 0;
+    let skipped = 0;
+    for (const sourceUrl of cleaned) {
+      if (existingUrls.has(sourceUrl)) {
+        skipped += 1;
+        continue;
+      }
+      const name = sourceUrl.split("/").pop();
+      skills.push({
+        id: uuidv4(),
+        name,
+        sourceUrl,
+        description: `Imported from VoltAgent awesome-agent-skills (${name})`,
+        createdAt: nowISO()
+      });
+      added += 1;
+    }
+
+    safeWriteJSON(SKILLS_DB_PATH, skills);
+    audit("skills_synced_awesome", { discovered: cleaned.length, added, skipped });
+    return res.json({ ok: true, discovered: cleaned.length, added, skipped, total: skills.length });
+  } catch (error) {
+    return res.status(500).json({ ok: false, error: error.message || "sync failed" });
+  }
+});
+
+// Verify all registered skill source URLs
+app.post("/api/skills/verify", async (_req, res) => {
+  const skills = safeReadJSON(SKILLS_DB_PATH, []);
+  const results = [];
+
+  for (const skill of skills) {
+    const sourceUrl = String(skill.sourceUrl || "").trim();
+    if (!sourceUrl || sourceUrl === "built-in") {
+      results.push({ id: skill.id, name: skill.name, status: "no_url" });
+      continue;
+    }
+
+    try {
+      const r = await fetch(sourceUrl, { method: "HEAD", redirect: "follow" });
+      results.push({
+        id: skill.id,
+        name: skill.name,
+        sourceUrl,
+        status: r.ok ? "ok" : "broken",
+        code: r.status
+      });
+    } catch (_err) {
+      results.push({ id: skill.id, name: skill.name, sourceUrl, status: "broken", code: 0 });
+    }
+  }
+
+  const summary = {
+    total: results.length,
+    ok: results.filter((x) => x.status === "ok").length,
+    broken: results.filter((x) => x.status === "broken").length,
+    noUrl: results.filter((x) => x.status === "no_url").length
+  };
+
+  audit("skills_verified", summary);
+  return res.json({ ok: true, summary, results });
+});
+
+// Remove all skills with broken source URLs
+app.post("/api/skills/remove-broken", async (_req, res) => {
+  const skills = safeReadJSON(SKILLS_DB_PATH, []);
+  const kept = [];
+  const removed = [];
+
+  for (const skill of skills) {
+    const sourceUrl = String(skill.sourceUrl || "").trim();
+    if (!sourceUrl || sourceUrl === "built-in") {
+      kept.push(skill);
+      continue;
+    }
+
+    try {
+      const r = await fetch(sourceUrl, { method: "HEAD", redirect: "follow" });
+      if (r.ok) {
+        kept.push(skill);
+      } else {
+        removed.push({ id: skill.id, name: skill.name, sourceUrl, code: r.status });
+      }
+    } catch (_err) {
+      removed.push({ id: skill.id, name: skill.name, sourceUrl, code: 0 });
+    }
+  }
+
+  safeWriteJSON(SKILLS_DB_PATH, kept);
+  audit("skills_removed_broken", { removed: removed.length, remaining: kept.length });
+  return res.json({ ok: true, removedCount: removed.length, remaining: kept.length, removed });
+});
+
 // ═══ OPENMONO AGENT CONFIGURATION ═══
 const OPENMONO_CONFIG_PATH = path.join(ROOT_DIR, "playbooks", "openmono-config.json");
 

@@ -52,6 +52,10 @@
     .repo-name { font-weight: 600; color: var(--accent-primary); }
     .repo-desc { font-size: 12px; color: var(--text-secondary); }
     .repo-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: rgba(0,212,170,0.1); color: var(--accent-primary); margin-left: 8px; }
+    .status-ok { color: var(--accent-primary); font-size: 11px; }
+    .status-broken { color: #ff6b6b; font-size: 11px; }
+    .status-neutral { color: var(--text-muted); font-size: 11px; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
     @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -120,6 +124,12 @@
       <!-- Registered Skills -->
       <div class="card">
         <div class="card-title">📦 My Skills</div>
+        <div class="toolbar" style="margin-bottom: 14px;">
+          <button id="syncAwesome" class="btn btn-primary">⚡ Sync Awesome Skills</button>
+          <button id="verifySkills" class="btn btn-secondary">✅ Verify Skill Links</button>
+          <button id="removeBroken" class="btn btn-secondary">🧹 Remove Broken Skills</button>
+          <span id="verifySummary" class="text-muted" style="font-size:12px;"></span>
+        </div>
         <div id="skillsList"><p class="text-muted">Loading...</p></div>
       </div>
 
@@ -212,6 +222,8 @@
       }
     }
 
+    let skillHealthMap = {};
+
     // Load skills
     async function loadSkills() {
       try {
@@ -222,6 +234,9 @@
               <div class="list-item-content">
                 <div class="list-item-title">${s.name}</div>
                 <div class="list-item-subtitle">${s.description || s.sourceUrl || 'No description'}</div>
+                <div class="${skillHealthMap[s.id] === 'ok' ? 'status-ok' : skillHealthMap[s.id] === 'broken' ? 'status-broken' : 'status-neutral'}">
+                  ${skillHealthMap[s.id] === 'ok' ? 'Link verified' : skillHealthMap[s.id] === 'broken' ? 'Link broken' : 'Not verified'}
+                </div>
               </div>
               <div class="list-item-actions">
                 ${s.sourceUrl ? `<a href="${s.sourceUrl}" target="_blank" class="btn btn-secondary btn-sm">View</a>` : ''}
@@ -259,6 +274,64 @@
     window.removeSkill = async (id) => {
       await luxApi('/api/skills/' + id, { method: 'DELETE' });
       loadSkills();
+    };
+
+    // Sync all from awesome-agent-skills
+    document.getElementById('syncAwesome').onclick = async () => {
+      const btn = document.getElementById('syncAwesome');
+      btn.disabled = true;
+      btn.textContent = 'Syncing...';
+      try {
+        const result = await luxApi('/api/skills/sync-awesome', { method: 'POST' });
+        alert(`Sync complete. Added: ${result.added}, Skipped: ${result.skipped}, Total: ${result.total}`);
+        await loadSkills();
+      } catch (e) {
+        alert('Sync failed: ' + e.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '⚡ Sync Awesome Skills';
+      }
+    };
+
+    // Verify all skill links
+    document.getElementById('verifySkills').onclick = async () => {
+      const btn = document.getElementById('verifySkills');
+      const summaryEl = document.getElementById('verifySummary');
+      btn.disabled = true;
+      btn.textContent = 'Verifying...';
+      summaryEl.textContent = 'Checking links...';
+      try {
+        const result = await luxApi('/api/skills/verify', { method: 'POST' });
+        skillHealthMap = {};
+        result.results.forEach(r => { skillHealthMap[r.id] = r.status; });
+        summaryEl.textContent = `Verified: ${result.summary.ok} ok, ${result.summary.broken} broken, ${result.summary.noUrl} without URL`;
+        await loadSkills();
+      } catch (e) {
+        summaryEl.textContent = 'Verification failed';
+        alert('Verification failed: ' + e.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '✅ Verify Skill Links';
+      }
+    };
+
+    // Remove broken skills
+    document.getElementById('removeBroken').onclick = async () => {
+      const btn = document.getElementById('removeBroken');
+      const summaryEl = document.getElementById('verifySummary');
+      btn.disabled = true;
+      btn.textContent = 'Cleaning...';
+      try {
+        const result = await luxApi('/api/skills/remove-broken', { method: 'POST' });
+        summaryEl.textContent = `Removed ${result.removedCount} broken skills. Remaining: ${result.remaining}`;
+        await loadSkills();
+      } catch (e) {
+        summaryEl.textContent = 'Cleanup failed';
+        alert('Cleanup failed: ' + e.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🧹 Remove Broken Skills';
+      }
     };
 
     loadAgentStatus();

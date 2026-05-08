@@ -4,7 +4,14 @@
     "name": "Lux AI Core",
     "sourceUrl": "built-in",
     "description": "Primary Lux AI agent with full autonomy, auto-fix, code analysis, and task execution capabilities. Best for general development tasks.",
-    "capabilities": ["code-generation", "debugging", "file-operations", "shell-commands", "auto-fix", "code-review"],
+    "capabilities": [
+      "code-generation",
+      "debugging",
+      "file-operations",
+      "shell-commands",
+      "auto-fix",
+      "code-review"
+    ],
     "createdAt": "2026-05-08T00:00:00.000Z"
   },
   {
@@ -12,7 +19,14 @@
     "name": "Hermes Reasoning",
     "sourceUrl": "built-in",
     "description": "Advanced reasoning and research agent for complex analysis, planning, and strategy. Excels at multi-step problem solving.",
-    "capabilities": ["research", "analysis", "planning", "strategy", "reasoning", "deep-think"],
+    "capabilities": [
+      "research",
+      "analysis",
+      "planning",
+      "strategy",
+      "reasoning",
+      "deep-think"
+    ],
     "createdAt": "2026-05-08T00:00:00.000Z"
   },
   {
@@ -20,7 +34,13 @@
     "name": "OpenClaw Automation",
     "sourceUrl": "built-in",
     "description": "Automation and execution specialist. Handles scripting, system operations, deployments, and repetitive tasks.",
-    "capabilities": ["automation", "scripting", "deployment", "system-ops", "batch-processing"],
+    "capabilities": [
+      "automation",
+      "scripting",
+      "deployment",
+      "system-ops",
+      "batch-processing"
+    ],
     "createdAt": "2026-05-08T00:00:00.000Z"
   },
   {
@@ -28,7 +48,13 @@
     "name": "OpenMono Code",
     "sourceUrl": "built-in",
     "description": "Code-focused agent specialized in programming, debugging, refactoring, and software development.",
-    "capabilities": ["coding", "refactoring", "debugging", "testing", "documentation"],
+    "capabilities": [
+      "coding",
+      "refactoring",
+      "debugging",
+      "testing",
+      "documentation"
+    ],
     "createdAt": "2026-05-08T00:00:00.000Z"
   },
   {
@@ -36,7 +62,12 @@
     "name": "Frontend Fixer",
     "sourceUrl": "https://github.com/StartupHakk/OpenMonoAgent.ai.git",
     "description": "UI repair, component cleanup, responsive polish, CSS fixes, and frontend optimization.",
-    "capabilities": ["ui-repair", "css-fix", "responsive-design", "component-cleanup"],
+    "capabilities": [
+      "ui-repair",
+      "css-fix",
+      "responsive-design",
+      "component-cleanup"
+    ],
     "createdAt": "2026-05-08T05:57:10.290Z"
   },
   {
@@ -44,7 +75,12 @@
     "name": "Security Auditor",
     "sourceUrl": "https://github.com/",
     "description": "Dependency checks, configuration audit, vulnerability scanning, and security risk tagging.",
-    "capabilities": ["security-scan", "dependency-check", "config-audit", "vulnerability-detection"],
+    "capabilities": [
+      "security-scan",
+      "dependency-check",
+      "config-audit",
+      "vulnerability-detection"
+    ],
     "createdAt": "2026-05-08T05:57:10.290Z"
   },
   {
@@ -52,7 +88,12 @@
     "name": "Docs + Release Assistant",
     "sourceUrl": "https://github.com/",
     "description": "Generate changelogs, release notes, setup documentation, and API documentation.",
-    "capabilities": ["changelog-gen", "release-notes", "documentation", "api-docs"],
+    "capabilities": [
+      "changelog-gen",
+      "release-notes",
+      "documentation",
+      "api-docs"
+    ],
     "createdAt": "2026-05-08T05:57:10.290Z"
   },
   {
@@ -60,7 +101,13 @@
     "name": "Code Review Pro",
     "sourceUrl": "built-in",
     "description": "Comprehensive code review with linting, best practices, security checks, and performance suggestions.",
-    "capabilities": ["linting", "code-analysis", "best-practices", "performance-tips", "security-check"],
+    "capabilities": [
+      "linting",
+      "code-analysis",
+      "best-practices",
+      "performance-tips",
+      "security-check"
+    ],
     "createdAt": "2026-05-08T00:00:00.000Z"
   },
   {
@@ -68,7 +115,12 @@
     "name": "Swarm Orchestrator",
     "sourceUrl": "built-in",
     "description": "Manage and orchestrate agent swarms for parallel task execution across multiple nodes.",
-    "capabilities": ["swarm-deploy", "load-balancing", "task-distribution", "cluster-management"],
+    "capabilities": [
+      "swarm-deploy",
+      "load-balancing",
+      "task-distribution",
+      "cluster-management"
+    ],
     "createdAt": "2026-05-08T00:00:00.000Z"
   },
   {
@@ -76,7 +128,12 @@
     "name": "Test Generator",
     "sourceUrl": "built-in",
     "description": "Generate unit tests, integration tests, and end-to-end tests based on code analysis.",
-    "capabilities": ["unit-tests", "integration-tests", "test-coverage", "mocking"],
+    "capabilities": [
+      "unit-tests",
+      "integration-tests",
+      "test-coverage",
+      "mocking"
+    ],
     "createdAt": "2026-05-08T00:00:00.000Z"
   },
   {
@@ -84,7 +141,11 @@
     "name": "Migration Assistant",
     "sourceUrl": "built-in",
     "description": "Help migrate codebases between frameworks, languages, and platforms with automated conversion.",
-    "capabilities": ["code-migration", "framework-migration", "language-conversion"],
+    "capabilities": [
+      "code-migration",
+      "framework-migration",
+      "language-conversion"
+    ],
     "createdAt": "2026-05-08T00:00:00.000Z"
   },
   {
@@ -92,7 +153,712 @@
     "name": "Refactoring Expert",
     "sourceUrl": "built-in",
     "description": "Analyze and refactor code for better readability, performance, and maintainability.",
-    "capabilities": ["code-refactor", "design-patterns", "tech-debt", "architecture-review"],
+    "capabilities": [
+      "code-refactor",
+      "design-patterns",
+      "tech-debt",
+      "architecture-review"
+    ],
     "createdAt": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "id": "ea8ab4e7-536a-4e24-acc3-fb4c2b944132",
+    "name": "skills",
+    "sourceUrl": "https://github.com/angular/skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (skills)",
+    "createdAt": "2026-05-08T17:59:28.222Z"
+  },
+  {
+    "id": "622f03dc-a8de-4eb3-981d-341b449618fa",
+    "name": "courier-skills",
+    "sourceUrl": "https://github.com/trycourier/courier-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (courier-skills)",
+    "createdAt": "2026-05-08T17:59:28.225Z"
+  },
+  {
+    "id": "20d8e99c-9040-4b7d-abe5-9ff33e19172b",
+    "name": "skills",
+    "sourceUrl": "https://github.com/qdrant/skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (skills)",
+    "createdAt": "2026-05-08T17:59:28.227Z"
+  },
+  {
+    "id": "53a6fcb4-f125-4423-93f4-269dffdc84b8",
+    "name": "ai-marketing-skills",
+    "sourceUrl": "https://github.com/BrianRWagner/ai-marketing-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (ai-marketing-skills)",
+    "createdAt": "2026-05-08T17:59:28.229Z"
+  },
+  {
+    "id": "b9c814c0-83f3-438e-bbb3-aa03f87a5f6b",
+    "name": "claude-seo",
+    "sourceUrl": "https://github.com/AgriciDaniel/claude-seo",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-seo)",
+    "createdAt": "2026-05-08T17:59:28.231Z"
+  },
+  {
+    "id": "15ae37c2-bdae-4215-b81d-f598d4fd5b38",
+    "name": "x-article-publisher-skill",
+    "sourceUrl": "https://github.com/wshuyi/x-article-publisher-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (x-article-publisher-skill)",
+    "createdAt": "2026-05-08T17:59:28.233Z"
+  },
+  {
+    "id": "1c14d547-4051-4596-8649-205c99d455fd",
+    "name": "email-marketing-bible",
+    "sourceUrl": "https://github.com/CosmoBlk/email-marketing-bible",
+    "description": "Imported from VoltAgent awesome-agent-skills (email-marketing-bible)",
+    "createdAt": "2026-05-08T17:59:28.235Z"
+  },
+  {
+    "id": "832c487e-70cf-4691-a2bd-47d905e07b9d",
+    "name": "creative-director-skill",
+    "sourceUrl": "https://github.com/smixs/creative-director-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (creative-director-skill)",
+    "createdAt": "2026-05-08T17:59:28.237Z"
+  },
+  {
+    "id": "3e90df66-4847-4191-a171-c55802b4c983",
+    "name": "x-twitter-scraper",
+    "sourceUrl": "https://github.com/Xquik-dev/x-twitter-scraper",
+    "description": "Imported from VoltAgent awesome-agent-skills (x-twitter-scraper)",
+    "createdAt": "2026-05-08T17:59:28.238Z"
+  },
+  {
+    "id": "c447bc7e-7648-4e61-aed0-b26efc820b2f",
+    "name": "tweetclaw",
+    "sourceUrl": "https://github.com/Xquik-dev/tweetclaw",
+    "description": "Imported from VoltAgent awesome-agent-skills (tweetclaw)",
+    "createdAt": "2026-05-08T17:59:28.240Z"
+  },
+  {
+    "id": "6fa38b11-fb71-48bc-8d25-7a786c83ec1f",
+    "name": "beautiful_prose",
+    "sourceUrl": "https://github.com/SHADOWPR0/beautiful_prose",
+    "description": "Imported from VoltAgent awesome-agent-skills (beautiful_prose)",
+    "createdAt": "2026-05-08T17:59:28.242Z"
+  },
+  {
+    "id": "2e478a65-a239-4421-bf8c-639f3c5636a5",
+    "name": "humanizer",
+    "sourceUrl": "https://github.com/blader/humanizer",
+    "description": "Imported from VoltAgent awesome-agent-skills (humanizer)",
+    "createdAt": "2026-05-08T17:59:28.243Z"
+  },
+  {
+    "id": "9ec97687-e9fc-4988-9b6a-fce0a6dd64c2",
+    "name": "humanize-chinese",
+    "sourceUrl": "https://github.com/voidborne-d/humanize-chinese",
+    "description": "Imported from VoltAgent awesome-agent-skills (humanize-chinese)",
+    "createdAt": "2026-05-08T17:59:28.244Z"
+  },
+  {
+    "id": "9514e40f-6452-45f3-a211-60a4be2ac696",
+    "name": "unslop",
+    "sourceUrl": "https://github.com/MohamedAbdallah-14/unslop",
+    "description": "Imported from VoltAgent awesome-agent-skills (unslop)",
+    "createdAt": "2026-05-08T17:59:28.246Z"
+  },
+  {
+    "id": "9bb51f13-24f9-4518-861f-bcd6ec918223",
+    "name": "aso-skills",
+    "sourceUrl": "https://github.com/Eronred/aso-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (aso-skills)",
+    "createdAt": "2026-05-08T17:59:28.247Z"
+  },
+  {
+    "id": "0898f558-d9bc-4970-8de5-9a2b175b2126",
+    "name": "wonda",
+    "sourceUrl": "https://github.com/degausai/wonda",
+    "description": "Imported from VoltAgent awesome-agent-skills (wonda)",
+    "createdAt": "2026-05-08T17:59:28.248Z"
+  },
+  {
+    "id": "57b81779-abc8-4a44-93db-7b06cd739e25",
+    "name": "postiz-agent",
+    "sourceUrl": "https://github.com/gitroomhq/postiz-agent",
+    "description": "Imported from VoltAgent awesome-agent-skills (postiz-agent)",
+    "createdAt": "2026-05-08T17:59:28.250Z"
+  },
+  {
+    "id": "10442114-ac29-4bf9-8419-ee2bc429ae7f",
+    "name": "nutrient-agent-skill",
+    "sourceUrl": "https://github.com/PSPDFKit-labs/nutrient-agent-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (nutrient-agent-skill)",
+    "createdAt": "2026-05-08T17:59:28.251Z"
+  },
+  {
+    "id": "015cab9c-c2c9-428e-a3ae-6f8913eabc54",
+    "name": "NanoBanana-PPT-Skills",
+    "sourceUrl": "https://github.com/op7418/NanoBanana-PPT-Skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (NanoBanana-PPT-Skills)",
+    "createdAt": "2026-05-08T17:59:28.252Z"
+  },
+  {
+    "id": "78edac60-8d32-4847-8133-00e257d8ccdd",
+    "name": "frontend-slides",
+    "sourceUrl": "https://github.com/zarazhangrui/frontend-slides",
+    "description": "Imported from VoltAgent awesome-agent-skills (frontend-slides)",
+    "createdAt": "2026-05-08T17:59:28.254Z"
+  },
+  {
+    "id": "8c9ed684-079a-4482-8eb7-e385d5ade01a",
+    "name": "notebooklm-skill",
+    "sourceUrl": "https://github.com/PleasePrompto/notebooklm-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (notebooklm-skill)",
+    "createdAt": "2026-05-08T17:59:28.255Z"
+  },
+  {
+    "id": "40dc0d39-23e5-43ea-bbcf-d867659be921",
+    "name": "superpowers-lab",
+    "sourceUrl": "https://github.com/obra/superpowers-lab",
+    "description": "Imported from VoltAgent awesome-agent-skills (superpowers-lab)",
+    "createdAt": "2026-05-08T17:59:28.257Z"
+  },
+  {
+    "id": "4bd105d4-251b-4774-9d0b-a8c165493858",
+    "name": "Youtube-clipper-skill",
+    "sourceUrl": "https://github.com/op7418/Youtube-clipper-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (Youtube-clipper-skill)",
+    "createdAt": "2026-05-08T17:59:28.260Z"
+  },
+  {
+    "id": "fd17499c-9edc-4c55-ba4d-325ee6c2e518",
+    "name": "founder-skills",
+    "sourceUrl": "https://github.com/ognjengt/founder-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (founder-skills)",
+    "createdAt": "2026-05-08T17:59:28.261Z"
+  },
+  {
+    "id": "a94f4984-be98-4d9d-a8bb-58c7f33171fe",
+    "name": "charlie-cfo-skill",
+    "sourceUrl": "https://github.com/EveryInc/charlie-cfo-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (charlie-cfo-skill)",
+    "createdAt": "2026-05-08T17:59:28.263Z"
+  },
+  {
+    "id": "183f2d2a-674c-445e-a41e-8a098dfee4ac",
+    "name": "openaccountants",
+    "sourceUrl": "https://github.com/openaccountants/openaccountants",
+    "description": "Imported from VoltAgent awesome-agent-skills (openaccountants)",
+    "createdAt": "2026-05-08T17:59:28.264Z"
+  },
+  {
+    "id": "109c1cd2-3ef8-4c5b-accf-5e6a1f831804",
+    "name": "linear-claude-skill",
+    "sourceUrl": "https://github.com/wrsmith108/linear-claude-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (linear-claude-skill)",
+    "createdAt": "2026-05-08T17:59:28.265Z"
+  },
+  {
+    "id": "fb32b0a6-a9f9-4751-8919-3e98cdaf1ea2",
+    "name": "claude-memory-skill",
+    "sourceUrl": "https://github.com/hanfang/claude-memory-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-memory-skill)",
+    "createdAt": "2026-05-08T17:59:28.267Z"
+  },
+  {
+    "id": "67c68778-96e0-42fd-a0ab-f286f0f16690",
+    "name": "ResumeSkills",
+    "sourceUrl": "https://github.com/Paramchoudhary/ResumeSkills",
+    "description": "Imported from VoltAgent awesome-agent-skills (ResumeSkills)",
+    "createdAt": "2026-05-08T17:59:28.268Z"
+  },
+  {
+    "id": "e48bfa04-ddd5-4dcd-a359-e9ca2192b865",
+    "name": "tutor-skills",
+    "sourceUrl": "https://github.com/RoundTable02/tutor-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (tutor-skills)",
+    "createdAt": "2026-05-08T17:59:28.270Z"
+  },
+  {
+    "id": "6c6319e0-8d02-464b-8266-29b1f3f5fa49",
+    "name": "opc-skills",
+    "sourceUrl": "https://github.com/ReScienceLab/opc-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (opc-skills)",
+    "createdAt": "2026-05-08T17:59:28.271Z"
+  },
+  {
+    "id": "f93d01af-5b25-4442-a449-6ac2a91d2b70",
+    "name": "claude-speed-reader",
+    "sourceUrl": "https://github.com/SeanZoR/claude-speed-reader",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-speed-reader)",
+    "createdAt": "2026-05-08T17:59:28.273Z"
+  },
+  {
+    "id": "85cf701c-5588-4ecf-8d77-d00e6680c852",
+    "name": "Dorothy",
+    "sourceUrl": "https://github.com/Charlie85270/Dorothy",
+    "description": "Imported from VoltAgent awesome-agent-skills (Dorothy)",
+    "createdAt": "2026-05-08T17:59:28.275Z"
+  },
+  {
+    "id": "b39e25b6-689e-4fd4-904a-45353453367e",
+    "name": "product-manager-skills",
+    "sourceUrl": "https://github.com/Digidai/product-manager-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (product-manager-skills)",
+    "createdAt": "2026-05-08T17:59:28.276Z"
+  },
+  {
+    "id": "254c2bc6-f8d6-4301-ab88-2662e13d1c25",
+    "name": "translate-book",
+    "sourceUrl": "https://github.com/deusyu/translate-book",
+    "description": "Imported from VoltAgent awesome-agent-skills (translate-book)",
+    "createdAt": "2026-05-08T17:59:28.278Z"
+  },
+  {
+    "id": "11e2f603-caf7-41bf-ad43-34edf003800e",
+    "name": "last30days-skill",
+    "sourceUrl": "https://github.com/mvanhorn/last30days-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (last30days-skill)",
+    "createdAt": "2026-05-08T17:59:28.279Z"
+  },
+  {
+    "id": "c59c0e9e-3d80-4ed7-9d3b-2d28e138b9ad",
+    "name": "skill-rails-upgrade",
+    "sourceUrl": "https://github.com/robzolkos/skill-rails-upgrade",
+    "description": "Imported from VoltAgent awesome-agent-skills (skill-rails-upgrade)",
+    "createdAt": "2026-05-08T17:59:28.280Z"
+  },
+  {
+    "id": "48a47c8c-933e-48fa-8366-fb6e94bf0355",
+    "name": "terraform-skill",
+    "sourceUrl": "https://github.com/antonbabenko/terraform-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (terraform-skill)",
+    "createdAt": "2026-05-08T17:59:28.282Z"
+  },
+  {
+    "id": "824b5d62-3d60-4053-9d73-9708e9be54a5",
+    "name": "aws-skills",
+    "sourceUrl": "https://github.com/zxkane/aws-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (aws-skills)",
+    "createdAt": "2026-05-08T17:59:28.283Z"
+  },
+  {
+    "id": "dacd2c56-8187-449f-b73d-8e3e61a3bc47",
+    "name": "Rootly-MCP-server",
+    "sourceUrl": "https://github.com/Rootly-AI-Labs/Rootly-MCP-server",
+    "description": "Imported from VoltAgent awesome-agent-skills (Rootly-MCP-server)",
+    "createdAt": "2026-05-08T17:59:28.284Z"
+  },
+  {
+    "id": "595711c5-e20f-466b-ae86-90900dd8ea6c",
+    "name": "ios-simulator-skill",
+    "sourceUrl": "https://github.com/conorluddy/ios-simulator-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (ios-simulator-skill)",
+    "createdAt": "2026-05-08T17:59:28.286Z"
+  },
+  {
+    "id": "bf5e2d2a-0abe-4d84-ae65-e4cf59fed079",
+    "name": "iOS-Accessibility-Audit-Skill",
+    "sourceUrl": "https://github.com/ramzesenok/iOS-Accessibility-Audit-Skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (iOS-Accessibility-Audit-Skill)",
+    "createdAt": "2026-05-08T17:59:28.287Z"
+  },
+  {
+    "id": "6633ac2d-abe2-43c4-a58b-b87943495a37",
+    "name": "app-store-preflight-skills",
+    "sourceUrl": "https://github.com/truongduy2611/app-store-preflight-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (app-store-preflight-skills)",
+    "createdAt": "2026-05-08T17:59:28.288Z"
+  },
+  {
+    "id": "e719927e-d722-4c75-a477-d25c0a77fd7a",
+    "name": "skills",
+    "sourceUrl": "https://github.com/coderabbitai/skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (skills)",
+    "createdAt": "2026-05-08T17:59:28.290Z"
+  },
+  {
+    "id": "2e0816d0-4078-462f-b246-3605d12266fc",
+    "name": "ffuf_claude_skill",
+    "sourceUrl": "https://github.com/jthack/ffuf_claude_skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (ffuf_claude_skill)",
+    "createdAt": "2026-05-08T17:59:28.291Z"
+  },
+  {
+    "id": "bd020a46-dc3e-4326-a33a-ea1b6fe1acc1",
+    "name": "playwright-skill",
+    "sourceUrl": "https://github.com/lackeyjb/playwright-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (playwright-skill)",
+    "createdAt": "2026-05-08T17:59:28.292Z"
+  },
+  {
+    "id": "7ce964fb-0040-4ef1-a87a-4237f57eefa0",
+    "name": "ui-skills",
+    "sourceUrl": "https://github.com/ibelick/ui-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (ui-skills)",
+    "createdAt": "2026-05-08T17:59:28.293Z"
+  },
+  {
+    "id": "79ba60c8-090d-431d-90cd-476ac85ae553",
+    "name": "hand-drawn-diagrams",
+    "sourceUrl": "https://github.com/muthuishere/hand-drawn-diagrams",
+    "description": "Imported from VoltAgent awesome-agent-skills (hand-drawn-diagrams)",
+    "createdAt": "2026-05-08T17:59:28.295Z"
+  },
+  {
+    "id": "64556b9d-6581-4a03-83ca-5857f74d09c5",
+    "name": "ui-ux-pro-max-skill",
+    "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (ui-ux-pro-max-skill)",
+    "createdAt": "2026-05-08T17:59:28.296Z"
+  },
+  {
+    "id": "1e10b410-4be8-4aef-a607-514ca437495a",
+    "name": "platform-design-skills",
+    "sourceUrl": "https://github.com/ehmo/platform-design-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (platform-design-skills)",
+    "createdAt": "2026-05-08T17:59:28.297Z"
+  },
+  {
+    "id": "218f9da2-5aed-4be6-bfdb-dc10cc5b5d77",
+    "name": "vexor",
+    "sourceUrl": "https://github.com/scarletkc/vexor",
+    "description": "Imported from VoltAgent awesome-agent-skills (vexor)",
+    "createdAt": "2026-05-08T17:59:28.298Z"
+  },
+  {
+    "id": "5efc1e5a-32e5-4c76-9925-0d5b99bffbd7",
+    "name": "dev-agent-skills",
+    "sourceUrl": "https://github.com/fvadicamo/dev-agent-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (dev-agent-skills)",
+    "createdAt": "2026-05-08T17:59:28.299Z"
+  },
+  {
+    "id": "fc798b51-9149-4057-850e-a9afea91e3d2",
+    "name": "claude-bootstrap",
+    "sourceUrl": "https://github.com/alinaqi/claude-bootstrap",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-bootstrap)",
+    "createdAt": "2026-05-08T17:59:28.300Z"
+  },
+  {
+    "id": "0e56ef3b-a434-437b-b865-d1476ccbda6c",
+    "name": "makepad-skills",
+    "sourceUrl": "https://github.com/ZhangHanDong/makepad-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (makepad-skills)",
+    "createdAt": "2026-05-08T17:59:28.301Z"
+  },
+  {
+    "id": "91926219-16c6-4b41-becb-8d1e57e52149",
+    "name": "recursive-decomposition-skill",
+    "sourceUrl": "https://github.com/massimodeluisa/recursive-decomposition-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (recursive-decomposition-skill)",
+    "createdAt": "2026-05-08T17:59:28.302Z"
+  },
+  {
+    "id": "79c1e0ee-7508-48ba-8970-717066407607",
+    "name": "claude-skills",
+    "sourceUrl": "https://github.com/Joannis/claude-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-skills)",
+    "createdAt": "2026-05-08T17:59:28.303Z"
+  },
+  {
+    "id": "de5e56de-c9a4-4bff-a844-e95795a90838",
+    "name": "app-store-connect-cli-skills",
+    "sourceUrl": "https://github.com/rudrankriyam/app-store-connect-cli-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (app-store-connect-cli-skills)",
+    "createdAt": "2026-05-08T17:59:28.305Z"
+  },
+  {
+    "id": "a885b34f-ce0f-466d-bee5-53723011f258",
+    "name": "claude-code-startup-skills",
+    "sourceUrl": "https://github.com/rameerez/claude-code-startup-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-code-startup-skills)",
+    "createdAt": "2026-05-08T17:59:28.306Z"
+  },
+  {
+    "id": "0da36439-c45e-4925-9ee8-62c1a477e801",
+    "name": "model-hierarchy-skill",
+    "sourceUrl": "https://github.com/zscole/model-hierarchy-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (model-hierarchy-skill)",
+    "createdAt": "2026-05-08T17:59:28.307Z"
+  },
+  {
+    "id": "634b0111-98f7-4a4a-adf9-549f1663b8a0",
+    "name": "threejs-skills",
+    "sourceUrl": "https://github.com/CloudAI-X/threejs-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (threejs-skills)",
+    "createdAt": "2026-05-08T17:59:28.309Z"
+  },
+  {
+    "id": "65c5b80d-8152-4203-87f2-ad24f5002d93",
+    "name": "taste-skill",
+    "sourceUrl": "https://github.com/Leonxlnx/taste-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (taste-skill)",
+    "createdAt": "2026-05-08T17:59:28.310Z"
+  },
+  {
+    "id": "556a4dd2-e891-4d54-bc80-f1751c7bd4b2",
+    "name": "playwright-skill",
+    "sourceUrl": "https://github.com/testdino-hq/playwright-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (playwright-skill)",
+    "createdAt": "2026-05-08T17:59:28.311Z"
+  },
+  {
+    "id": "0577592e-caf7-40e8-a9d4-975f5b2b8415",
+    "name": "moyu",
+    "sourceUrl": "https://github.com/uucz/moyu",
+    "description": "Imported from VoltAgent awesome-agent-skills (moyu)",
+    "createdAt": "2026-05-08T17:59:28.312Z"
+  },
+  {
+    "id": "f0dd2a2a-47f1-42e6-8452-dfc365771c9a",
+    "name": "skills",
+    "sourceUrl": "https://github.com/mattpocock/skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (skills)",
+    "createdAt": "2026-05-08T17:59:28.314Z"
+  },
+  {
+    "id": "57eaea43-7619-4c36-a289-a3861d6380b5",
+    "name": "Anthropic-Cybersecurity-Skills",
+    "sourceUrl": "https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (Anthropic-Cybersecurity-Skills)",
+    "createdAt": "2026-05-08T17:59:28.315Z"
+  },
+  {
+    "id": "5d78c0a5-4899-403f-9ad7-eb178483afd2",
+    "name": "varlock-claude-skill",
+    "sourceUrl": "https://github.com/wrsmith108/varlock-claude-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (varlock-claude-skill)",
+    "createdAt": "2026-05-08T17:59:28.316Z"
+  },
+  {
+    "id": "226f22f5-e14d-42fb-ab3f-56fa04885bde",
+    "name": "Skill_Seekers",
+    "sourceUrl": "https://github.com/yusufkaraaslan/Skill_Seekers",
+    "description": "Imported from VoltAgent awesome-agent-skills (Skill_Seekers)",
+    "createdAt": "2026-05-08T17:59:28.318Z"
+  },
+  {
+    "id": "148ffecb-30b2-4daf-ac5e-a822d34141b7",
+    "name": "skills",
+    "sourceUrl": "https://github.com/NoizAI/skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (skills)",
+    "createdAt": "2026-05-08T17:59:28.319Z"
+  },
+  {
+    "id": "1fdf1f53-a952-4c85-8c7d-e3985a5bc46a",
+    "name": "codex-collab",
+    "sourceUrl": "https://github.com/Kevin7Qi/codex-collab",
+    "description": "Imported from VoltAgent awesome-agent-skills (codex-collab)",
+    "createdAt": "2026-05-08T17:59:28.320Z"
+  },
+  {
+    "id": "0d52088d-8652-47aa-b24e-b89e62ab779f",
+    "name": "rails-conventions",
+    "sourceUrl": "https://github.com/ethos-link/rails-conventions",
+    "description": "Imported from VoltAgent awesome-agent-skills (rails-conventions)",
+    "createdAt": "2026-05-08T17:59:28.321Z"
+  },
+  {
+    "id": "1f83a7b0-4e7b-498e-90fc-531fefb8738d",
+    "name": "Understand-Anything",
+    "sourceUrl": "https://github.com/Lum1104/Understand-Anything",
+    "description": "Imported from VoltAgent awesome-agent-skills (Understand-Anything)",
+    "createdAt": "2026-05-08T17:59:28.323Z"
+  },
+  {
+    "id": "4f30ff6b-9d1c-47d5-ae3c-795bf263d15c",
+    "name": "skill-optimizer",
+    "sourceUrl": "https://github.com/hqhq1025/skill-optimizer",
+    "description": "Imported from VoltAgent awesome-agent-skills (skill-optimizer)",
+    "createdAt": "2026-05-08T17:59:28.325Z"
+  },
+  {
+    "id": "8dcd1dd9-5dd1-47e9-beb1-3fbf3b1d1d1d",
+    "name": "agent-skills",
+    "sourceUrl": "https://github.com/LambdaTest/agent-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (agent-skills)",
+    "createdAt": "2026-05-08T17:59:28.326Z"
+  },
+  {
+    "id": "d8ce4ded-c69f-4ece-b6ae-2f1ad6ce0733",
+    "name": "Vibe-Skills",
+    "sourceUrl": "https://github.com/foryourhealth111-pixel/Vibe-Skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (Vibe-Skills)",
+    "createdAt": "2026-05-08T17:59:28.327Z"
+  },
+  {
+    "id": "f5215801-b832-44bb-bebf-a4d03c2cccbb",
+    "name": "skills",
+    "sourceUrl": "https://github.com/metalbear-co/skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (skills)",
+    "createdAt": "2026-05-08T17:59:28.328Z"
+  },
+  {
+    "id": "c2c15060-3b87-49bf-b3ff-152a545a1c3b",
+    "name": "data-structure-protocol",
+    "sourceUrl": "https://github.com/k-kolomeitsev/data-structure-protocol",
+    "description": "Imported from VoltAgent awesome-agent-skills (data-structure-protocol)",
+    "createdAt": "2026-05-08T17:59:28.330Z"
+  },
+  {
+    "id": "0cc6f967-ae03-4b25-aff8-515e7dde1b1e",
+    "name": "claude-memory-kit",
+    "sourceUrl": "https://github.com/awrshift/claude-memory-kit",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-memory-kit)",
+    "createdAt": "2026-05-08T17:59:28.331Z"
+  },
+  {
+    "id": "ae301a4b-0c9c-4a2c-a385-1ba4066837ce",
+    "name": "apple-hig-skills",
+    "sourceUrl": "https://github.com/raintree-technology/apple-hig-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (apple-hig-skills)",
+    "createdAt": "2026-05-08T17:59:28.332Z"
+  },
+  {
+    "id": "6ea97899-8a45-4051-a2ae-18848a484d8d",
+    "name": "claude-scientific-skills",
+    "sourceUrl": "https://github.com/K-Dense-AI/claude-scientific-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-scientific-skills)",
+    "createdAt": "2026-05-08T17:59:28.333Z"
+  },
+  {
+    "id": "b0c9b7f9-a217-41fa-8f37-5e1012e96f90",
+    "name": "claude-win11-speckit-update-skill",
+    "sourceUrl": "https://github.com/NotMyself/claude-win11-speckit-update-skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-win11-speckit-update-skill)",
+    "createdAt": "2026-05-08T17:59:28.334Z"
+  },
+  {
+    "id": "3c586960-b7d5-41bc-9434-8b78140cedb7",
+    "name": "security-bluebook-builder",
+    "sourceUrl": "https://github.com/SHADOWPR0/security-bluebook-builder",
+    "description": "Imported from VoltAgent awesome-agent-skills (security-bluebook-builder)",
+    "createdAt": "2026-05-08T17:59:28.337Z"
+  },
+  {
+    "id": "ec1da31c-e568-47ae-b9ea-ded795d6215e",
+    "name": "Claude-Ally-Health",
+    "sourceUrl": "https://github.com/huifer/Claude-Ally-Health",
+    "description": "Imported from VoltAgent awesome-agent-skills (Claude-Ally-Health)",
+    "createdAt": "2026-05-08T17:59:28.338Z"
+  },
+  {
+    "id": "fdd4d863-dbb1-4092-816b-52e65ac79954",
+    "name": "clarity-gate",
+    "sourceUrl": "https://github.com/frmoretto/clarity-gate",
+    "description": "Imported from VoltAgent awesome-agent-skills (clarity-gate)",
+    "createdAt": "2026-05-08T17:59:28.340Z"
+  },
+  {
+    "id": "33328e23-c1f3-478f-a5d3-e07caed06fcf",
+    "name": "Auto-claude-code-research-in-sleep",
+    "sourceUrl": "https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep",
+    "description": "Imported from VoltAgent awesome-agent-skills (Auto-claude-code-research-in-sleep)",
+    "createdAt": "2026-05-08T17:59:28.341Z"
+  },
+  {
+    "id": "8c65a5b7-03a4-4a9b-aed2-0937f4ff4cd7",
+    "name": "AI-research-SKILLs",
+    "sourceUrl": "https://github.com/zechenzhangAGI/AI-research-SKILLs",
+    "description": "Imported from VoltAgent awesome-agent-skills (AI-research-SKILLs)",
+    "createdAt": "2026-05-08T17:59:28.343Z"
+  },
+  {
+    "id": "0bf94bc0-fdbc-4069-b8be-82d1c0f1646f",
+    "name": "AI-research-SKILLs",
+    "sourceUrl": "https://github.com/Orchestra-Research/AI-research-SKILLs",
+    "description": "Imported from VoltAgent awesome-agent-skills (AI-research-SKILLs)",
+    "createdAt": "2026-05-08T17:59:28.344Z"
+  },
+  {
+    "id": "af8ce46b-2402-44f1-b7a2-da8d1b180a63",
+    "name": "claude-skill-homeassistant",
+    "sourceUrl": "https://github.com/komal-SkyNET/claude-skill-homeassistant",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-skill-homeassistant)",
+    "createdAt": "2026-05-08T17:59:28.345Z"
+  },
+  {
+    "id": "d1e3a768-4d90-4561-954a-9991c2f17ea5",
+    "name": "claude-apple-bridges",
+    "sourceUrl": "https://github.com/more-io/claude-apple-bridges",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-apple-bridges)",
+    "createdAt": "2026-05-08T17:59:28.346Z"
+  },
+  {
+    "id": "cc3930c2-2545-4852-960e-c490a9ccbec1",
+    "name": "clawsec",
+    "sourceUrl": "https://github.com/prompt-security/clawsec",
+    "description": "Imported from VoltAgent awesome-agent-skills (clawsec)",
+    "createdAt": "2026-05-08T17:59:28.347Z"
+  },
+  {
+    "id": "0c11c3ce-2922-413b-9f73-ca0d2adcbe29",
+    "name": "VibeSec-Skill",
+    "sourceUrl": "https://github.com/BehiSecc/VibeSec-Skill",
+    "description": "Imported from VoltAgent awesome-agent-skills (VibeSec-Skill)",
+    "createdAt": "2026-05-08T17:59:28.348Z"
+  },
+  {
+    "id": "21b9129e-fceb-4446-ae9b-0581df9f7d62",
+    "name": "awesome-legal-skills",
+    "sourceUrl": "https://github.com/lawvable/awesome-legal-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (awesome-legal-skills)",
+    "createdAt": "2026-05-08T17:59:28.349Z"
+  },
+  {
+    "id": "bf46c742-8ee1-4540-9b17-da4ca8d1ba7d",
+    "name": "VMware-AIops",
+    "sourceUrl": "https://github.com/zw008/VMware-AIops",
+    "description": "Imported from VoltAgent awesome-agent-skills (VMware-AIops)",
+    "createdAt": "2026-05-08T17:59:28.350Z"
+  },
+  {
+    "id": "0e8eab7a-67fc-44c0-a059-e2a053327e06",
+    "name": "skills",
+    "sourceUrl": "https://github.com/video-db/skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (skills)",
+    "createdAt": "2026-05-08T17:59:28.352Z"
+  },
+  {
+    "id": "3042a7dd-3b22-4c14-817d-2dacdf53dd0f",
+    "name": "materials-simulation-skills",
+    "sourceUrl": "https://github.com/HeshamFS/materials-simulation-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (materials-simulation-skills)",
+    "createdAt": "2026-05-08T17:59:28.353Z"
+  },
+  {
+    "id": "c38168b0-bebb-46c2-929a-43b1f24a33c6",
+    "name": "claude-ecom",
+    "sourceUrl": "https://github.com/takechanman1228/claude-ecom",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-ecom)",
+    "createdAt": "2026-05-08T17:59:28.354Z"
+  },
+  {
+    "id": "7c93292e-287b-45b6-9534-ca87b29e8ad9",
+    "name": "ru-text",
+    "sourceUrl": "https://github.com/talkstream/ru-text",
+    "description": "Imported from VoltAgent awesome-agent-skills (ru-text)",
+    "createdAt": "2026-05-08T17:59:28.355Z"
+  },
+  {
+    "id": "7eccbdc9-58dd-47f1-af97-7f2b29fc60b7",
+    "name": "skill.color-expert",
+    "sourceUrl": "https://github.com/meodai/skill.color-expert",
+    "description": "Imported from VoltAgent awesome-agent-skills (skill.color-expert)",
+    "createdAt": "2026-05-08T17:59:28.357Z"
+  },
+  {
+    "id": "1b670fcf-d7a8-4e91-a463-c69a4419903e",
+    "name": "kicad-happy",
+    "sourceUrl": "https://github.com/aklofas/kicad-happy",
+    "description": "Imported from VoltAgent awesome-agent-skills (kicad-happy)",
+    "createdAt": "2026-05-08T17:59:28.358Z"
+  },
+  {
+    "id": "e22a3db4-5558-43fb-b3ad-91c1980817e7",
+    "name": "claude-ai-music-skills",
+    "sourceUrl": "https://github.com/bitwize-music-studio/claude-ai-music-skills",
+    "description": "Imported from VoltAgent awesome-agent-skills (claude-ai-music-skills)",
+    "createdAt": "2026-05-08T17:59:28.359Z"
+  },
+  {
+    "id": "2c6b6608-9585-4a8c-9788-f32389b8c65d",
+    "name": "agent-scan",
+    "sourceUrl": "https://github.com/snyk/agent-scan",
+    "description": "Imported from VoltAgent awesome-agent-skills (agent-scan)",
+    "createdAt": "2026-05-08T17:59:28.361Z"
   }
 ]
