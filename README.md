@@ -344,3 +344,59 @@ Connect this backend to your Lux UI screens in this order:
 - Includes `manifest.json` + `service-worker.js` for installable web app behavior.
 - On mobile browser, open Lux and choose "Add to Home Screen".
 - You get a fast-launch mobile control UI without publishing to Google Play.
+
+---
+
+## Deployment
+
+See [DEPLOY.md](docs/DEPLOY.md) for complete deployment documentation covering:
+
+- **Local Development** - Direct Node.js, PM2, environment config
+- **Desktop** - macOS (Launch Agent), Windows (NSSM/Task Scheduler), Linux (systemd/autostart)
+- **Server** - Ubuntu, Debian, CentOS, Fedora, Raspberry Pi
+- **Docker** - Single container, Docker Compose, GPU support, Podman
+- **Reverse Proxy** - Nginx, Caddy, Apache, Traefik
+- **System Services** - systemd, launchd, Windows Service
+- **Cloud** - Railway, Render, Fly.io, AWS, GCP, Azure, DigitalOcean, Heroku
+- **USB Portable** - macOS, Windows auto-launch
+- **Remote Access** - Tailscale, ZeroTier, Cloudflare Tunnel, ngrok
+
+### Quick Deploy
+
+```bash
+# Two-command install
+git clone https://github.com/luxautomaton-ux/lux-agent-bridge.git
+cd lux-agent-bridge
+bash ./install.sh
+
+# Run
+luxagent agent
+
+# Or with PM2 (production)
+pm2 start server.js --name lux-agent
+pm2 save
+```
+
+### Production Checklist
+
+- [ ] Set `LUX_API_TOKEN` in `.env`
+- [ ] Use HTTPS via reverse proxy (Nginx/Caddy)
+- [ ] Configure firewall: `ufw allow 8787/tcp`
+- [ ] Enable regular backups
+- [ ] Set up monitoring: `GET /api/health`
+- [ ] Choose performance profile (modest/balanced/performance)
+
+### Performance Profiles
+
+| Profile | Use Case | Concurrency |
+|---------|-----------|--------------|
+| `modest` | RPi, older hardware | 1 task |
+| `balanced` | Laptops, mid-range | 2 tasks |
+| `performance` | Desktops, servers | 4+ tasks |
+
+```bash
+# Apply profile
+curl -X POST http://localhost:8787/api/performance/profiles/apply \
+  -H "Content-Type: application/json" \
+  -d '{"profile":"balanced"}'
+```

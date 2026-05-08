@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  lux-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: lux-agent-bridge:latest
+    container_name: lux-agent-bridge
+    ports:
+      - "8787:8787"
+    volumes:
+      - ./logs:/app/logs
+      - ./memory:/app/memory
+      - ./tasks:/app/tasks
+      - ./projects:/app/projects
+      - ./runs:/app/runs
+    environment:
+      - NODE_ENV=production
+      - PORT=8787
+      - ALLOW_LOCALHOST_ONLY=false
+      - LUX_API_TOKEN=change-me-in-production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8787/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - lux-network
+
+  # Optional: Ollama for local AI
+  ollama:
+    image: ollama/ollama:latest
+    container_name: lux-ollama
+    volumes:
+      - ollama-data:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - lux-network
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 4G
+
+networks:
+  lux-network:
+    driver: bridge
+
+volumes:
+  ollama-data:
+    driver: local
