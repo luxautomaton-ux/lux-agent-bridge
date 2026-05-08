@@ -545,7 +545,7 @@
       }
     }
     
-    function sendMessage() {
+    async function sendMessage() {
       const input = document.getElementById('chatInput');
       const message = input.value.trim();
       if (!message) return;
@@ -557,27 +557,80 @@
       input.value = '';
       
       // Show thinking
+      const statusEl = document.getElementById('agentStatus');
+      statusEl.textContent = 'Running';
       showThinking();
-      
-      // Simulate response
-      setTimeout(() => {
+
+      try {
+        const response = await runAgentMessage(agent, message);
         removeThinking();
-        
-        let response = '';
-        if (agent === 'lux') {
-          response = generateLuxResponse(message);
-        } else if (agent === 'autonomous') {
-          response = generateAutonomousResponse(message);
-        } else if (agent === 'hermes') {
-          response = generateHermesResponse(message);
-        } else if (agent === 'openclaw') {
-          response = generateOpenClawResponse(message);
-        } else if (agent === 'luxagent') {
-          response = generateLuxAgentResponse(message);
-        }
-        
         addMessage('assistant', response, agent);
-      }, 1500);
+      } catch (e) {
+        removeThinking();
+        addMessage('assistant', 'Request failed: ' + (e.message || 'unknown error'), agent);
+      } finally {
+        statusEl.textContent = 'Ready';
+      }
+    }
+
+    async function runAgentMessage(agent, message) {
+      const mode = agent === 'autonomous' ? 'autonomous' : 'assisted';
+      const agentMap = {
+        lux: 'lux',
+        autonomous: 'lux',
+        hermes: 'hermes',
+        openclaw: 'openclaw',
+        luxagent: 'luxagent'
+      };
+
+      const selected = agentMap[agent] || 'lux';
+
+      let effectiveAgent = selected;
+      try {
+        const agentsRes = await fetch('/api/agents');
+        const agentsData = await agentsRes.json();
+        const agents = Array.isArray(agentsData.agents) ? agentsData.agents : [];
+        const found = agents.find((a) => a.id === selected);
+        if (found && !found.enabled) {
+          effectiveAgent = 'lux';
+        }
+      } catch (_e) {}
+
+      if (effectiveAgent === 'luxagent') {
+        const runRes = await fetch('/api/tasks/run', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            agent: 'luxagent',
+            projectPath: '/Users/asaspade/Desktop/lux-agent-bridge',
+            instruction: message,
+            mode: 'assisted'
+          })
+        });
+        const runData = await runRes.json();
+        if (!runRes.ok) throw new Error(runData.error || 'Task run failed');
+        if (runData.requiresApproval) {
+          return `Queued for approval (${runData.approvalId}). Open Approvals to continue execution.`;
+        }
+        return `Task started with Lux Agent. Run ID: ${runData.runId}`;
+      }
+
+      const res = await fetch('/api/agents/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agentId: effectiveAgent,
+          task: message,
+          autoFix: true,
+          maxRetries: 3,
+          mode
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Agent run failed');
+
+      const attempts = Array.isArray(data.attempts) ? data.attempts.length : 0;
+      return `Mission accepted by ${data.agentName || agentNames[agent]}. Run ID: ${data.runId}. Status: ${data.status}. Attempts: ${attempts}.`;
     }
     
     function addMessage(type, content, agent = 'lux') {
@@ -619,46 +672,6 @@
     function removeThinking() {
       const thinking = document.getElementById('thinking');
       if (thinking) thinking.remove();
-    }
-    
-    function generateLuxResponse(msg) {
-      const lower = msg.toLowerCase();
-      if (lower.includes('build') || lower.includes('create')) {
-        return "I'll build that for you! Let me create a comprehensive solution with modern best practices. I'll start by setting up the project structure, then implement all the features with clean, maintainable code.";
-      } else if (lower.includes('fix') || lower.includes('bug')) {
-        return "Let me analyze the issue and fix it. I'll debug the code, identify the root cause, and implement a proper solution with tests.";
-      } else if (lower.includes('code') || lower.includes('write')) {
-        return "I'll write that code for you. Let me create clean, well-documented code following best practices. I'll include proper error handling and type safety.";
-      } else {
-        return "I understand. Let me help you with that. I'll analyze your requirements and provide the best solution using my coding capabilities and Antigravity/Codex tools.";
-      }
-    }
-    
-    function generateAutonomousResponse(msg) {
-      const lower = msg.toLowerCase();
-      if (lower.includes('create agent') || lower.includes('build agent')) {
-        return "I'll create a new custom agent for you! Let me set up the agent configuration with custom capabilities, skills, and behaviors. I can also enable swarm control and skill building features.";
-      } else if (lower.includes('skill') || lower.includes('build skill')) {
-        return "I'll build a new skill for your agents! Skills are reusable capabilities that can be assigned to any agent. Let me create a skill with specific capabilities and behaviors.";
-      } else if (lower.includes('swarm') || lower.includes('deploy')) {
-        return "I'll deploy a swarm of agents for parallel processing! Let me configure the swarm with the right agents, scale it to your needs, and set up monitoring and management.";
-      } else if (lower.includes('automate') || lower.includes('workflow')) {
-        return "I'll set up an automated workflow for you! Using my combined research (Hermes) and automation (OpenClaw) capabilities, I can create complex multi-step processes.";
-      } else {
-        return "I'm your easy-to-use Super Agent combining research and automation capabilities. I can help you create agents, build skills, deploy swarms, and automate complex workflows. What would you like to do?";
-      }
-    }
-    
-    function generateHermesResponse(msg) {
-      return "I'll research that topic deeply for you. Let me gather information from multiple sources, analyze the findings, and provide a comprehensive research report with insights and recommendations.";
-    }
-    
-    function generateOpenClawResponse(msg) {
-      return "I'll automate that task for you! Let me create a script to handle the execution, set up the deployment pipeline, and configure the workflow automation.";
-    }
-    
-    function generateLuxAgentResponse(msg) {
-      return "I'll write that code for you! Let me create clean, well-structured code with proper types, error handling, and documentation. I'll make sure it's production-ready.";
     }
     
     function attachFile() {

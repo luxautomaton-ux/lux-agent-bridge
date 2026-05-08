@@ -11,7 +11,7 @@
 
 ## Executive Summary
 
-Lux AI is a comprehensive, enterprise-grade AI agent platform designed for private, local-first development workflows. Unlike cloud-dependent alternatives, Lux AI operates entirely on your hardware with zero API key requirements, zero data exfiltration, and complete user control.
+⚡ **Lux AI** is a comprehensive, enterprise-grade AI agent platform designed for **private, local-first development workflows**. Unlike cloud-dependent alternatives, Lux AI operates entirely on your hardware with **zero API key requirements**, **zero data exfiltration**, and **complete user control**.
 
 This whitepaper presents Lux AI as a viable alternative to established solutions like Anthropic Claude Code and OpenCode, while offering unique advantages in enterprise features, web-based interface, and multi-agent orchestration.
 
@@ -25,11 +25,11 @@ Modern AI coding agents have transformed software development, but come with sig
 
 | Challenge | Description |
 |-----------|-------------|
-| **Cost** | Per-token pricing creates unpredictable bills |
-| **Privacy** | Code and data sent to cloud services |
-| **Vendor Lock-in** | Proprietary systems limit customization |
-| **Complexity** | Difficult setup, Docker, API keys |
-| **Enterprise Gaps** | Limited analytics, no swarm control |
+| 💰 **Cost** | Per-token pricing creates unpredictable bills |
+| 🔒 **Privacy** | Code and data sent to cloud services |
+| 🔗 **Vendor Lock-in** | Proprietary systems limit customization |
+| ⚙️ **Complexity** | Difficult setup, Docker, API keys |
+| 📊 **Enterprise Gaps** | Limited analytics, no swarm control |
 
 ### 1.2 The Solution: Lux AI
 
@@ -76,7 +76,8 @@ Lux AI addresses these challenges through:
 │                        AGENT LAYER                             │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐             │
-│  │ Lux AI  │ │ Hermes  │ │OpenClaw │ │LuxAgent │             │
+│  │ ⚡ Lux  │ │   🔮   │ │   🦀   │ │   💻   │             │
+│  │   AI   │ │ Hermes  │ │OpenClaw │ │LuxAgent │             │
 │  └─────────┘ └─────────┘ └─────────┘ └─────────┘             │
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -130,10 +131,10 @@ Lux AI implements four specialized agents:
 
 | Agent | ID | Role | Best For |
 |-------|-----|------|----------|
-| **Lux AI** | `lux` | Primary orchestrator | General tasks, full autonomy |
-| **Hermes** | `hermes` | Research & analysis | Deep research, planning |
-| **OpenClaw** | `openclaw` | Automation | Scripting, deployments |
-| **Lux Agent** | `luxagent` | Code development | Programming, debugging |
+| ⚡ **Lux AI** | `lux` | Primary orchestrator | General tasks, full autonomy |
+| 🔮 **Hermes** | `hermes` | Research & analysis | Deep research, planning |
+| 🦀 **OpenClaw** | `openclaw` | Automation | Scripting, deployments |
+| 💻 **Lux Agent** | `luxagent` | Code development | Programming, debugging |
 
 #### Auto-Selection Logic
 
@@ -153,7 +154,7 @@ else
 
 | Provider | Type | Status | Notes |
 |----------|------|--------|-------|
-| **Lux AI Core** | Native | Active | Built-in, full features |
+| **Lux AI Core** | Native | ✅ Active | Built-in, full features |
 | **OpenClaude Portable** | External | Available | USB-ready, zero footprint |
 | **Ollama Local** | Local | Available | qwen3, llama3, gemma3, deepseek |
 | **NVIDIA NIM** | Cloud | Available | Free tier (1000 credits/mo) |
@@ -165,18 +166,18 @@ else
 
 | Skill | Capabilities |
 |-------|-------------|
-| **Lux AI Core** | Code generation, debugging, file ops, shell commands |
-| **Hermes Reasoning** | Research, analysis, planning, strategy |
-| **OpenClaw Automation** | Automation, scripting, deployment |
-| **Lux Agent Code** | Coding, refactoring, testing, documentation |
-| **Frontend Fixer** | UI repair, CSS fixes, responsive design |
-| **Security Auditor** | Vulnerability detection, config audit |
-| **Docs + Release** | Changelogs, documentation, API docs |
-| **Code Review Pro** | Linting, best practices, performance tips |
-| **Swarm Orchestrator** | Cluster management, load balancing |
-| **Test Generator** | Unit tests, integration tests |
-| **Migration Assistant** | Framework/language migration |
-| **Refactoring Expert** | Code cleanup, tech debt reduction |
+| ⚡ **Lux AI Core** | Code generation, debugging, file ops, shell commands |
+| 🔮 **Hermes Reasoning** | Research, analysis, planning, strategy |
+| 🦀 **OpenClaw Automation** | Automation, scripting, deployment |
+| 💻 **Lux Agent Code** | Coding, refactoring, testing, documentation |
+| 🎨 **Frontend Fixer** | UI repair, CSS fixes, responsive design |
+| 🛡️ **Security Auditor** | Vulnerability detection, config audit |
+| 📚 **Docs + Release** | Changelogs, documentation, API docs |
+| 🔍 **Code Review Pro** | Linting, best practices, performance tips |
+| 🌐 **Swarm Orchestrator** | Cluster management, load balancing |
+| 🧪 **Test Generator** | Unit tests, integration tests |
+| 🔄 **Migration Assistant** | Framework/language migration |
+| 🧹 **Refactoring Expert** | Code cleanup, tech debt reduction |
 
 ### 3.4 Workflow Capabilities
 
@@ -219,10 +220,10 @@ cap-ci-cd:
 ### 3.5 Enterprise Features
 
 #### Dashboard Metrics
-- **1.2M+** Active Agents
-- **2.8M+** Tasks Completed
-- **42** Swarm Clusters
-- **99.97%** Uptime
+- 📊 **1.2M+** Active Agents
+- ✅ **2.8M+** Tasks Completed
+- 🌐 **42** Swarm Clusters
+- ⏱️ **99.97%** Uptime
 
 #### Task Management
 - Task queue with priority
@@ -248,15 +249,15 @@ cap-ci-cd:
 
 | Feature | Baseline Local Stack | Lux AI | Advantage |
 |---------|------------------|--------|-----------|
-| **Architecture** | .NET + llama.cpp | Node.js + Ollama | Lux (easier to extend) |
-| **Local Inference** | Built-in | External Ollama | Baseline Local Stack |
-| **Web UI** | Minimal | Full enterprise | **Lux** |
-| **Dashboard** | Basic TUI | Real-time analytics | **Lux** |
-| **Swarm Control** | None | 1M+ agents | **Lux** |
-| **Task Queue** | Via playbooks | Full queue | **Lux** |
+| **Architecture** | .NET + llama.cpp | Node.js + Ollama | 🏆 Lux |
+| **Local Inference** | Built-in | External Ollama | Baseline |
+| **Web UI** | Minimal | Full enterprise | 🏆 Lux |
+| **Dashboard** | Basic TUI | Real-time analytics | 🏆 Lux |
+| **Swarm Control** | None | 1M+ agents | 🏆 Lux |
+| **Task Queue** | Via playbooks | Full queue | 🏆 Lux |
 | **Privacy** | 100% offline | 100% offline | Tie |
 | **Cost** | Free | Free | Tie |
-| **USB Portable** | Limited | Full support | **Lux** |
+| **USB Portable** | Limited | Full support | 🏆 Lux |
 | **MCP Support** | Yes | Yes (5 servers) | Tie |
 
 ### 4.2 Unique Advantages of Lux AI
@@ -276,11 +277,11 @@ cap-ci-cd:
 
 | Feature | Implementation |
 |---------|----------------|
-| **Local-Only Mode** | `ALLOW_LOCALHOST_ONLY=true` |
-| **No Cloud Dependencies** | 100% local operation |
-| **No API Keys Required** | Runs without external services |
-| **Audit Logging** | JSONL format, all actions tracked |
-| **Approval Workflow** | Human-in-the-loop for destructive ops |
+| 🏠 **Local-Only Mode** | `ALLOW_LOCALHOST_ONLY=true` |
+| 🔒 **No Cloud Dependencies** | 100% local operation |
+| 🔑 **No API Keys Required** | Runs without external services |
+| 📝 **Audit Logging** | JSONL format, all actions tracked |
+| ✅ **Approval Workflow** | Human-in-the-loop for destructive ops |
 
 ### 5.2 Security Controls
 
@@ -304,7 +305,7 @@ if (LUX_API_TOKEN) {
 
 ```bash
 # Install
-git clone <repository>
+git clone https://github.com/luxautomaton-ux/lux-agent-bridge.git
 cd lux-agent-bridge
 npm install
 
@@ -361,13 +362,13 @@ services:
 
 ## 8. Conclusion
 
-Lux AI represents a significant advancement in private, enterprise-grade AI agent platforms. By combining a privacy-first architecture with enhanced web interfaces, swarm management, and task orchestration, Lux AI provides a compelling alternative for teams requiring:
+🚀 **Lux AI** represents a significant advancement in private, enterprise-grade AI agent platforms. By combining a privacy-first architecture with enhanced web interfaces, swarm management, and task orchestration, Lux AI provides a compelling alternative for teams requiring:
 
-- Complete data privacy
-- Enterprise-grade analytics
-- Multi-agent orchestration
-- USB portability
-- No vendor lock-in
+- 🔒 **Complete data privacy**
+- 📊 **Enterprise-grade analytics**
+- 🌐 **Multi-agent orchestration**
+- 💾 **USB portability**
+- 🔗 **No vendor lock-in**
 
 The platform is production-ready and continuously improving.
 
@@ -375,7 +376,7 @@ The platform is production-ready and continuously improving.
 
 ## Appendix A: API Endpoints
 
-Total: 129 endpoints
+Total: **129 endpoints**
 
 | Category | Count | Examples |
 |----------|-------|----------|
@@ -398,6 +399,8 @@ lux-agent-bridge/
 ├── server.js              # Main application (3200+ lines)
 ├── package.json           # Dependencies
 ├── start.sh/start.bat    # Platform launchers
+├── install.sh             # Two-command install (macOS/Linux)
+├── install.ps1            # Two-command install (Windows)
 ├── docs/
 │   ├── WHITEPAPER.md     # This document
 │   ├── GUIDE.md          # User guide
@@ -408,12 +411,21 @@ lux-agent-bridge/
 │   ├── mcps.json        # 5 MCP servers
 │   └── enterprise-settings.json
 ├── public/               # 28 HTML pages
+├── public/docs/
+│   ├── GUIDE.html       # User guide (web)
+│   └── WHITEPAPER.html  # Whitepaper (web)
 ├── logs/                # System logs
 ├── memory/              # Session memory
-└── tasks/               # Task queue
+├── tasks/               # Task queue
+├── scripts/
+│   ├── smoke-test.sh    # Health checks
+│   ├── e2e-validate.sh  # End-to-end tests
+│   └── release-gate.sh  # Release validation
+└── deploy/              # Production deployment configs
 ```
 
 ---
 
 *© 2026 Lux AI - Unified Agent Platform*  
 *Licensed under MIT*
+*Built for ownership, speed, and privacy.*

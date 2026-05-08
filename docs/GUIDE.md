@@ -120,7 +120,7 @@ Fast where you have power, efficient where you do not.
 | Ease of Install | Simple | Difficult | **Simple** |
 | Local LLM Environment | None | Agent | **Agent + Inference** |
 | Tools | 44 | 15 | **20 + 22 via MCP** |
-| Written In | npm | npm | **C#/.NET** |
+| Written In | npm | npm | **Node.js + Express** |
 | Sandboxing | Host install | Host install | **Docker-native** |
 | License | Commercial | Open source | **Open source** |
 
@@ -130,10 +130,10 @@ Fast where you have power, efficient where you do not.
 
 ```bash
 # 01) install - no api keys, no cloud
-git clone https://github.com/luxautomaton-ux/lux-agent-bridge.git && cd lux-agent-bridge && npm install
+git clone https://github.com/luxautomaton-ux/lux-agent-bridge.git && cd lux-agent-bridge && bash ./install.sh
 
 # 02) run
-npm start
+luxagent agent
 ```
 
 ---
@@ -143,12 +143,12 @@ npm start
 If you want your own installer + your own repo flow:
 
 1. Fork `luxautomaton-ux/lux-agent-bridge`
-2. Customize your setup scripts in your fork
+2. Customize `install.sh` and `install.ps1` in your fork
 3. Replace install URL with your fork URL
 
 ```bash
 # Replace <your-user> and branch if needed
-git clone https://github.com/<your-user>/lux-agent-bridge.git && cd lux-agent-bridge && npm install
+git clone https://github.com/<your-user>/lux-agent-bridge.git && cd lux-agent-bridge && bash ./install.sh
 ```
 
 ### Suggested repo structure
@@ -156,7 +156,8 @@ git clone https://github.com/<your-user>/lux-agent-bridge.git && cd lux-agent-br
 ```text
 lux-agent-bridge/
   package.json
-  install/
+  install.sh
+  install.ps1
   models/
   docs/
   docker/
@@ -164,11 +165,10 @@ lux-agent-bridge/
 
 ### What your installer should do
 
-- Detect CUDA vs CPU fallback
-- Build/prepare llama.cpp runtime
-- Pull model artifacts
-- Configure Docker runtime
-- Validate with a health check
+- Detect hardware profile (modest/balanced/performance)
+- Prepare runtime dependencies
+- Configure secure local defaults
+- Validate with smoke + e2e checks
 
 ---
 

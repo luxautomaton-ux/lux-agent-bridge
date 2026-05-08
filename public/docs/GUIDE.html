@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Lux AI Studio - User Guide</title>
   <link rel="stylesheet" href="/styles.css" />
   <style>
@@ -163,6 +166,22 @@
             <tr><td>Execution</td><td>Agent orchestration with approval controls</td></tr>
           </tbody>
         </table>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Install and Run</div>
+        <p class="text-muted">Two-command local setup for current production build:</p>
+        <div class="code">git clone https://github.com/luxautomaton-ux/lux-agent-bridge.git && cd lux-agent-bridge && bash ./install.sh</div>
+        <div class="code">luxagent agent</div>
+        <p class="text-muted" style="margin-top:10px;">Windows: run <code>install.ps1</code>, then <code>npm start</code> or <code>luxagent</code> if PATH includes your shim.</p>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Release Validation</div>
+        <p class="text-muted">Before shipping, run:</p>
+        <div class="code">bash ./scripts/smoke-test.sh
+bash ./scripts/e2e-validate.sh
+bash ./scripts/release-gate.sh</div>
       </section>
 
       <section class="card">

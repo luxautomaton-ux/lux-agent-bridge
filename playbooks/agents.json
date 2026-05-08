@@ -1,0 +1,51 @@
+[
+  {
+    "id": "lux",
+    "name": "Lux Agent",
+    "type": "orchestrator",
+    "description": "Main orchestrator agent",
+    "enabled": true,
+    "capabilities": [
+      "orchestration",
+      "planning",
+      "execution"
+    ]
+  },
+  {
+    "id": "hermes",
+    "name": "Hermes Agent",
+    "type": "reasoning",
+    "description": "Advanced reasoning and analysis",
+    "enabled": false,
+    "capabilities": [
+      "reasoning",
+      "analysis",
+      "research"
+    ]
+  },
+  {
+    "id": "openclaw",
+    "name": "OpenClaw",
+    "type": "execution",
+    "description": "Code execution and automation",
+    "enabled": false,
+    "capabilities": [
+      "execution",
+      "automation",
+      "tools"
+    ]
+  },
+  {
+    "id": "luxagent",
+    "name": "Lux Agent",
+    "type": "general",
+    "description": "General purpose coding agent",
+    "enabled": true,
+    "capabilities": [
+      "general",
+      "chat",
+      "code"
+    ],
+    "updatedAt": "2026-05-08T21:42:18.709Z"
+  }
+]

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Lux AI Studio - Whitepaper</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .main-content { padding-bottom: 72px; }
+    .whitepaper-hero {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 22px;
+      background:
+        linear-gradient(120deg, rgba(94, 179, 255, 0.14), rgba(0, 212, 170, 0.12)),
+        var(--bg-surface);
+    }
+    .whitepaper-hero h1 { font-size: clamp(30px, 4.3vw, 48px); line-height: 1.15; margin-bottom: 8px; }
+    .whitepaper-hero p { color: var(--text-secondary); max-width: 70ch; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .meta-pill {
+      border: 1px solid var(--border-subtle);
+      background: rgba(10, 10, 15, 0.45);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: #c8d4db;
+    }
+    .whitepaper-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .whitepaper-table th, .whitepaper-table td { border-bottom: 1px solid var(--border-subtle); text-align: left; padding: 10px; vertical-align: top; }
+    .whitepaper-table th { color: var(--text-primary); font-size: 12px; text-transform: uppercase; letter-spacing: 0.07em; }
+    .whitepaper-table td { color: var(--text-secondary); }
+    .highlight {
+      border: 1px solid rgba(0, 212, 170, 0.35);
+      background: rgba(0, 212, 170, 0.1);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      color: #d7fff6;
+      margin-top: 12px;
+    }
+    .highlight-blue {
+      border: 1px solid rgba(94, 179, 255, 0.35);
+      background: rgba(94, 179, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      color: #d6f0ff;
+      margin-top: 12px;
+    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .checklist { margin-left: 18px; color: var(--text-secondary); }
+    .checklist li { margin-bottom: 6px; }
+    .code-block {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-deep);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #d6d6e3;
+      white-space: pre-wrap;
+      padding: 12px;
+      margin-top: 10px;
+      overflow-x: auto;
+    }
+    .arch-diagram {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-deep);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #a8b2c3;
+      overflow-x: auto;
+    }
+    .comparison-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+    .comparison-table th, .comparison-table td { border-bottom: 1px solid var(--border-subtle); padding: 9px; text-align: left; }
+    .comparison-table td { color: var(--text-secondary); }
+    .advantage { color: #00d4aa !important; font-weight: 600; }
+    .api-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .api-table th, .api-table td { border-bottom: 1px solid var(--border-subtle); padding: 8px; text-align: left; }
+    .api-table th { color: var(--text-primary); text-transform: uppercase; font-size: 11px; }
+    .api-table td { color: var(--text-secondary); }
+    .section-nav { position: sticky; top: 0; background: var(--bg-surface); padding: 12px 0; border-bottom: 1px solid var(--border-subtle); margin-bottom: 20px; z-index: 10; }
+    .section-nav ul { display: flex; flex-wrap: wrap; gap: 12px; list-style: none; margin: 0; padding: 0; }
+    .section-nav a { color: var(--text-secondary); font-size: 13px; text-decoration: none; padding: 4px 10px; border-radius: 4px; background: var(--bg-elevated); }
+    .section-nav a:hover { color: var(--text-primary); background: var(--bg-hover); }
+    @media (max-width: 980px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar"></aside>
+
+    <main class="main-content">
+      <nav class="section-nav">
+        <ul>
+          <li><a href="#intro">Intro</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#comparison">Comparison</a></li>
+          <li><a href="#security">Security</a></li>
+          <li><a href="#deployment">Deploy</a></li>
+          <li><a href="#roadmap">Roadmap</a></li>
+        </ul>
+      </nav>
+
+      <section id="intro" class="whitepaper-hero">
+        <h1>The Unified Private Agent Platform</h1>
+        <p>Lux AI is an enterprise-grade AI agent platform designed for private, local-first development. Operates entirely on your hardware with zero API keys, zero data exfiltration, and complete user control.</p>
+        <div class="meta-row">
+          <span class="meta-pill">Version 2.0</span>
+          <span class="meta-pill">May 2026</span>
+          <span class="meta-pill">129 API Endpoints</span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">The Problem</div>
+        <table class="whitepaper-table">
+          <thead><tr><th>Challenge</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cost</strong></td><td>Per-token pricing creates unpredictable bills</td></tr>
+            <tr><td><strong>Privacy</strong></td><td>Code and data sent to cloud services</td></tr>
+            <tr><td><strong>Vendor Lock-in</strong></td><td>Proprietary systems limit customization</td></tr>
+            <tr><td><strong>Complexity</strong></td><td>Difficult setup, Docker, API keys</td></tr>
+            <tr><td><strong>Enterprise Gaps</strong></td><td>Limited analytics, no swarm control</td></tr>
+          </tbody>
+        </table>
+        <div class="highlight">
+          <strong>Lux AI addresses all these:</strong> 100% Local ✓ Unlimited Usage ✓ Enterprise Dashboard ✓ Multi-Agent System ✓ Swarm Orchestration ✓ Web-Based UI ✓
+        </div>
+      </section>
+
+      <section id="architecture" class="card">
+        <div class="card-title">System Architecture</div>
+        <div class="arch-diagram">
+┌─────────────────────────────────────────────────────────────────┐
+│                      CLIENT LAYER                               │
+├─────────────────────────────────────────────────────────────────┤
+│  Landing │ Hub │ Workspace │ Dashboard │ Chat │ Tools          │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   API LAYER (129 endpoints)                     │
+├─────────────────────────────────────────────────────────────────┤
+│  Agents │ Providers │ Skills │ MCP │ Capabilities │ Tasks      │
+│  Code   │ Enterprise│ Backups│ Media│ Storage      │ Audit      │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   CORE SERVICES LAYER                            │
+├─────────────────────────────────────────────────────────────────┤
+│  Agent Orchestrator │ Task Runner │ Memory Manager │ Skill     │
+│  Engine │ Approval Workflow │ Backup Engine │ Storage          │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                       AGENT LAYER                               │
+├─────────────────────────────────────────────────────────────────┤
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐          │
+│  │ Lux AI   │ │ Hermes   │ │OpenClaw  │ │Lux Agent │          │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘          │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      PROVIDER LAYER                             │
+├─────────────────────────────────────────────────────────────────┤
+│  Lux Core │ OpenClaude │ Ollama │ NVIDIA NIM │ OpenRouter     │
+└─────────────────────────────────────────────────────────────────┘
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Technology Stack</div>
+        <table class="whitepaper-table">
+          <thead><tr><th>Component</th><th>Technology</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Runtime</strong></td><td>Node.js 18+</td></tr>
+            <tr><td><strong>Web Server</strong></td><td>Express.js</td></tr>
+            <tr><td><strong>UI</strong></td><td>Vanilla HTML/CSS/JS</td></tr>
+            <tr><td><strong>Storage</strong></td><td>JSON files + filesystem</td></tr>
+            <tr><td><strong>Local LLM</strong></td><td>Ollama (external)</td></tr>
+            <tr><td><strong>Docker</strong></td><td>Optional (for isolation)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="features" class="card">
+        <div class="card-title">Multi-Agent System</div>
+        <table class="whitepaper-table">
+          <thead><tr><th>Agent</th><th>ID</th><th>Role</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td>⚡ <strong>Lux AI</strong></td><td>lux</td><td>Primary orchestrator</td><td>General tasks, full autonomy</td></tr>
+            <tr><td>🔮 <strong>Hermes</strong></td><td>hermes</td><td>Research & analysis</td><td>Deep research, planning</td></tr>
+            <tr><td>🦀 <strong>OpenClaw</strong></td><td>openclaw</td><td>Automation</td><td>Scripting, deployments</td></tr>
+            <tr><td>💻 <strong>Lux Agent</strong></td><td>luxagent</td><td>Code development</td><td>Programming, debugging</td></tr>
+          </tbody>
+        </table>
+        <div class="highlight-blue">
+          <strong>Auto-Selection:</strong> Tasks matching "research/analyze/plan" → Hermes. "execute/run/build" → OpenClaw. "code/program/debug" → Lux Agent. Default → Lux AI.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">AI Provider Integration</div>
+        <table class="whitepaper-table">
+          <thead><tr><th>Provider</th><th>Type</th><th>Status</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Lux AI Core</strong></td><td>Native</td><td>✅ Active</td><td>Built-in, full features</td></tr>
+            <tr><td><strong>OpenClaude Portable</strong></td><td>External</td><td>Available</td><td>USB-ready, zero footprint</td></tr>
+            <tr><td><strong>Ollama Local</strong></td><td>Local</td><td>Available</td><td>qwen3, llama3, gemma3, deepseek</td></tr>
+            <tr><td><strong>NVIDIA NIM</strong></td><td>Cloud</td><td>Available</td><td>Free tier (1000 credits/mo)</td></tr>
+            <tr><td><strong>OpenRouter</strong></td><td>Cloud</td><td>Available</td><td>Multi-model gateway</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Skills System (12 Built-in)</div>
+        <div class="two-col">
+          <div>
+            <ul class="checklist">
+              <li><strong>Lux AI Core</strong> - Code generation, debugging, file ops</li>
+              <li><strong>Hermes Reasoning</strong> - Research, analysis, planning</li>
+              <li><strong>OpenClaw Automation</strong> - Scripting, deployment</li>
+              <li><strong>Lux Agent Code</strong> - Coding, refactoring, testing</li>
+              <li><strong>Frontend Fixer</strong> - UI repair, CSS, responsive</li>
+              <li><strong>Security Auditor</strong> - Vulnerability detection</li>
+            </ul>
+          </div>
+          <div>
+            <ul class="checklist">
+              <li><strong>Docs + Release</strong> - Changelogs, API docs</li>
+              <li><strong>Code Review Pro</strong> - Linting, best practices</li>
+              <li><strong>Swarm Orchestrator</strong> - Cluster management</li>
+              <li><strong>Test Generator</strong> - Unit & integration tests</li>
+              <li><strong>Migration Assistant</strong> - Framework migration</li>
+              <li><strong>Refactoring Expert</strong> - Tech debt reduction</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Workflow Capabilities (8 Pipelines)</div>
+        <table class="whitepaper-table">
+          <thead><tr><th>Capability</th><th>Steps</th></tr></thead>
+          <tbody>
+            <tr><td>cap-fullstack-dev</td><td>requirements → design → frontend → backend → testing → deploy</td></tr>
+            <tr><td>cap-code-review</td><td>lint → analyze → security-scan → report</td></tr>
+            <tr><td>cap-deploy-swarm</td><td>provision → configure → deploy → verify</td></tr>
+            <tr><td>cap-research-task</td><td>search → analyze → synthesize → report</td></tr>
+            <tr><td>cap-security-audit</td><td>scan → analyze → report → remediate</td></tr>
+            <tr><td>cap-data-pipeline</td><td>extract → transform → load → verify</td></tr>
+            <tr><td>cap-api-integration</td><td>discover → auth → implement → test</td></tr>
+            <tr><td>cap-ci-cd</td><td>configure → build → test → deploy</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Enterprise Features</div>
+        <div class="two-col">
+          <div>
+            <h3 class="heading-3" style="font-size:16px;margin-bottom:8px;">Dashboard Metrics</h3>
+            <ul class="checklist">
+              <li><strong>1.2M+</strong> Active Agents</li>
+              <li><strong>2.8M+</strong> Tasks Completed</li>
+              <li><strong>42</strong> Swarm Clusters</li>
+              <li><strong>99.97%</strong> Uptime</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="heading-3" style="font-size:16px;margin-bottom:8px;">Task Management</h3>
+            <ul class="checklist">
+              <li>Task queue with priority</li>
+              <li>Auto-retry on failure</li>
+              <li>Auto-fix until complete</li>
+              <li>Real-time status tracking</li>
+              <li>Cron scheduling support</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="comparison" class="card">
+        <div class="card-title">Feature Comparison</div>
+        <table class="comparison-table">
+          <thead><tr><th>Feature</th><th>Baseline Local Stack</th><th>Lux AI</th><th>Winner</th></tr></thead>
+          <tbody>
+            <tr><td>Architecture</td><td>.NET + llama.cpp</td><td>Node.js + Ollama</td><td class="advantage">Lux</td></tr>
+            <tr><td>Local Inference</td><td>Built-in</td><td>External Ollama</td><td>Baseline</td></tr>
+            <tr><td>Web UI</td><td>Minimal</td><td>Full enterprise</td><td class="advantage">Lux</td></tr>
+            <tr><td>Dashboard</td><td>Basic TUI</td><td>Real-time analytics</td><td class="advantage">Lux</td></tr>
+            <tr><td>Swarm Control</td><td>None</td><td>1M+ agents</td><td class="advantage">Lux</td></tr>
+            <tr><td>Task Queue</td><td>Via playbooks</td><td>Full queue</td><td class="advantage">Lux</td></tr>
+            <tr><td>Privacy</td><td>100% offline</td><td>100% offline</td><td>Tie</td></tr>
+            <tr><td>Cost</td><td>Free</td><td>Free</td><td>Tie</td></tr>
+            <tr><td>USB Portable</td><td>Limited</td><td>Full support</td><td class="advantage">Lux</td></tr>
+            <tr><td>MCP Support</td><td>Yes</td><td>Yes (5 servers)</td><td>Tie</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="security" class="card">
+        <div class="card-title">Security & Privacy</div>
+        <div class="two-col">
+          <div>
+            <h3 class="heading-3" style="font-size:16px;margin-bottom:8px;">Privacy Features</h3>
+            <ul class="checklist">
+              <li><strong>Local-Only Mode:</strong> ALLOW_LOCALHOST_ONLY=true</li>
+              <li><strong>No Cloud Dependencies</strong></li>
+              <li><strong>No API Keys Required</strong></li>
+              <li><strong>Audit Logging:</strong> JSONL format</li>
+              <li><strong>Approval Workflow</strong> for destructive ops</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="heading-3" style="font-size:16px;margin-bottom:8px;">Security Controls</h3>
+            <div class="code-block">// Approval required for autonomous mode
+if (REQUIRE_APPROVAL_AUTONOMOUS === "true") {
+  // Force approval workflow
+}
+
+// Token-based authentication
+if (LUX_API_TOKEN) {
+  // Validate token on requests
+}</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="deployment" class="card">
+        <div class="card-title">Deployment Options</div>
+        <div class="two-col">
+          <div>
+            <h3 class="heading-3" style="font-size:16px;margin-bottom:8px;">Local Installation</h3>
+            <div class="code-block">git clone https://github.com/luxautomaton-ux/lux-agent-bridge.git
+cd lux-agent-bridge
+npm install
+npm start
+# Access: http://localhost:8787</div>
+          </div>
+          <div>
+            <h3 class="heading-3" style="font-size:16px;margin-bottom:8px;">USB Portable</h3>
+            <ul class="checklist">
+              <li>Copy folder to USB drive</li>
+              <li>Run <code>Start-Lux-AI.bat</code> (Win)</li>
+              <li>Run <code>Start-Lux-AI.command</code> (Mac)</li>
+              <li>Browser opens automatically</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="roadmap" class="card">
+        <div class="card-title">Roadmap</div>
+        <table class="whitepaper-table">
+          <thead><tr><th>Phase</th><th>Timeline</th><th>Goals</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Phase 1</strong></td><td>Current (v2.0 ✅)</td><td>Multi-agent, Enterprise dashboard, Task queue, Swarm control</td></tr>
+            <tr><td><strong>Phase 2</strong></td><td>Near Term</td><td>Local llama.cpp, Docker sandboxing, CLI/TUI mode</td></tr>
+            <tr><td><strong>Phase 3</strong></td><td>Future</td><td>Mobile companion, Voice control, Advanced code intelligence</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <div class="card-title">API Endpoints (129 Total)</div>
+        <table class="api-table">
+          <thead><tr><th>Category</th><th>Count</th><th>Examples</th></tr></thead>
+          <tbody>
+            <tr><td>Agents</td><td>8</td><td>/api/agents, /api/agents/auto-select</td></tr>
+            <tr><td>Providers</td><td>4</td><td>/api/providers, /api/providers/select</td></tr>
+            <tr><td>Skills</td><td>6</td><td>/api/skills, /api/skills/bootstrap</td></tr>
+            <tr><td>MCP</td><td>6</td><td>/api/mcps, /api/mcps/health</td></tr>
+            <tr><td>Tasks</td><td>4</td><td>/api/tasks, /api/tasks/run</td></tr>
+            <tr><td>Code</td><td>4</td><td>/api/code/analyze, /api/code/auto-fix</td></tr>
+            <tr><td>Enterprise</td><td>5</td><td>/api/enterprise/settings, /api/enterprise/metrics</td></tr>
+            <tr><td>Backups</td><td>6</td><td>/api/backups, /api/backups/create</td></tr>
+            <tr><td>Other</td><td>86</td><td>Health, projects, runs, logs, etc.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <div class="card-title">Quick Links</div>
+        <div class="grid-2">
+          <a class="sidebar-link" href="/lux-command-center.html"><span class="icon">🎛️</span> Command Center</a>
+          <a class="sidebar-link" href="/control-chat.html"><span class="icon">💬</span> Chat</a>
+          <a class="sidebar-link" href="/tools-skills.html"><span class="icon">⚡</span> Skills</a>
+          <a class="sidebar-link" href="/docs/GUIDE.html"><span class="icon">📖</span> User Guide</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/sidebar-nav.js"></script>
+</body>
+</html>

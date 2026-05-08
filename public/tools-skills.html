@@ -308,10 +308,23 @@
   </div>
   <script src="/lux-core.js"></script>
   <script>
+    async function callAgentApi(method, body) {
+      const endpoints = ['/api/lux-agent', '/api/openmono'];
+      let lastError = null;
+      for (const base of endpoints) {
+        try {
+          return await luxApi(`${base}/${method}`, body);
+        } catch (e) {
+          lastError = e;
+        }
+      }
+      throw lastError || new Error('Agent API unavailable');
+    }
+
     // Load agent status
     async function loadAgentStatus() {
       try {
-        const data = await luxApi('/api/lux-agent/status');
+        const data = await callAgentApi('status');
         const statusEl = document.getElementById('agentStatus');
         const infoEl = document.getElementById('agentInfo');
         
@@ -339,7 +352,7 @@
 
     // Save agent config
     document.getElementById('saveAgentConfig').onclick = async () => {
-      await luxApi('/api/lux-agent/configure', {
+      await callAgentApi('configure', {
         method: 'POST',
         body: JSON.stringify({
           mode: document.getElementById('agentMode').value,
@@ -353,7 +366,7 @@
     // Start agent
     document.getElementById('startAgent').onclick = async () => {
       try {
-        const data = await luxApi('/api/lux-agent/start', { method: 'POST' });
+        const data = await callAgentApi('start', { method: 'POST' });
         alert('Agent started! Run ID: ' + data.runId);
       } catch (e) {
         alert('Error: ' + e.message);

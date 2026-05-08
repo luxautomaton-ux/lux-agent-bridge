@@ -1,0 +1,7 @@
+{
+  "profile": "balanced",
+  "maxConcurrentRuns": 2,
+  "modeDefault": "assisted",
+  "notes": "Balanced defaults for common laptops/desktops",
+  "updatedAt": "2026-05-08T20:56:47.894Z"
+}

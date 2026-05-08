@@ -281,7 +281,7 @@ function setupCommandPalette() {
     { label: "Refresh Approvals", run: () => refreshApprovals() },
     { label: "Refresh Runs", run: () => refreshRuns() },
     { label: "Refresh Timeline", run: () => refreshTimeline() },
-    { label: "Start OpenMonoAgent", run: () => startSimple("/api/agents/openmono/start") },
+    { label: "Start Lux Agent", run: () => startSimple("/api/agents/luxagent/start") },
     { label: "Start OpenManus", run: () => startSimple("/api/agents/openmanus/start") },
     { label: "Start OpenManus Flow", run: () => startSimple("/api/agents/openmanus/flow") },
     { label: "Open Approvals Drawer", run: () => byId("approvalsDrawer")?.classList.add("open") },
@@ -876,7 +876,7 @@ window.addEventListener("DOMContentLoaded", () => {
   byId("tokenInput").value = localStorage.getItem("luxApiToken") || "";
 
   byId("healthBtn").onclick = refreshHealth;
-  byId("startOpenmonoBtn").onclick = () => startSimple("/api/agents/openmono/start");
+  byId("startOpenmonoBtn").onclick = () => startSimple("/api/agents/luxagent/start");
   byId("startOpenmanusBtn").onclick = () => startSimple("/api/agents/openmanus/start");
   byId("startFlowBtn").onclick = () => startSimple("/api/agents/openmanus/flow");
   byId("runTaskBtn").onclick = runTask;

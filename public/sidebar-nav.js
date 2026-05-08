@@ -4,6 +4,7 @@
 
   const path = window.location.pathname;
   const is = (p) => path === p;
+  const ends = (p) => path.endsWith(p);
 
   const active = {
     command: is('/lux-command-center.html'),
@@ -18,8 +19,8 @@
     tasks: is('/lux-tasks.html') || is('/control-runner.html') || is('/control-runs.html') || is('/runs.html'),
     settings: is('/lux-settings.html') || is('/tools-enterprise.html'),
     backup: is('/lux-backup.html') || is('/tools-audit-backup.html'),
-    guide: is('/docs/GUIDE.html'),
-    whitepaper: is('/docs/WHITEPAPER.html')
+    guide: is('/docs/GUIDE.html') || ends('/GUIDE.html'),
+    whitepaper: is('/docs/WHITEPAPER.html') || ends('/WHITEPAPER.html') || is('/INSTRUCTIONS.html')
     ,luxNative: is('/lux-ai-native.html')
     ,superAgent: is('/super-agent.html')
     ,securityGuard: is('/security-guard.html')

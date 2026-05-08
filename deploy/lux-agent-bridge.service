@@ -1,0 +1,15 @@
+[Unit]
+Description=Lux Agent Bridge
+After=network.target
+
+[Service]
+Type=simple
+User=lux
+WorkingDirectory=/opt/lux-agent-bridge
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

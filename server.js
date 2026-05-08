@@ -35,6 +35,7 @@ const CAPABILITIES_DB_PATH = path.join(ROOT_DIR, "playbooks", "capabilities.json
 const STATS_DB_PATH = path.join(ROOT_DIR, "playbooks", "stats.json");
 const ENTERPRISE_SETTINGS_DB_PATH = path.join(ROOT_DIR, "playbooks", "enterprise-settings.json");
 const STORAGE_DB_PATH = path.join(ROOT_DIR, "playbooks", "storage.json");
+const PERFORMANCE_PROFILE_DB_PATH = path.join(ROOT_DIR, "playbooks", "performance-profile.json");
 const APPROVALS_DB_PATH = path.join(ROOT_DIR, "logs", "approvals.json");
 const AUDIT_LOG_PATH = path.join(ROOT_DIR, "logs", "audit.jsonl");
 const SNAPSHOTS_DIR = path.join(ROOT_DIR, "logs", "snapshots");
@@ -542,6 +543,13 @@ ensureFile(STORAGE_DB_PATH, JSON.stringify({
   createdAt: nowISO(),
   updatedAt: nowISO()
 }, null, 2) + "\n");
+ensureFile(PERFORMANCE_PROFILE_DB_PATH, JSON.stringify({
+  profile: "balanced",
+  maxConcurrentRuns: 2,
+  modeDefault: "assisted",
+  notes: "Balanced defaults for common laptops/desktops",
+  updatedAt: nowISO()
+}, null, 2) + "\n");
 ensureFile(APPROVALS_DB_PATH, "[]\n");
 ensureFile(SNAPSHOTS_DB_PATH, "[]\n");
 ensureFile(MEDIA_DB_PATH, "[]\n");
@@ -655,18 +663,21 @@ app.get("/api/health", async (_req, res) => {
   });
 });
 
-// 2) Start OpenMonoAgent
-app.post("/api/agents/openmono/start", (_req, res) => {
+// 2) Start Lux Agent
+const startLuxAgentRuntime = (_req, res) => {
   const runId = uuidv4();
   const state = spawnWhitelistedProcess({
     runId,
     command: "openmono",
     args: ["agent"],
     cwd: ROOT_DIR,
-    source: "openmono_start"
+    source: "luxagent_start"
   });
   res.status(202).json({ runId, status: state.status });
-});
+};
+
+app.post("/api/agents/openmono/start", startLuxAgentRuntime);
+app.post("/api/agents/luxagent/start", startLuxAgentRuntime);
 
 // 3) Start OpenManus (python main.py)
 app.post("/api/agents/openmanus/start", (_req, res) => {
@@ -700,6 +711,15 @@ app.post("/api/agents/openmanus/flow", (_req, res) => {
     source: "openmanus_flow"
   });
   return res.status(202).json({ runId, status: state.status });
+});
+
+app.get("/api/openmanus/status", (_req, res) => {
+  const detected = OPENMANUS_DIR ? fs.existsSync(OPENMANUS_DIR) : false;
+  return res.json({
+    ok: true,
+    detected,
+    path: detected ? OPENMANUS_DIR : null
+  });
 });
 
 // 5) Run task
@@ -1676,6 +1696,49 @@ app.post("/api/enterprise/business-mode", (req, res) => {
   safeWriteJSON(ENTERPRISE_SETTINGS_DB_PATH, settings);
   audit("business_mode_toggled", { enabled: Boolean(enabled) });
   res.json({ ok: true, businessMode: settings.businessMode });
+});
+
+app.get("/api/performance/profiles", (_req, res) => {
+  const active = safeReadJSON(PERFORMANCE_PROFILE_DB_PATH, {});
+  const profiles = {
+    modest: {
+      profile: "modest",
+      maxConcurrentRuns: 1,
+      modeDefault: "assisted",
+      notes: "For netbooks, older laptops, and Raspberry Pi"
+    },
+    balanced: {
+      profile: "balanced",
+      maxConcurrentRuns: 2,
+      modeDefault: "assisted",
+      notes: "For MacBook Air, standard laptops, and office desktops"
+    },
+    performance: {
+      profile: "performance",
+      maxConcurrentRuns: 4,
+      modeDefault: "autonomous",
+      notes: "For Mac Mini/Pro, workstations, and high-memory desktops"
+    }
+  };
+  return res.json({ ok: true, active, profiles });
+});
+
+app.post("/api/performance/profiles/apply", (req, res) => {
+  const { profile } = req.body || {};
+  const map = {
+    modest: { profile: "modest", maxConcurrentRuns: 1, modeDefault: "assisted", notes: "Low-resource profile" },
+    balanced: { profile: "balanced", maxConcurrentRuns: 2, modeDefault: "assisted", notes: "General profile" },
+    performance: { profile: "performance", maxConcurrentRuns: 4, modeDefault: "autonomous", notes: "High-throughput profile" }
+  };
+
+  if (!map[profile]) {
+    return res.status(400).json({ error: "profile must be modest, balanced, or performance" });
+  }
+
+  const selected = { ...map[profile], updatedAt: nowISO() };
+  safeWriteJSON(PERFORMANCE_PROFILE_DB_PATH, selected);
+  audit("performance_profile_applied", { profile: selected.profile });
+  return res.json({ ok: true, profile: selected });
 });
 
 // Media intake: lets agent workflows include local files (photo/pdf/video/text).
@@ -3732,12 +3795,7 @@ app.delete("/api/cron/:id", (req, res) => {
 const SWARM_DB_PATH = path.join(TASKS_DIR, "swarms.json");
 
 function getSwarms() {
-  return safeReadJSON(SWARM_DB_PATH, [
-    { id: "swarm-1", name: "Hermes Cluster", agentType: "hermes", size: 100, active: 85, status: "running", createdAt: nowISO() },
-    { id: "swarm-2", name: "OpenClaw Pool", agentType: "openclaw", size: 50, active: 42, status: "running", createdAt: nowISO() },
-    { id: "swarm-3", name: "Lux Network", agentType: "lux", size: 200, active: 156, status: "running", createdAt: nowISO() },
-    { id: "swarm-4", name: "Mono Cluster", agentType: "openmono", size: 75, active: 60, status: "idle", createdAt: nowISO() }
-  ]);
+  return safeReadJSON(SWARM_DB_PATH, []);
 }
 
 app.get("/api/swarms", (_req, res) => {

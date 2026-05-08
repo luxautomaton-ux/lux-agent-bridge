@@ -148,31 +148,31 @@
           <p class="page-subtitle">Manage your AI agents, swarms, and create new agents</p>
         </div>
         <div class="header-actions">
-          <button class="btn btn-primary" onclick="createAgent()">+ Create Agent</button>
-          <button class="btn btn-secondary">Deploy Swarm</button>
+          <button class="btn btn-primary" onclick="location.href='/tools-agents.html'">+ Create Agent</button>
+          <button class="btn btn-secondary" onclick="location.href='/tools-capabilities.html'">Deploy Swarm</button>
         </div>
       </div>
 
       <!-- Stats -->
       <div class="stats-bar">
         <div class="stat-card">
-          <div class="stat-value">7</div>
+          <div class="stat-value" id="statTotalAgents">0</div>
           <div class="stat-label">Total Agents</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">4</div>
+          <div class="stat-value" id="statActiveAgents">0</div>
           <div class="stat-label">Active</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">1.2M</div>
+          <div class="stat-value" id="statSwarmCapacity">0</div>
           <div class="stat-label">Swarm Capacity</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">42</div>
+          <div class="stat-value" id="statActiveSwarms">0</div>
           <div class="stat-label">Active Swarms</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">12</div>
+          <div class="stat-value" id="statCustomAgents">0</div>
           <div class="stat-label">Custom Agents</div>
         </div>
       </div>
@@ -316,38 +316,7 @@
       <!-- Swarm Management -->
       <div class="agent-section">
         <h2 class="section-title">🕸️ Agent Swarms</h2>
-        <div class="swarm-grid">
-          <div class="swarm-card">
-            <div class="swarm-header">
-              <span class="swarm-name">Lux Cluster Alpha</span>
-              <span class="swarm-status running"></span>
-            </div>
-            <div class="swarm-stats">
-              <div><div class="swarm-stat-value">500K</div><div class="swarm-stat-label">Total</div></div>
-              <div><div class="swarm-stat-value">425K</div><div class="swarm-stat-label">Active</div></div>
-              <div><div class="swarm-stat-value">85%</div><div class="swarm-stat-label">Usage</div></div>
-            </div>
-            <div class="swarm-actions">
-              <button class="agent-btn primary" style="padding: 10px;">Scale Up</button>
-              <button class="agent-btn secondary" style="padding: 10px;">View</button>
-            </div>
-          </div>
-          <div class="swarm-card">
-            <div class="swarm-header">
-              <span class="swarm-name">Research Swarm</span>
-              <span class="swarm-status running"></span>
-            </div>
-            <div class="swarm-stats">
-              <div><div class="swarm-stat-value">250K</div><div class="swarm-stat-label">Total</div></div>
-              <div><div class="swarm-stat-value">180K</div><div class="swarm-stat-label">Active</div></div>
-              <div><div class="swarm-stat-value">72%</div><div class="swarm-stat-label">Usage</div></div>
-            </div>
-            <div class="swarm-actions">
-              <button class="agent-btn primary" style="padding: 10px;">Scale Up</button>
-              <button class="agent-btn secondary" style="padding: 10px;">View</button>
-            </div>
-          </div>
-        </div>
+        <div class="swarm-grid" id="swarmsGrid"></div>
       </div>
 
       <!-- Create New Agent -->
@@ -375,15 +344,61 @@
   </div>
 
   <script>
-    function createAgent() {
-      alert('Creating new custom agent...\n\nUse Mission Mode to create agents with specific capabilities.');
-    }
     function buildSkill() {
-      alert('Building new skill...\n\nUse Mission Mode with "Build Skill" to create reusable skills.');
+      location.href = '/tools-skills.html';
     }
     function deploySwarm() {
-      alert('Deploying new swarm...\n\nUse Mission Mode with "Deploy Swarm" to create new swarm clusters.');
+      location.href = '/tools-capabilities.html';
     }
+
+    async function loadLiveStats() {
+      try {
+        const [agentsRes, swarmsRes] = await Promise.all([
+          fetch('/api/agents'),
+          fetch('/api/swarms')
+        ]);
+        const agentsJson = await agentsRes.json();
+        const swarmsJson = await swarmsRes.json();
+
+        const agents = Array.isArray(agentsJson.agents) ? agentsJson.agents : [];
+        const swarms = Array.isArray(swarmsJson.swarms) ? swarmsJson.swarms : [];
+        const activeAgents = agents.filter((a) => a.enabled).length;
+        const activeSwarms = swarms.filter((s) => (s.status || '').toLowerCase() === 'running').length;
+        const capacity = swarms.reduce((sum, s) => sum + (Number(s.size) || 0), 0);
+
+        document.getElementById('statTotalAgents').textContent = String(agents.length);
+        document.getElementById('statActiveAgents').textContent = String(activeAgents);
+        document.getElementById('statSwarmCapacity').textContent = String(capacity);
+        document.getElementById('statActiveSwarms').textContent = String(activeSwarms);
+        document.getElementById('statCustomAgents').textContent = String(Math.max(0, agents.length - 4));
+
+        const grid = document.getElementById('swarmsGrid');
+        if (!swarms.length) {
+          grid.innerHTML = '<div class="swarm-card"><div class="swarm-name">No swarms yet</div><div class="agent-desc" style="margin-top:8px;">Create a swarm from Tools -> Workflows or agent missions.</div></div>';
+          return;
+        }
+
+        grid.innerHTML = swarms.map((s) => {
+          const status = (s.status || 'idle').toLowerCase();
+          const active = Number(s.active) || 0;
+          const size = Number(s.size) || 0;
+          const usage = size > 0 ? Math.round((active / size) * 100) : 0;
+          return `<div class="swarm-card">
+            <div class="swarm-header">
+              <span class="swarm-name">${s.name}</span>
+              <span class="swarm-status ${status === 'running' ? 'running' : 'idle'}"></span>
+            </div>
+            <div class="swarm-stats">
+              <div><div class="swarm-stat-value">${size}</div><div class="swarm-stat-label">Total</div></div>
+              <div><div class="swarm-stat-value">${active}</div><div class="swarm-stat-label">Active</div></div>
+              <div><div class="swarm-stat-value">${usage}%</div><div class="swarm-stat-label">Usage</div></div>
+            </div>
+          </div>`;
+        }).join('');
+      } catch (_e) {}
+    }
+
+    loadLiveStats();
   </script>
   <script src="/sidebar-nav.js"></script>
 </body>
