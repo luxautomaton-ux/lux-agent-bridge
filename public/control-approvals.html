@@ -95,5 +95,6 @@
     async function respond(id, status) { await luxApi('/api/approvals/' + id, { method: 'PUT', body: JSON.stringify({ status }) }); load(); }
     load();
   </script>
+  <script src="/sidebar-nav.js"></script>
 </body>
 </html>

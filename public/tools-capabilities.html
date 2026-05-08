@@ -69,5 +69,6 @@
     async function load() { const data = await luxApi('/api/capabilities'); document.getElementById('capsList').innerHTML = data.length ? data.map(c => `<div class="list-item"><div class="list-item-title">${c.name}</div><div class="list-item-subtitle">${c.steps?.length || 0} steps</div></div>`).join('') : '<p class="text-muted">No capabilities defined</p>'; }
     load();
   </script>
+  <script src="/sidebar-nav.js"></script>
 </body>
 </html>

@@ -112,5 +112,6 @@
     document.getElementById('saveBtn').onclick = async () => { await luxApi('/api/enterprise/settings', { method: 'PUT', body: JSON.stringify({ modelProvider: document.getElementById('modelProvider').value, modelName: document.getElementById('modelName').value, maxTokens: parseInt(document.getElementById('maxTokens').value), memoryMode: document.getElementById('memoryMode').value, approvalRequired: document.getElementById('approvalRequired').checked, auditLogging: document.getElementById('auditLogging').checked }) }); alert('Settings saved'); };
     load();
   </script>
+  <script src="/sidebar-nav.js"></script>
 </body>
 </html>

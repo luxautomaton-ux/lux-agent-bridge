@@ -83,5 +83,6 @@
     document.getElementById('apply').onclick = async () => { await luxApi('/api/storage/config', { method: 'PUT', body: JSON.stringify({ mode: document.getElementById('mode').value, path: document.getElementById('path').value }) }); load(); alert('Configuration applied'); };
     load();
   </script>
+  <script src="/sidebar-nav.js"></script>
 </body>
 </html>

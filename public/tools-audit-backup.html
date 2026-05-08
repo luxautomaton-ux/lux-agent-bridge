@@ -82,5 +82,6 @@
     document.getElementById('export').onclick = async () => { try { const d = await luxApi('/api/backups/export'); window.location = d.url; } catch (e) { alert(e.message); } };
     loadAudit(); loadBackups();
   </script>
+  <script src="/sidebar-nav.js"></script>
 </body>
 </html>

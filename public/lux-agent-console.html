@@ -41,6 +41,7 @@
       position: sticky;
       top: 0;
       height: 100vh;
+      overflow-y: auto;
     }
     .sidebar-logo { display: flex; align-items: center; gap: 12px; padding: 15px; margin-bottom: 30px; }
     .logo-icon { width: 40px; height: 40px; background: var(--accent-gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
@@ -148,12 +149,27 @@
         <a href="/lux-command-center.html" class="nav-link"><span class="icon">🎛️</span> Command Center</a>
         <a href="/lux-mission-mode.html" class="nav-link"><span class="icon">🚀</span> Mission Mode</a>
         <a href="/control-chat.html" class="nav-link"><span class="icon">💬</span> Chat</a>
+        <a href="/lux-agent-console.html" class="nav-link active"><span class="icon">🤖</span> Agent Console</a>
+      </nav>
+      <nav class="nav-section">
+        <div class="nav-section-title">Agents</div>
+        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">⚡</span> Lux AI (Native)</a>
+        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🤖</span> Super Agent</a>
+        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">🛡️</span> Security Guard</a>
+        <a href="/lux-agent-console.html" class="nav-link"><span class="icon">💻</span> Lux Agent</a>
       </nav>
       <nav class="nav-section">
         <div class="nav-section-title">Workspace</div>
+        <a href="/lux-projects.html" class="nav-link"><span class="icon">📁</span> Projects</a>
         <a href="/lux-tasks.html" class="nav-link"><span class="icon">📋</span> Task Queue</a>
         <a href="/lux-approvals.html" class="nav-link"><span class="icon">✓</span> Approvals</a>
         <a href="/lux-playbooks.html" class="nav-link"><span class="icon">📜</span> Playbooks</a>
+      </nav>
+      <nav class="nav-section">
+        <div class="nav-section-title">Skills & Swarms</div>
+        <a href="/tools-skills.html" class="nav-link"><span class="icon">⚡</span> Skills</a>
+        <a href="/lux-swarm.html" class="nav-link"><span class="icon">🕸️</span> Agent Swarms</a>
+        <a href="/tools-capabilities.html" class="nav-link"><span class="icon">📋</span> Workflows</a>
       </nav>
       <nav class="nav-section">
         <div class="nav-section-title">Tools</div>
@@ -163,8 +179,13 @@
       </nav>
       <nav class="nav-section">
         <div class="nav-section-title">System</div>
-        <a href="/lux-agent-console.html" class="nav-link active"><span class="icon">🤖</span> Agent Console</a>
+        <a href="/lux-backup.html" class="nav-link"><span class="icon">💾</span> Backup/Restore</a>
         <a href="/lux-settings.html" class="nav-link"><span class="icon">⚙️</span> Settings</a>
+      </nav>
+      <nav class="nav-section">
+        <div class="nav-section-title">Documentation</div>
+        <a href="/docs/WHITEPAPER.html" class="nav-link"><span class="icon">📄</span> Whitepaper</a>
+        <a href="/docs/GUIDE.html" class="nav-link"><span class="icon">📖</span> User Guide</a>
       </nav>
     </aside>
 
@@ -412,5 +433,6 @@
       alert('Deploying new swarm...\n\nUse Mission Mode with "Deploy Swarm" to create new swarm clusters.');
     }
   </script>
+  <script src="/sidebar-nav.js"></script>
 </body>
 </html>

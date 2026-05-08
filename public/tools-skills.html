@@ -11,7 +11,7 @@
     html, body { height: 100%; overflow: hidden; }
     body { background: var(--bg-deep); font-family: var(--font-sans); color: var(--text-primary); }
     .app-layout { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
-    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; }
+    .sidebar { background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; padding: 16px; overflow-y: auto; }
     .sidebar-logo { padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px; }
     .sidebar-logo img { height: 40px; width: auto; display: block; }
     .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
@@ -64,17 +64,41 @@
     <aside class="sidebar">
       <div class="sidebar-logo"><img src="/photos/Lux Automaton.png" alt="Lux Agent" /></div>
       <nav class="sidebar-nav">
-        <div class="nav-section"><div class="nav-section-title">Mission Control</div>
-          <a class="nav-link" href="/control-chat.html">⌘ Chat</a>
-          <a class="nav-link" href="/control-runner.html">▶ Runner</a>
+        <div class="nav-section"><div class="nav-section-title">Main</div>
+          <a class="nav-link" href="/lux-command-center.html">🎛️ Command Center</a>
+          <a class="nav-link" href="/lux-mission-mode.html">🚀 Mission Mode</a>
+          <a class="nav-link" href="/control-chat.html">💬 Chat</a>
+          <a class="nav-link" href="/lux-agent-console.html">🤖 Agent Console</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Agents</div>
+          <a class="nav-link" href="/lux-agent-console.html">⚡ Lux AI (Native)</a>
+          <a class="nav-link" href="/lux-agent-console.html">🤖 Super Agent</a>
+          <a class="nav-link" href="/lux-agent-console.html">🛡️ Security Guard</a>
+          <a class="nav-link" href="/lux-agent-console.html">💻 Lux Agent</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Workspace</div>
+          <a class="nav-link" href="/lux-projects.html">📁 Projects</a>
+          <a class="nav-link" href="/lux-tasks.html">📋 Task Queue</a>
+          <a class="nav-link" href="/lux-approvals.html">✓ Approvals</a>
+          <a class="nav-link" href="/lux-playbooks.html">📜 Playbooks</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Skills & Swarms</div>
+          <a class="nav-link active" href="/tools-skills.html">⚡ Skills</a>
+          <a class="nav-link" href="/lux-swarm.html">🕸️ Agent Swarms</a>
+          <a class="nav-link" href="/tools-capabilities.html">📋 Workflows</a>
         </div>
         <div class="nav-section"><div class="nav-section-title">Tools</div>
-          <a class="nav-link active" href="/tools-skills.html">⚡ Skills</a>
-          <a class="nav-link" href="/tools-mcp.html">🔗 MCP</a>
-          <a class="nav-link" href="/tools-enterprise.html">⚙ Enterprise</a>
+          <a class="nav-link" href="/lux-memory.html">🧠 Memory</a>
+          <a class="nav-link" href="/lux-mcp.html">🔗 MCP Tools</a>
+          <a class="nav-link" href="/lux-deployments.html">☁️ Deployments</a>
         </div>
         <div class="nav-section"><div class="nav-section-title">System</div>
-          <a class="nav-link" href="/workspace.html">⌂ Hub</a>
+          <a class="nav-link" href="/lux-backup.html">💾 Backup/Restore</a>
+          <a class="nav-link" href="/lux-settings.html">⚙️ Settings</a>
+        </div>
+        <div class="nav-section"><div class="nav-section-title">Documentation</div>
+          <a class="nav-link" href="/docs/WHITEPAPER.html">📄 Whitepaper</a>
+          <a class="nav-link" href="/docs/GUIDE.html">📖 User Guide</a>
         </div>
       </nav>
       <div class="sidebar-footer"><div class="status-row"><span>v1.0.0</span><span class="status-dot"></span></div></div>
@@ -338,5 +362,6 @@
     loadDiscoveries();
     loadSkills();
   </script>
+  <script src="/sidebar-nav.js"></script>
 </body>
 </html>

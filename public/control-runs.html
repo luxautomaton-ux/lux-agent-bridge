@@ -67,5 +67,6 @@
     async function load() { const data = await luxApi('/api/runs'); document.getElementById('runsList').innerHTML = data.length ? data.map(r => `<div class="list-item"><div class="list-item-title">${r.runId}</div><div class="list-item-subtitle">${r.status} - ${r.instruction?.substring(0,50) || 'N/A'}...</div></div>`).join('') : '<p class="text-muted">No runs yet</p>'; }
     load();
   </script>
+  <script src="/sidebar-nav.js"></script>
 </body>
 </html>

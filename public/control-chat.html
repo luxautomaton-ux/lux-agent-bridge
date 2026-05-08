@@ -40,6 +40,7 @@
       padding: 20px 15px;
       display: flex;
       flex-direction: column;
+      overflow-y: auto;
     }
     .sidebar-logo { display: flex; align-items: center; gap: 12px; padding: 15px; margin-bottom: 20px; }
     .logo-icon { width: 40px; height: 40px; background: var(--accent-gradient); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
@@ -559,5 +560,6 @@
       addMessage('assistant', `Ready! Using ${agentNames[document.getElementById('agentSelect').value]}. What would you like to build?`);
     }
   </script>
+  <script src="/sidebar-nav.js"></script>
 </body>
 </html>
