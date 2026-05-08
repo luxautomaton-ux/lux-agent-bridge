@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Runtime data
+logs/*
+runs/*
+tasks/missions/*
+memory/*
+
+# Keep placeholder files
+!logs/.gitkeep
+!runs/.gitkeep
+!tasks/.gitkeep
+!memory/.gitkeep
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log
